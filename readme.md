@@ -44,7 +44,7 @@ Brindar una experiencia única para creadores visuales, ofreciendo productos de 
 ## 🧭 Estado del proyecto
 🚀 *Commit inicial:* configuración del repositorio y README.  
 🧩 *Repositorio en desarrollo*  
-🧱 *Notion del anteproyecto en desarrollo*  
+🧱 https://www.notion.so/Anteproyecto-Creative-Eye-2860500081b480628336ce9c20084e42?source=copy_link
 
 ---
 
