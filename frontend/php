@@ -1,0 +1,5 @@
+      PID    PPID    PGID     WINPID   TTY         UID    STIME COMMAND
+      926       1     926       7696  cons1     197609 15:53:38 /usr/bin/bash
+      806       1     806      18752  cons0     197609 15:50:32 /usr/bin/bash
+      862     806     862      14876  cons0     197609 15:50:59 /c/php/php
+      992     926     992      85812  cons1     197609 15:53:51 /usr/bin/PS
