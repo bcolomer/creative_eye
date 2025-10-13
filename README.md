@@ -97,7 +97,8 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 ---
 
 ## 🔗 Enlaces
-- 🧱 **Anteproyecto en Notion**: https://www.notion.so/Anteproyecto-Creative-Eye-2860500081b480628336ce9c20084e42?source=copy_link
+- 🧱 **Anteproyecto en Notion**: https://www.notion.so/Anteproyecto-Creative-Eye-28b35eb2301b80b0b17ec49d977fc938?source=copy_link
+- 📝 **Bitácora de tareas**: https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link
 
 ---
 
@@ -108,3 +109,4 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com  
 
 > “Captura el momento. Crea tu visión.”
+
