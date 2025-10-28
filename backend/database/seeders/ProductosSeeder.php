@@ -166,7 +166,7 @@ class ProductosSeeder extends Seeder
                 'precio'      => 120.00,
                 'codigo'      => 'ACC-CAY-MP22',
                 'foto'        => 'https://1drv.ms/i/c/154c4a205c4d6e44/Echy5lnl3UNPjtrijrLRNswBb6uWiIA2-4oInATJpxsLPA?e=KAi5Uc',
-                'descripcion' => Monopié profesional de aleación de aluminio con cierre rápido y base plegable. Ideal para fotografía deportiva y de naturaleza. Soporta hasta 10 kg y cuenta con empuñadura antideslizante.',
+                'descripcion' => 'Monopié profesional de aleación de aluminio con cierre rápido y base plegable. Ideal para fotografía deportiva y de naturaleza. Soporta hasta 10 kg y cuenta con empuñadura antideslizante.',
                 'categoria_id' => 4,
                 'created_at'  => $now,
                 'updated_at' => $now,
