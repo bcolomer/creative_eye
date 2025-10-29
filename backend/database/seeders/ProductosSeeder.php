@@ -18,7 +18,7 @@ class ProductosSeeder extends Seeder
                 'cantidad'    => 5,
                 'precio'      => 2599.00,
                 'codigo'      => 'CAM-CAN-R6M2-BODY',
-                'foto'        => 'https://1drv.ms/i/c/154c4a205c4d6e44/Ecy7fPXMagZNrhIUB09D9TkBswDh4zGlKYb6-uoEbrCBqw?e=ktXs0a',
+                'foto'        => 'https://ibb.co/M5KYXwfH',
                 'descripcion' => 'Cámara full-frame con excelente rendimiento en ráfaga y AF para fotografía deportiva y de eventos. Estabilización en el cuerpo (IBIS) y buen rendimiento en ISO alto.',
                 'categoria_id' => 1,
                 'created_at'  => $now,
