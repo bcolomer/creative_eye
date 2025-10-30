@@ -12,7 +12,6 @@ class UsuariosSeeder extends Seeder
     {
         $now = now();
 
-        // Usuarios: nombre, nombre_usuario (email), foto, rol_id
         DB::table('usuarios')->insert([
             [
                 'usuario_id'     => 1,
@@ -20,8 +19,9 @@ class UsuariosSeeder extends Seeder
                 'nombre_usuario' => 'admin@creative.es',
                 'foto'           => 'https://randomuser.me/api/portraits/men/45.jpg',
                 'rol_id'         => 1,
+                'password'       => Hash::make('12345678'),
                 'created_at'     => $now,
-                'updated_at' => $now,
+                'updated_at'     => $now,
             ],
             [
                 'usuario_id'     => 2,
@@ -29,8 +29,9 @@ class UsuariosSeeder extends Seeder
                 'nombre_usuario' => 'almacen@creative.es',
                 'foto'           => 'https://randomuser.me/api/portraits/women/68.jpg',
                 'rol_id'         => 2,
+                'password'       => Hash::make('12345678'),
                 'created_at'     => $now,
-                'updated_at' => $now,
+                'updated_at'     => $now,
             ],
             [
                 'usuario_id'     => 3,
@@ -38,8 +39,9 @@ class UsuariosSeeder extends Seeder
                 'nombre_usuario' => 'jose@creative.es',
                 'foto'           => 'https://randomuser.me/api/portraits/men/12.jpg',
                 'rol_id'         => 3,
+                'password'       => Hash::make('12345678'),
                 'created_at'     => $now,
-                'updated_at' => $now,
+                'updated_at'     => $now,
             ],
             [
                 'usuario_id'     => 4,
@@ -47,36 +49,9 @@ class UsuariosSeeder extends Seeder
                 'nombre_usuario' => 'laura@creative.es',
                 'foto'           => 'https://randomuser.me/api/portraits/women/15.jpg',
                 'rol_id'         => 3,
+                'password'       => Hash::make('12345678'),
                 'created_at'     => $now,
-                'updated_at' => $now,
-            ],
-        ]);
-
-        // Security: contraseña hasheada (todas "12345678")
-        DB::table('security')->insert([
-            [
-                'usuario_id' => 1,
-                'password'   => Hash::make('12345678'),
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'usuario_id' => 2,
-                'password'   => Hash::make('12345678'),
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'usuario_id' => 3,
-                'password'   => Hash::make('12345678'),
-                'created_at' => $now,
-                'updated_at' => $now,
-            ],
-            [
-                'usuario_id' => 4,
-                'password'   => Hash::make('12345678'),
-                'created_at' => $now,
-                'updated_at' => $now,
+                'updated_at'     => $now,
             ],
         ]);
     }
