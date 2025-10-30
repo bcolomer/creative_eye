@@ -12,12 +12,15 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'usuarios'; //Indicar el nombre real de la tabla en la bbdd
+    protected $table = 'usuarios';
+    protected $primaryKey = 'usuario_id';
 
     protected $fillable = [
-        'name',
-        'email',
+        'nombre',
+        'nombre_usuario',
         'password',
+        'foto',
+        'rol_id',
     ];
 
     protected $hidden = [
@@ -28,7 +31,6 @@ class User extends Authenticatable
     protected function casts(): array
     {
         return [
-            'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
     }
