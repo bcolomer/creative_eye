@@ -17,6 +17,7 @@ class OrderProduct extends Model
         'producto_id',
         'cantidad',
         'precio_unitario',
+        'precio_total',
     ];
 
     public $timestamps = true;

@@ -11,13 +11,12 @@ class Category extends Model
 
     protected $table = 'categorias';
     protected $primaryKey = 'categoria_id';
+    public $timestamps = false;
 
     protected $fillable = [
         'nombre',
-        'descripcion',
     ];
 
-    public $timestamps = false;
 
     public function productos()
     {

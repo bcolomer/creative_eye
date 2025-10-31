@@ -14,9 +14,8 @@ class Order extends Model
 
     protected $fillable = [
         'usuario_id',
-        'fecha',
-        'total',
-        'estado',
+        'fecha_pedido',
+        'total_pedido',
     ];
 
     public $timestamps = true;
