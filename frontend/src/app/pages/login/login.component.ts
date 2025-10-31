@@ -3,6 +3,9 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
 
+// Añadimos la ruta a la que se redirigirá cuando se inicie sesión
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -18,8 +21,14 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  
-  constructor(private authService: AuthService) {}
+  public errorMessage: string | null = null;
+
+
+  constructor(
+    private authService: AuthService,
+    // Añadimos la ruta
+    private router: Router
+  ) {}
 
   login(): void {
     
@@ -30,6 +39,7 @@ export class LoginComponent {
 
     console.log('Enviando datos al backend:', loginData);
 
+    this.errorMessage = null;
     
     this.authService.login(loginData).subscribe({
       next: (respuesta) => {
@@ -38,13 +48,30 @@ export class LoginComponent {
 
         // Guardamos la "llave" (el token) en el localStorage del navegador
         localStorage.setItem('token', respuesta.token);
-
         console.log('Token recibido:', respuesta.token);
         
+
+        // Pedimos el perfil del usuario
+        console.log('Pidiendo perfil del usuario...');
+        this.authService.getProfile().subscribe({
+            next: (perfil) => {
+                // Si funciona mostrará
+                console.log('¡Perfil recibido!', perfil);
+
+                // Esto redirige al home
+                this.router.navigate(['/']);
+              },
+
+            error: (errPerfil) => {
+                // Si el interceptor falla o el token es inválido
+                console.error('Error pidiendo el perfil:', errPerfil);
+              }
+          });
       },
       error: (error) => {
-        
         console.error('¡No se ha podido iniciar sesión!', error);
+
+        this.errorMessage = 'Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.';
       }
     });
   }

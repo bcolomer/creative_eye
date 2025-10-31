@@ -24,6 +24,10 @@
         [(ngModel)]="password">
     </div>
 
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+    
     <input type="submit" class="boton" value="Enviar" id="boton-loguea">
   
   </form>

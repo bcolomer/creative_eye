@@ -22,4 +22,9 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/login`, datos);
   }
 
+  getProfile(): Observable<any> {
+    // Esta llamada irá automáticamente con el token gracias al Interceptor
+    return this.http.get(`${this.apiUrl}/user`);
+  }
+
 }
