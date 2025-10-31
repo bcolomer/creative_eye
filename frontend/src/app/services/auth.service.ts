@@ -27,4 +27,9 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/user`);
   }
 
+  isLoggedIn(): boolean {
+    // (!!) Convierte el resultado (un string o null) en un booleano (true/false)
+    return !!localStorage.getItem('token'); 
+  }
+
 }
