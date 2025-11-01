@@ -12,10 +12,11 @@ class AuthController extends Controller
     // LOGIN
     public function login(Request $request)
     {
-        // Validar los datos que llegan desde el frontend
+        /* Validar los datos que llegan desde el frontend y revalida que el usuario sera un correo
+        electronico rfcy que la contraseña tenga minimo 8 caracteres */
         $request->validate([
-            'nombre_usuario' => 'required|string',
-            'password' => 'required|string',
+            'nombre_usuario' => 'required|email:rfc',
+            'password' => 'required|string|min:8',
         ]);
 
         // Buscar el usuario por su nombre de usuario

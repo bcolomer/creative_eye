@@ -1,3 +1,268 @@
+# 🧩 API Documentation – Backend Laravel (Tienda Online)
+
+> Proyecto Integrado - Creative Shop  
+> Backend desarrollado con **Laravel 12**, **PHP 8.3**, y **Sanctum** para autenticación por token.
+
+---
+
+## 🔗 BASE URL
+
+http://127.0.0.1:8000/api
+
+---
+
+## ❤️ Health Check
+
+**Verifica si la API está activa.**
+
+| Método  | Endpoint     | Autenticación | Descripción                      |
+|---------|--------------|---------------|----------------------------------|
+| GET     | `/health`    | ❌ No         | Devuelve el estado del servidor. |
+
+**Ejemplo de respuesta:**
+```json
+{
+  "ok": true,
+  "app": "Laravel",
+  "env": "local",
+  "laravel": "12.33.0",
+  "time": "2025-10-31T22:00:00Z"
+}
+```
+
+---
+
+## 🔐 Autenticación (Laravel Sanctum)
+
+### 1️⃣ Login
+
+| Método  | Endpoint     | Autenticación | Descripción                              |
+|---------|--------------|---------------|------------------------------------------|
+| POST    | `/login`     | ❌ No         | Inicia sesión y genera un token Sanctum. |
+
+**Body (JSON):**
+```json
+{
+  "nombre_usuario": "admin@creative.es",
+  "password": "12345678"
+}
+```
+
+**Respuesta exitosa (200):**
+```json
+{
+  "message": "Inicio de sesión correcto",
+  "user": {
+    "usuario_id": 1,
+    "nombre": "Administrador",
+    "nombre_usuario": "admin@creative.es",
+    "rol_id": 1
+  },
+  "token": "1|abcdef123456789..."
+}
+```
+
+---
+
+### 2️⃣ Logout
+
+| Método | Endpoint     | Autenticación | Descripción |
+|---------|--------------|---------------|--------------|
+| POST    | `/logout`    | ✅ Sí (Token) | Cierra la sesión y elimina el token activo. |
+
+**Headers requeridos:**
+```
+Authorization: Bearer {token} : "1|abcdef123456789..."
+```
+
+**Respuesta (200):**
+```json
+{ "message": "Sesión cerrada correctamente" }
+```
+
+---
+
+## 🛍️ Productos
+
+| Método  | Endpoint        | Autenticación | Descripción                      |
+|---------|-----------------|---------------|----------------------------------|
+| GET     | `/products`     | ❌ No         | Lista todos los productos.       |
+| GET     | `/products/{id}`| ❌ No         | Muestra un producto específico.  |
+| POST    | `/products`     | ✅ Sí (Token) | Crea un nuevo producto.          |
+| PUT     | `/products/{id}`| ✅ Sí         | Actualiza un producto existente. |
+| DELETE  | `/products/{id}`| ✅ Sí         | Elimina un producto.             |
+
+**Ejemplo POST**
+```json
+{
+  "nombre": "Canon EOS R6 Mark II",
+  "cantidad": 3,
+  "precio": 2599.00,
+  "codigo": "CAM-CAN-R6M2",
+  "foto": "https://i.ibb.co/6JG3d98S/Canon-EOS-R6-Mark-II-cuerpo.png",
+  "descripcion": "Cámara full-frame profesional.",
+  "categoria_id": 1
+}
+```
+
+**Ejemplo PUT**
+```json
+{
+  "nombre": "Canon EOS R6 Mark II - Actualizado",
+  "cantidad": 4,
+  "precio": 2499.00
+}
+```
+
+---
+
+## 🧾 Categorías
+
+| Método    | Endpoint           | Autenticación | Descripción                 |
+|-----------|--------------------|---------------|-----------------------------|
+| GET       | `/categories`      | ❌ No         | Lista todas las categorías. |
+| GET       | `/categories/{id}` | ❌ No         | Muestra una categoría.      |
+| POST      | `/categories`      | ✅ Sí         | Crea una categoría.         |
+| PUT       | `/categories/{id}` | ✅ Sí         | Actualiza una categoría.    |
+| DELETE    | `/categories/{id}` | ✅ Sí         | Elimina una categoría.      |
+
+**Ejemplo POST**
+```json
+{ "nombre": "Iluminación" }
+```
+
+**Ejemplo PUT**
+```json
+{ "nombre": "Accesorios de iluminación" }
+```
+
+---
+
+## 👥 Roles
+
+| Método  | Endpoint      | Autenticación | Descripción                |
+|---------|---------------|---------------|----------------------------|
+| GET     | `/roles`      | ❌ No         | Lista todos los roles.     |
+| GET     | `/roles/{id}` | ❌ No         | Muestra un rol específico. |
+| POST    | `/roles`      | ✅ Sí         | Crea un rol nuevo.         |
+| PUT     | `/roles/{id}` | ✅ Sí         | Actualiza un rol.          |
+| DELETE  | `/roles/{id}` | ✅ Sí         | Elimina un rol.            |
+
+**Ejemplo POST**
+```json
+{ "nombre": "Atencion al cliente" }
+```
+
+---
+
+## 🧑‍💼 Usuarios
+
+| Método  | Endpoint      | Autenticación | Descripción                  |
+|---------|---------------|---------------|------------------------------|
+| GET     | `/users`      | ✅ Sí         | Lista todos los usuarios.    |
+| GET     | `/users/{id}` | ✅ Sí         | Muestra un usuario.          |
+| POST    | `/users`      | ✅ Sí         | Crea un nuevo usuario.       |
+| PUT     | `/users/{id}` | ✅ Sí         | Actualiza datos del usuario. |
+| DELETE  | `/users/{id}` | ✅ Sí         | Elimina un usuario.          |
+
+**Ejemplo POST**
+```json
+{
+  "nombre": "Laura Gómez",
+  "nombre_usuario": "laura@creative.es",
+  "password": "12345678",
+  "foto": "https://randomuser.me/api/portraits/women/15.jpg",
+  "rol_id": 3
+}
+```
+
+---
+
+## 📦 Pedidos
+
+| Método  | Endpoint       | Autenticación | Descripción                          |
+|---------|----------------|---------------|--------------------------------------|
+| GET     | `/orders`      | ✅ Sí         | Lista todos los pedidos.             |
+| GET     | `/orders/{id}` | ✅ Sí         | Muestra un pedido con sus productos. |
+| POST    | `/orders`      | ✅ Sí         | Crea un nuevo pedido.                |    
+| PUT     | `/orders/{id}` | ✅ Sí         | Actualiza un pedido.                 |
+| DELETE  | `/orders/{id}` | ✅ Sí         | Elimina un pedido.                   |
+
+**Ejemplo POST**
+```json
+{
+  "usuario_id": 1,
+  "fecha_pedido": "2025-11-01",
+  "total_pedido": 499.99
+}
+```
+
+---
+
+## 📦🔗 Pedidos_Productos (Detalle de pedido)
+
+| Método | Endpoint               | Autenticación | Descripción                            |
+|--------|------------------------|---------------|----------------------------------------|
+| GET    | `/order-products`      | ✅ Sí         | Lista todos los productos por pedido. |
+| POST   | `/order-products`      | ✅ Sí         | Agrega un producto a un pedido.       |
+| PUT    | `/order-products/{id}` | ✅ Sí         | Modifica un detalle.                  |
+| DELETE | `/order-products/{id}` | ✅ Sí         | Elimina un producto del pedido.       |
+
+**Ejemplo POST**
+```json
+{
+  "pedido_id": 1,
+  "producto_id": 3,
+  "cantidad": 2,
+  "precio_unitario": 2599.00,
+  "precio_total": 5198.00
+}
+```
+
+---
+
+## ⚙️ Headers necesarios en Postman
+
+Para las rutas protegidas:
+```
+Authorization: Bearer {token}
+Content-Type: application/json
+Accept: application/json
+```
+
+---
+
+## 🧪 Usuarios de prueba
+
+| Rol           | Usuario            | Contraseña   |
+|---------------|--------------------|--------------|
+| Administrador | admin@creative.es  | 12345678     |
+| Almacén       | almacen@creative.es| 12345678     |
+| Cliente 1     | jose@creative.es   | 12345678     |
+| Cliente 2     | laura@creative.es  | 12345678     |
+
+---
+
+## ✅ Consejos finales
+
+- Asegúrate de tener el servidor corriendo con:
+  ```
+  php artisan serve
+  ```
+- Si cambiaste algo en rutas o controladores:
+  ```
+  php artisan route:clear
+  php artisan cache:clear
+  ```
+- Si los tokens no funcionan, haz logout y login nuevamente.
+
+---
+
+> ✨ **Autoría:**  
+> Proyecto Integrado realizado por **Bárbara Colomer** y **David Márquez Córdoba**  
+> CPIFP Alan Turing – 2025  
+> 
+
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">
