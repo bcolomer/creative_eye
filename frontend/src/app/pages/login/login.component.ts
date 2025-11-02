@@ -46,29 +46,29 @@ export class LoginComponent {
         
         console.log('Logueado con éxito', respuesta);
 
-        // Guardamos la "llave" (el token) en el localStorage del navegador
+        // Guardamos el token en el localStorage del navegador
         localStorage.setItem('token', respuesta.token);
         console.log('Token recibido:', respuesta.token);
         
 
-        // Pedimos el perfil del usuario
-        console.log('Pidiendo perfil del usuario...');
+        // 1. Redirigimos al usuario a Inicio.
+        this.router.navigate(['/']); 
+        
+        console.log('Pidiendo perfil del usuario');
         this.authService.getProfile().subscribe({
+            
             next: (perfil) => {
-                // Si funciona mostrará
                 console.log('¡Perfil recibido!', perfil);
-
-                // Esto redirige al home
-                this.router.navigate(['/']);
-              },
+            },
 
             error: (errPerfil) => {
-                // Si el interceptor falla o el token es inválido
-                console.error('Error pidiendo el perfil:', errPerfil);
-              }
+                // Si falla se verá en consola
+                console.warn('getProfile() falló (404). El login fue OK, pero el perfil no se cargó.');
+            }
           });
       },
       error: (error) => {
+        // En caso de credenciales incorrectas
         console.error('¡No se ha podido iniciar sesión!', error);
 
         this.errorMessage = 'Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.';
