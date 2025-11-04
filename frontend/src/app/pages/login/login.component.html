@@ -1,9 +1,11 @@
-<div class="login-contenedor">
-  <h2>Inicio de Sesión</h2>
+<div class="login">
   
-  <form (ngSubmit)="login()">
+  <h2 class="login__titulo">Inicio de Sesión</h2>
+  
+  <form class="login__formulario" (ngSubmit)="login()">
 
     <input 
+      class="login__entrada"
       type="email" 
       name="username" 
       placeholder="E-mail" 
@@ -12,9 +14,10 @@
       autocomplete="username"
       [(ngModel)]="username">
     
-    <div class="div-pass">
-      <label id="l-rpass1" for="rpass1"></label>
+    <div class="login__grupo-pass">
+      <label class="login__etiqueta" id="l-rpass1" for="rpass1"></label>
       <input 
+        class="login__entrada"
         type="password" 
         name="password" 
         placeholder="password" 
@@ -24,12 +27,16 @@
         [(ngModel)]="password">
     </div>
 
-    <div *ngIf="errorMessage" class="error-message">
+    <div *ngIf="errorMessage" class="login__mensaje-error">
       {{ errorMessage }}
     </div>
-    
-    <input type="submit" class="boton" value="Enviar" id="boton-loguea">
+
+    <input type="submit" class="login__boton" value="Enviar">
   
   </form>
-  <p>¿Eres nuevo? <a href="#">Regístrate</a></p>
+  
+  <p class="login__texto-registro">
+    ¿Eres nuevo? <a class="login__enlace-registro" href="#">Regístrate</a>
+  </p>
+  
 </div>

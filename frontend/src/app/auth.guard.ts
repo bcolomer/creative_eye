@@ -4,7 +4,7 @@ import { AuthService } from './services/auth.service'; // Asegúrate que esta ru
 
 /**
  * Este es el guardián de autenticación.
- * Decide si una ruta puede ser activada (visitada).
+ * Decide si una ruta puede ser activada.
  */
 export const authGuard: CanActivateFn = (route, state) => {
   
@@ -15,8 +15,9 @@ export const authGuard: CanActivateFn = (route, state) => {
   // 2. Comprobamos si el usuario está logueado
   if (authService.isLoggedIn()) {
     
-    // Si está logueado, le dejamos pasar
-    return true; 
+    // Si isLoggedIn() devuelve true, dejamos pasar.
+    console.log('Acceso PERMITIDO');
+    return true;
 
   } else {
     
