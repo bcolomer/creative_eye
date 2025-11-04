@@ -1,0 +1,64 @@
+<div class="perfil">
+
+    <h1 class="perfil__titulo">Gestión de Perfil</h1>
+
+    <div class="perfil__foto-contenedor">
+        <img class="perfil__foto-imagen" src="" alt="Foto de perfil" title="Toca la foto para cambiarla">
+        <input class="perfil__foto-input" type="file" name="image" accept="image/*">
+    </div>
+
+    <form class="perfil__formulario" id="perfilForm">
+    
+    <div class="perfil__grupo-form">
+        <label class="perfil__etiqueta" for="nombre">Nombre:</label>
+        <input class="perfil__entrada" type="text" id="nombre" name="name" required>
+    </div>
+    
+    <div class="perfil__grupo-form">
+        <label class="perfil__etiqueta" for="email">Correo electrónico:</label>
+        <input class="perfil__entrada" type="email" id="email"  name="email" required autocomplete="email">
+    </div>
+    
+    <div class="perfil__grupo-form">
+        <label class="perfil__etiqueta" for="pass-antigua">Contraseña Actual:</label>
+        <div class="perfil__grupo-pass">
+        <label class="perfil__etiqueta-pass" for="pass-antigua">&#129763;</label>
+        <input class="perfil__entrada" type="password" id="pass-antigua" name="password" required autocomplete="password">
+    </div>
+    </div>
+
+    <h2 class="perfil__subtitulo">Cambiar Contraseña</h2>
+
+    <div class="perfil__grupo-form">
+        <label class="perfil__etiqueta" for="pass-nueva">Nueva Contraseña:</label>
+        
+        <div class="perfil__grupo-pass">
+            <label class="perfil__etiqueta-pass" for="pass-nueva"></label>
+            <input class="perfil__entrada" type="password" id="pass-nueva" name="password1" required autocomplete="new-password">
+        </div>
+    </div>
+    
+    <div class="perfil__grupo-form">
+    
+        <label class="perfil__etiqueta" for="pass-confirma">Confirmar Nueva Contraseña:</label>
+        
+        <div class="perfil__grupo-pass">
+            <label class="perfil__etiqueta-pass" for="pass-confirma"></label>
+            <input class="perfil__entrada" type="password" id="pass-confirma" name="password2" required autocomplete="new-password">
+        </div>
+    </div>
+    
+    </form> <button 
+        class="perfil__boton perfil__boton--logout" 
+        type="button" 
+        (click)="logout()">
+        Cerrar Sesión
+    </button>
+
+    <button 
+        class="perfil__boton perfil__boton--actualizar" 
+        type="submit" 
+        form="perfilForm">
+        Actualizar Perfil
+    </button>
+</div>
