@@ -80,8 +80,23 @@ Authorization: Bearer {token} : "1|abcdef123456789..."
 { "message": "Sesión cerrada correctamente" }
 ```
 
----
 
+### 🔒 Seguridad y autenticación
+
+El backend usa **Laravel Sanctum** para proteger las rutas sensibles mediante tokens personales.
+
+- Solo los usuarios autenticados pueden crear, editar o eliminar recursos.
+- El token se envía en el encabezado HTTP:
+```
+Authorization: Bearer {token}
+
+```
+- Los intentos sin token o con token inválido devuelven:
+```json
+{ "message": "Unauthenticated." }
+
+---
+```
 ## 🛍️ Productos
 
 | Método  | Endpoint        | Autenticación | Descripción                      |
@@ -153,6 +168,20 @@ Authorization: Bearer {token} : "1|abcdef123456789..."
 { "nombre": "Atencion al cliente" }
 ```
 
+## 🧱 Estructura de la base de datos
+
+El sistema se compone de las siguientes tablas principales:
+
+| Tabla                 | Descripción                                         | Relación                              |
+|-----------------------|-----------------------------------------------------|---------------------------------------|
+| **usuarios**          | Almacena los datos de los usuarios registrados.     | 🔹 1 rol → N usuarios                 |
+| **roles**             | Define los tipos de usuario (admin, cliente, etc.). |                                       |
+| **categorias**        | Agrupa los productos.                               | 1 categoría → N productos             |
+| **productos**         | Información de cada producto.                       | N productos ↔ N pedidos               |
+| **pedidos**           | Cabecera de cada pedido.                            | 1 usuario → N pedidos                 |
+| **pedidos_productos** | Tabla intermedia con cantidades y precios.          | Detalle N:N entre pedidos y productos |
+
+> Las relaciones se implementan en los modelos de Eloquent usando `belongsTo`, `hasMany` y `belongsToMany`.
 ---
 
 ## 🧑‍💼 Usuarios
@@ -196,6 +225,27 @@ Authorization: Bearer {token} : "1|abcdef123456789..."
   "total_pedido": 499.99
 }
 ```
+### ⚙️ Lógica interna del controlador de pedidos
+
+Cada pedido se asocia automáticamente al usuario autenticado mediante el token de Sanctum (`$request->user()`).
+
+El proceso de creación se ejecuta dentro de una **transacción** para garantizar integridad:
+1. Se validan los productos enviados en el array `items`.
+2. Se calcula el total (`precio × cantidad`).
+3. Se crea el pedido en la tabla `pedidos`.
+4. Se guardan los productos asociados en la tabla intermedia `pedidos_productos`.
+
+Si algo falla, la transacción se revierte (`DB::rollBack()`), evitando registros incompletos.
+
+**Ejemplo de body JSON para crear un pedido:**
+```json
+{
+  "items": [
+    { "producto_id": 6, "cantidad": 1 },
+    { "producto_id": 10, "cantidad": 2 }
+  ]
+}
+
 
 ---
 
@@ -255,6 +305,10 @@ Accept: application/json
   php artisan cache:clear
   ```
 - Si los tokens no funcionan, haz logout y login nuevamente.
+---
+💡**Nota:** 
+Toda la API ha sido probada con Postman y utiliza Laravel Sanctum para la autenticación de usuarios mediante tokens personales.
+Los endpoints están documentados y funcionan correctamente en entorno local.
 
 ---
 

@@ -23,11 +23,15 @@ class Order extends Model
     public function productos()
     {
         return $this->belongsToMany(Product::class, 'pedidos_productos', 'pedido_id', 'producto_id')
-            ->withPivot('cantidad', 'precio_unitario');
+            ->withPivot('cantidad', 'precio_unitario', 'precio_total');
     }
 
     public function usuario()
     {
         return $this->belongsTo(User::class, 'usuario_id', 'usuario_id');
+    }
+    public function detalles()
+    {
+        return $this->hasMany(OrderProduct::class, 'pedido_id', 'pedido_id');
     }
 }
