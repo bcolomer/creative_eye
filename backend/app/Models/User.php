@@ -38,4 +38,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(Role::class, 'rol_id', 'rol_id');
     }
+
+    //para devolver los pedidos del usuario autenticado:
+    public function pedidos()
+    {
+        return $this->hasMany(Order::class, 'usuario_id', 'usuario_id');
+    }
 }

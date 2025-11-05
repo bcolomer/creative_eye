@@ -138,4 +138,34 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Pedido eliminado correctamente']);
     }
+
+    //pedidos del usuario autenticado
+    public function myOrders(Request $request)
+    {
+        $user = $request->user();
+
+        \Log::info('Usuario autenticado en myOrders:', [
+            'user' => $user ? $user->toArray() : null,
+            'token' => $request->header('Authorization'),
+        ]);
+
+        if (!$user) {
+            return response()->json(['message' => 'Usuario no autenticado'], 401);
+        }
+
+        $orders = $user->pedidos()
+            ->with(['productos'])
+            ->get();
+
+        if ($orders->isEmpty()) {
+            return response()->json(['message' => 'No se encontraron pedidos para este usuario'], 404);
+        }
+
+        return response()->json($orders);
+    }
+    /*     public function summary()
+    {
+         TODO: Implementar resumen de pedidos (total, facturación, media, etc.)
+        return response()->json(['message' => 'Ruta pendiente de implementación'], 501);
+    } */
 }

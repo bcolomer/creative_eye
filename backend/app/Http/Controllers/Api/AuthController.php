@@ -42,6 +42,34 @@ class AuthController extends Controller
         ]);
     }
 
+    //REGISTRO
+    public function register(Request $request)
+    {
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'nombre_usuario' => 'required|string|email|max:255|unique:usuarios,nombre_usuario',
+            'password' => 'required|string|min:8',
+        ]);
+
+        // Rol por defecto: cliente (3)
+        $user = User::create([
+            'nombre' => $validated['nombre'],
+            'nombre_usuario' => $validated['nombre_usuario'],
+            'password' => bcrypt($validated['password']),
+            'rol_id' => 3,
+        ]);
+
+        $token = $user->createToken('auth_token')->plainTextToken;
+
+        // Devolver el token al frontend
+        return response()->json([
+            'message' => 'Usuario registrado correctamente',
+            'usuario' => $user,
+            'token' => $token,
+        ], 201);
+    }
+
+
     // LOGOUT
     public function logout(Request $request)
     {
