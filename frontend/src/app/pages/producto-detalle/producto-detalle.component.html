@@ -1,0 +1,37 @@
+<div *ngIf="producto" class="producto-detalle">
+
+    <h1 class="producto-detalle__titulo">{{ producto.nombre }}</h1>
+
+    <div class="producto-detalle__principal">
+        
+        <img class="producto-detalle__imagen" [src]="producto.foto" [alt]="producto.nombre">
+
+        <div class="producto-detalle__info">
+            <p class="producto-detalle__info-item">Precio: 
+                <span class="producto-detalle__info-dato">{{ producto.precio }} €</span>
+            </p>
+            <p class="producto-detalle__info-item">Categoría: 
+                <span class="producto-detalle__info-dato">{{ producto.categoria?.nombre }}</span>
+            </p>
+            <p class="producto-detalle__info-item">Unidades disponibles: 
+                <span class="producto-detalle__info-dato">{{ producto.cantidad }}</span>
+            </p>
+            <div class="producto-detalle__compra">
+                <input class="producto-detalle__cantidad" type="number" value="1" min="1">
+                <button class="producto-detalle__boton-comprar" type="button">Añadir al Carrito</button>
+            </div>
+        </div>
+    </div> 
+
+    <p class="producto-detalle__descripcion">{{ producto.descripcion }}</p>
+</div>
+
+
+<div *ngIf="!producto && !errorMessage" class="producto-detalle__cargando">
+    <p>Cargando producto...</p>
+</div>
+
+<div *ngIf="errorMessage" class="producto-detalle__error">
+    <h1>Producto no encontrado</h1>
+    <p>{{ errorMessage }}</p>
+</div>

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'; 
 import { CommonModule } from '@angular/common'; 
+import { RouterLink } from '@angular/router';
 
 
 import { ProductService } from '../../services/product.service'; 
@@ -7,7 +8,7 @@ import { ProductService } from '../../services/product.service';
 @Component({
   selector: 'app-productos',
   standalone: true,
-  imports: [CommonModule], 
+  imports: [CommonModule, RouterLink], 
   templateUrl: './productos.component.html',
   styleUrl: './productos.component.scss'
 })
