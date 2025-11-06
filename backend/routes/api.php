@@ -24,6 +24,9 @@ Route::get('/health', function () {
 });
 // Ruta pública: LOGIN
 Route::post('/login', [AuthController::class, 'login']);
+// Ruta pública: REGISTRO
+Route::post('/register', [AuthController::class, 'register']);
+
 
 // Perfil del usuario autenticado
 Route::middleware(['auth:sanctum'])->group(function () {
@@ -33,7 +36,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('/profile', [ProfileController::class, 'show']);
     Route::put('/profile', [ProfileController::class, 'update']);
-
+    // Ver los pedidos del usuario autenticado
+    Route::get('/orders/my', [OrderController::class, 'myOrders']);
     //Ruta Pedidos
     Route::apiResource('orders', OrderController::class);
 });
@@ -56,3 +60,7 @@ Route::apiResource('users', UserController::class);
 
 //Ruta PedidosProductos
 Route::apiResource('order-products', OrderProductController::class);
+
+
+// Ruta opcional de resumen de pedidos (para estadísticas del almacen)
+// Route::get('/orders/summary', [OrderController::class, 'summary']);
