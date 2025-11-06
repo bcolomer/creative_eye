@@ -12,8 +12,10 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        // Puedes añadir middleware aquí si lo necesitas
+        $middleware->alias([
+            'role' => \App\Http\Middleware\CheckRole::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        // Puedes configurar manejo de excepciones aquí
+        //  manejo de excepciones
     })->create();
