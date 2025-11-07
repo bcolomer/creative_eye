@@ -61,10 +61,18 @@ export class ProductoDetalleComponent implements OnInit {
   addToCart(): void {
 
     if (this.producto) {
-      this.cartService.addProduct(this.producto);
-      alert('¡Producto añadido al carrito!');
+      this.cartService.addProduct(this.producto).subscribe({
+        
+      // "next" se ejecuta si la API da OK
+      next: (respuesta) => {
+        console.log('Producto añadido con éxito', respuesta);
+        alert('¡Producto añadido al carrito!'); 
+      },
+      error: (err) => {
+          console.error('Error al añadir el producto:', err);
+          alert('No se pudo añadir el producto. Inténtalo de nuevo.');
+        }
+      });
     }
-    
   }
-
 }
