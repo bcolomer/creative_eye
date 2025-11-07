@@ -6,6 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ProductosComponent } from './pages/productos/productos.component';
 import { ProductoDetalleComponent } from './pages/producto-detalle/producto-detalle.component';
+import { CarritoComponent } from './pages/carrito/carrito.component';
 
 import { authGuard } from './auth.guard'; 
 
@@ -37,6 +38,11 @@ export const routes: Routes = [
     // El ':id' es un parámetro. Angular lo entiende de forma interna y la clase ProductoDetalleComponent lo leera.
     path: 'producto/:id', 
     component: ProductoDetalleComponent
+  },
+
+  {
+    path: 'carrito', // Ruta carrito http://localhost:4200/carrito)
+    component: CarritoComponent
   }
 
 ];

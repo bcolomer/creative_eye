@@ -3,7 +3,7 @@
 
     <div *ngIf="productos.length > 0" class="productos__contenedor">
     
-        <div *ngFor="let producto of productos" class="productos__tarjeta" [routerLink]="['/producto', producto.id]">
+        <div *ngFor="let producto of productos" class="productos__tarjeta" [routerLink]="['/producto', producto.producto_id]">
     
             <img 
                 class="productos__tarjeta-imagen" 

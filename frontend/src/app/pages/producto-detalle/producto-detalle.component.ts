@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common'; // Para usar *ngIf en el HTM
 
 import { ActivatedRoute } from '@angular/router'; // Lee la URL
 import { ProductService } from '../../services/product.service'; // Para PEDIR el producto
-
+import { CartService } from '../../services/cart.service';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -25,7 +25,8 @@ export class ProductoDetalleComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute, // Para leer la URL
-    private productService: ProductService // Para pedir datos
+    private productService: ProductService, // Para pedir datos
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
@@ -54,6 +55,16 @@ export class ProductoDetalleComponent implements OnInit {
         }
       });
     }
+  }
+
+  // Llamamos al CartService para añadir el producto actual al carrito.
+  addToCart(): void {
+
+    if (this.producto) {
+      this.cartService.addProduct(this.producto);
+      alert('¡Producto añadido al carrito!');
+    }
+    
   }
 
 }
