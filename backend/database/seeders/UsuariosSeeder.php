@@ -53,6 +53,38 @@ class UsuariosSeeder extends Seeder
                 'created_at'     => $now,
                 'updated_at'     => $now,
             ],
+
+            // 🔽 Usuarios de prueba específicos para Swagger/Postman
+            [
+                'usuario_id'     => 5,
+                'nombre'         => 'Juan Palomo',
+                'nombre_usuario' => 'juan@administrador.com',
+                'foto'           => 'https://randomuser.me/api/portraits/men/33.jpg',
+                'rol_id'         => 1,
+                'password'       => Hash::make('12345678'),
+                'created_at'     => $now,
+                'updated_at'     => $now,
+            ],
+            [
+                'usuario_id'     => 6,
+                'nombre'         => 'José Gomez',
+                'nombre_usuario' => 'jose@almacen.com',
+                'foto'           => 'https://randomuser.me/api/portraits/men/56.jpg',
+                'rol_id'         => 2,
+                'password'       => Hash::make('12345678'),
+                'created_at'     => $now,
+                'updated_at'     => $now,
+            ],
+            [
+                'usuario_id'     => 7,
+                'nombre'         => 'Pedro Navaja',
+                'nombre_usuario' => 'pedro@cliente.com',
+                'foto'           => 'https://randomuser.me/api/portraits/men/72.jpg',
+                'rol_id'         => 3,
+                'password'       => Hash::make('12345678'),
+                'created_at'     => $now,
+                'updated_at'     => $now,
+            ],
         ]);
     }
 }
