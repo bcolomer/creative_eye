@@ -15,6 +15,8 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     /**
+     * Muestra todos los productos.
+     *
      * @OA\Get(
      *     path="/api/products",
      *     summary="Listar todos los productos",
@@ -39,9 +41,6 @@ class ProductController extends Controller
      *     )
      * )
      */
-    /**
-     * Muestra todos los productos.
-     */
     // GET /api/products
     public function index()
     {
@@ -49,11 +48,12 @@ class ProductController extends Controller
     }
 
     /**
+     * Guarda nuevo producto.
+     *
      * @OA\Post(
      *     path="/api/products",
      *     summary="Crear un nuevo producto",
-     *     description="Crea un nuevo producto en la base de datos.
-     *     **Solo accesible para roles de Almacén o Administrador.**",
+     *     description="Crea un nuevo producto en la base de datos. **Solo accesible para roles de Almacén o Administrador.**",
      *     tags={"Productos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
@@ -69,23 +69,10 @@ class ProductController extends Controller
      *             @OA\Property(property="descripcion", type="string", example="Lámpara moderna con base metálica y luz cálida.")
      *         )
      *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Producto creado correctamente",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="producto_id", type="integer", example=5),
-     *             @OA\Property(property="nombre", type="string", example="Lámpara de pie moderna"),
-     *             @OA\Property(property="precio", type="number", example=89.90),
-     *             @OA\Property(property="cantidad", type="integer", example=15),
-     *             @OA\Property(property="codigo", type="string", example="LPM-002")
-     *         )
-     *     ),
+     *     @OA\Response(response=201, description="Producto creado correctamente"),
      *     @OA\Response(response=401, description="No autenticado"),
      *     @OA\Response(response=422, description="Error de validación")
      * )
-     */
-    /**
-     * Guarda nuevo producto
      */
     // POST /api/products
     public function store(Request $request)
@@ -105,6 +92,8 @@ class ProductController extends Controller
     }
 
     /**
+     * Muestra un producto específico.
+     *
      * @OA\Get(
      *     path="/api/products/{producto_id}",
      *     summary="Mostrar un producto específico",
@@ -121,9 +110,6 @@ class ProductController extends Controller
      *     @OA\Response(response=404, description="Producto no encontrado")
      * )
      */
-    /**
-     * Muestra un producto especifico.
-     */
     // GET /api/products/{producto_id}
     public function show($producto_id)
     {
@@ -137,11 +123,12 @@ class ProductController extends Controller
     }
 
     /**
+     * Actualiza producto de almacén.
+     *
      * @OA\Put(
      *     path="/api/products/{producto_id}",
      *     summary="Actualizar un producto",
-     *     description="Permite modificar los datos de un producto existente.
-     *     **Solo accesible para roles de Almacén o Administrador.**",
+     *     description="Permite modificar los datos de un producto existente. **Solo accesible para roles de Almacén o Administrador.**",
      *     tags={"Productos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
@@ -164,9 +151,6 @@ class ProductController extends Controller
      *     @OA\Response(response=404, description="Producto no encontrado")
      * )
      */
-    /**
-     * Actualiza producto de almacen.
-     */
     // PUT /api/products/{producto_id}
     public function update(Request $request, $producto_id)
     {
@@ -181,11 +165,12 @@ class ProductController extends Controller
     }
 
     /**
+     * Elimina producto de almacén.
+     *
      * @OA\Delete(
      *     path="/api/products/{producto_id}",
      *     summary="Eliminar un producto",
-     *     description="Elimina un producto del catálogo.
-     *     **Solo accesible para roles de Almacén o Administrador.**",
+     *     description="Elimina un producto del catálogo. **Solo accesible para roles de Almacén o Administrador.**",
      *     tags={"Productos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
@@ -198,9 +183,6 @@ class ProductController extends Controller
      *     @OA\Response(response=200, description="Producto eliminado correctamente"),
      *     @OA\Response(response=404, description="Producto no encontrado")
      * )
-     */
-    /**
-     * Elimina proudcto de almacen.
      */
     // DELETE /api/products/{producto_id}
     public function destroy($producto_id)

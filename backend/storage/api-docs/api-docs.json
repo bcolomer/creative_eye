@@ -541,13 +541,57 @@
                 ]
             }
         },
+        "/api/health": {
+            "get": {
+                "tags": [
+                    "Sistema"
+                ],
+                "summary": "Verifica el estado del servidor",
+                "description": "Devuelve información básica del entorno y la versión de Laravel.",
+                "operationId": "86f59596b50693fd899d11bc931d8060",
+                "responses": {
+                    "200": {
+                        "description": "API operativa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "app": {
+                                            "type": "string",
+                                            "example": "API Tienda"
+                                        },
+                                        "env": {
+                                            "type": "string",
+                                            "example": "local"
+                                        },
+                                        "laravel": {
+                                            "type": "string",
+                                            "example": "11.x"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "2025-11-07T15:32:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
         "/api/orders": {
             "get": {
                 "tags": [
                     "Pedidos"
                 ],
                 "summary": "Listar todos los pedidos",
-                "description": "Muestra todos los pedidos con su usuario y productos asociados.\n     *     **Solo accesible por roles de Almacén o Administrador.**",
+                "description": "Muestra todos los pedidos con su usuario y productos asociados.\n     *     <b>Solo accesible por roles de Almacén.</b>",
                 "operationId": "955bb77a45ae173a485fadb8befed93f",
                 "responses": {
                     "200": {
@@ -596,7 +640,7 @@
                     "Pedidos"
                 ],
                 "summary": "Crear un nuevo pedido",
-                "description": "Permite crear un pedido con uno o varios productos.\n     *     Cada item debe incluir `producto_id` y `cantidad`.\n     *     **Solo accesible para usuarios autenticados.**",
+                "description": "Permite crear un pedido con uno o varios productos.\n     *     Cada item debe incluir `producto_id` y `cantidad`.\n     *     <b>Solo accesible para usuarios autenticados (Cliente o Administrador).</b>",
                 "operationId": "2123ba58dadb22bd6f2c8081af562230",
                 "requestBody": {
                     "required": true,
@@ -687,7 +731,7 @@
                     "Pedidos"
                 ],
                 "summary": "Mostrar un pedido específico",
-                "description": "Devuelve un pedido con su usuario y productos asociados.",
+                "description": "Devuelve un pedido con su usuario y productos asociados.\n     *     <b>Solo accesible para el rol de Almacén.</b>",
                 "operationId": "88d27387b1e409e075c18609d4a0c300",
                 "parameters": [
                     {
@@ -720,7 +764,7 @@
                     "Pedidos"
                 ],
                 "summary": "Actualizar un pedido",
-                "description": "Permite modificar un pedido existente.\n     *     **Solo para roles de Administrador o Almacén.**",
+                "description": "Permite modificar un pedido existente.\n     *     <b>Solo accesible para el rol de Almacén.</b>",
                 "operationId": "38a1b85e8294795a1b0dc438a36e319f",
                 "parameters": [
                     {
@@ -776,7 +820,7 @@
                     "Pedidos"
                 ],
                 "summary": "Eliminar un pedido",
-                "description": "Elimina un pedido existente. **Solo para Administrador o Almacén.**",
+                "description": "Elimina un pedido existente.\n     *     <b>Solo accesible para el rol de Almacén.</b>",
                 "operationId": "bab875a1ed962fb33565ab9b48c0d494",
                 "parameters": [
                     {
@@ -810,7 +854,7 @@
                     "Pedidos"
                 ],
                 "summary": "Listar pedidos del usuario autenticado",
-                "description": "Devuelve todos los pedidos del usuario logueado junto con los productos de cada pedido.",
+                "description": "Devuelve todos los pedidos del usuario autenticado junto con sus productos.\n     *     <b>Accesible para Administrador y Cliente (solo sus propios pedidos).</b>",
                 "operationId": "52a30ee2f7e8302d90c2c69040795c9e",
                 "responses": {
                     "200": {
@@ -1086,6 +1130,262 @@
                     },
                     "404": {
                         "description": "Detalle no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Listar todos los productos",
+                "description": "Devuelve un listado de todos los productos disponibles. Endpoint público (sin autenticación).",
+                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "producto_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Lámpara de escritorio"
+                                            },
+                                            "precio": {
+                                                "type": "number",
+                                                "example": 39.99
+                                            },
+                                            "cantidad": {
+                                                "type": "integer",
+                                                "example": 25
+                                            },
+                                            "codigo": {
+                                                "type": "string",
+                                                "example": "LPD-001"
+                                            },
+                                            "categoria_id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "foto": {
+                                                "type": "string",
+                                                "example": "https://example.com/lampara.jpg"
+                                            },
+                                            "descripcion": {
+                                                "type": "string",
+                                                "example": "Lámpara de escritorio LED con brazo flexible."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "description": "Crea un nuevo producto en la base de datos. **Solo accesible para roles de Almacén o Administrador.**",
+                "operationId": "785644b7d7dd38af4b51dafd0fbc1b6d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "precio",
+                                    "cantidad",
+                                    "codigo"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Lámpara de pie moderna"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": 89.9
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "codigo": {
+                                        "type": "string",
+                                        "example": "LPM-002"
+                                    },
+                                    "categoria_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://example.com/lampara-pie.jpg"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Lámpara moderna con base metálica y luz cálida."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{producto_id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Mostrar un producto específico",
+                "description": "Devuelve la información detallada de un producto en función de su ID. Endpoint público.",
+                "operationId": "8aa1ea210d4fa1e20a5872734e4fdc8c",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "path",
+                        "description": "ID del producto a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto encontrado"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "description": "Permite modificar los datos de un producto existente. **Solo accesible para roles de Almacén o Administrador.**",
+                "operationId": "464eb73e3b797bf82e77553a3a897a75",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Lámpara LED actualizada"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": 59.99
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 30
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://example.com/lampara-nueva.jpg"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Lámpara con nuevo diseño y más brillo."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "description": "Elimina un producto del catálogo. **Solo accesible para roles de Almacén o Administrador.**",
+                "operationId": "1b3d844112ed95332546dc1198504660",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
                     }
                 },
                 "security": [
@@ -1743,50 +2043,6 @@
                     }
                 ]
             }
-        },
-        "/api/health": {
-            "get": {
-                "tags": [
-                    "System"
-                ],
-                "summary": "Health check",
-                "operationId": "13dc5e2d445cc89e5942e4f301f44337",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "ok": {
-                                            "type": "boolean",
-                                            "example": true
-                                        },
-                                        "app": {
-                                            "type": "string",
-                                            "example": "CreativeEye Api"
-                                        },
-                                        "env": {
-                                            "type": "string",
-                                            "example": "local"
-                                        },
-                                        "laravel": {
-                                            "type": "string",
-                                            "example": "12.x"
-                                        },
-                                        "time": {
-                                            "type": "string",
-                                            "format": "date-time",
-                                            "example": "2025-11-06T21:00:00Z"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -1809,12 +2065,20 @@
             "description": "Gestión de categorías de productos (visualización pública y administración por roles)"
         },
         {
+            "name": "Sistema",
+            "description": "Rutas de comprobación del estado del servidor"
+        },
+        {
             "name": "Pedidos",
-            "description": "Gestión de pedidos (consultas, creación, actualización, eliminación y pedidos del usuario autenticado)"
+            "description": "Gestión de pedidos: creación, consulta, actualización y eliminación de pedidos.\n *     - Los usuarios con rol **Almacén** pueden gestionar todos los pedidos.\n *     - Los usuarios con rol **Administrador** o **Cliente** pueden consultar únicamente los suyos."
         },
         {
             "name": "Detalles de Pedido",
             "description": "Gestión de productos asociados a un pedido (líneas del pedido)"
+        },
+        {
+            "name": "Productos",
+            "description": "Gestión de productos (públicos para visualización, privados para CRUD por roles de almacén o administrador)"
         },
         {
             "name": "Perfil",
@@ -1827,10 +2091,6 @@
         {
             "name": "Usuarios",
             "description": "Gestión de usuarios del sistema (solo accesible para administradores)"
-        },
-        {
-            "name": "System",
-            "description": "System"
         }
     ]
 }

@@ -12,7 +12,9 @@ use App\Http\Controllers\Controller;
 /**
  * @OA\Tag(
  *     name="Pedidos",
- *     description="Gestión de pedidos (consultas, creación, actualización, eliminación y pedidos del usuario autenticado)"
+ *     description="Gestión de pedidos: creación, consulta, actualización y eliminación de pedidos.
+ *     - Los usuarios con rol **Almacén** pueden gestionar todos los pedidos.
+ *     - Los usuarios con rol **Administrador** o **Cliente** pueden consultar únicamente los suyos."
  * )
  */
 class OrderController extends Controller
@@ -22,7 +24,7 @@ class OrderController extends Controller
      *     path="/api/orders",
      *     summary="Listar todos los pedidos",
      *     description="Muestra todos los pedidos con su usuario y productos asociados.
-     *     **Solo accesible por roles de Almacén o Administrador.**",
+     *     <b>Solo accesible por roles de Almacén.</b>",
      *     tags={"Pedidos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(
@@ -51,7 +53,7 @@ class OrderController extends Controller
      *     summary="Crear un nuevo pedido",
      *     description="Permite crear un pedido con uno o varios productos.
      *     Cada item debe incluir `producto_id` y `cantidad`.
-     *     **Solo accesible para usuarios autenticados.**",
+     *     <b>Solo accesible para usuarios autenticados (Cliente o Administrador).</b>",
      *     tags={"Pedidos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\RequestBody(
@@ -85,10 +87,9 @@ class OrderController extends Controller
      *     @OA\Response(response=422, description="Error de validación")
      * )
      */
-    // Añade  un pedido
+    // Añade un pedido
     public function store(Request $request)
-    {
-        // Usuario autenticado por Sanctum (token)
+    { //         Usuario autenticado por Sanctum (token)
         $user = $request->user();
         // Si no hay usuario autenticado, devolvemos error 401
         if (!$user) {
@@ -99,7 +100,6 @@ class OrderController extends Controller
             ], 401);
         }
 
-        // Validamos que envíen items (producto + cantidad)
         $validated = $request->validate([
             'items' => 'required|array|min:1',
             'items.*.producto_id' => 'required|exists:productos,producto_id',
@@ -109,21 +109,18 @@ class OrderController extends Controller
         DB::beginTransaction();
 
         try {
-            // Calcular total del pedido recorriendo los items
             $total = 0;
             foreach ($validated['items'] as $item) {
                 $producto = Product::find($item['producto_id']);
                 $total += $producto->precio * $item['cantidad'];
             }
 
-            // Crear el pedido
             $pedido = Order::create([
                 'usuario_id'   => $user->usuario_id,
                 'fecha_pedido' => now()->toDateString(),
                 'total_pedido' => $total,
             ]);
 
-            // Crear cada línea del pedido en pedidos_productos
             foreach ($validated['items'] as $item) {
                 $producto = Product::find($item['producto_id']);
 
@@ -138,7 +135,6 @@ class OrderController extends Controller
 
             DB::commit();
 
-            // Devolver el pedido con productos
             return response()->json([
                 'message' => 'Pedido creado correctamente',
                 'pedido'  => $pedido->load('usuario', 'productos'),
@@ -158,7 +154,8 @@ class OrderController extends Controller
      * @OA\Get(
      *     path="/api/orders/{id}",
      *     summary="Mostrar un pedido específico",
-     *     description="Devuelve un pedido con su usuario y productos asociados.",
+     *     description="Devuelve un pedido con su usuario y productos asociados.
+     *     <b>Solo accesible para el rol de Almacén.</b>",
      *     tags={"Pedidos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
@@ -188,7 +185,7 @@ class OrderController extends Controller
      *     path="/api/orders/{id}",
      *     summary="Actualizar un pedido",
      *     description="Permite modificar un pedido existente.
-     *     **Solo para roles de Administrador o Almacén.**",
+     *     <b>Solo accesible para el rol de Almacén.</b>",
      *     tags={"Pedidos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
@@ -236,7 +233,8 @@ class OrderController extends Controller
      * @OA\Delete(
      *     path="/api/orders/{id}",
      *     summary="Eliminar un pedido",
-     *     description="Elimina un pedido existente. **Solo para Administrador o Almacén.**",
+     *     description="Elimina un pedido existente.
+     *     <b>Solo accesible para el rol de Almacén.</b>",
      *     tags={"Pedidos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Parameter(
@@ -267,7 +265,8 @@ class OrderController extends Controller
      * @OA\Get(
      *     path="/api/orders/my",
      *     summary="Listar pedidos del usuario autenticado",
-     *     description="Devuelve todos los pedidos del usuario logueado junto con los productos de cada pedido.",
+     *     description="Devuelve todos los pedidos del usuario autenticado junto con sus productos.
+     *     <b>Accesible para Administrador y Cliente (solo sus propios pedidos).</b>",
      *     tags={"Pedidos"},
      *     security={{"bearerAuth":{}}},
      *     @OA\Response(response=200, description="Pedidos del usuario autenticado"),
@@ -280,18 +279,11 @@ class OrderController extends Controller
     {
         $user = $request->user();
 
-        \Log::info('Usuario autenticado en myOrders:', [
-            'user' => $user ? $user->toArray() : null,
-            'token' => $request->header('Authorization'),
-        ]);
-
         if (!$user) {
             return response()->json(['message' => 'Usuario no autenticado'], 401);
         }
 
-        $orders = $user->pedidos()
-            ->with(['productos'])
-            ->get();
+        $orders = $user->pedidos()->with(['productos'])->get();
 
         if ($orders->isEmpty()) {
             return response()->json(['message' => 'No se encontraron pedidos para este usuario'], 404);
@@ -299,12 +291,4 @@ class OrderController extends Controller
 
         return response()->json($orders);
     }
-
-    /*
-    public function summary()
-    {
-        // TODO: Implementar resumen de pedidos (total, facturación, media, etc.)
-        return response()->json(['message' => 'Ruta pendiente de implementación'], 501);
-    }
-    */
 }
