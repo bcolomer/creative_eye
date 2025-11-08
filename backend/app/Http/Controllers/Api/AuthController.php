@@ -142,6 +142,7 @@ class AuthController extends Controller
             'nombre_usuario' => $validated['nombre_usuario'],
             'password' => bcrypt($validated['password']),
             'rol_id' => 3,
+            'foto' => '/images/creativelogo.png',
         ]);
 
         $token = $user->createToken('auth_token')->plainTextToken;
