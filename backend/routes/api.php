@@ -10,19 +10,14 @@ use App\Http\Controllers\Api\UserController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\OrderProductController;
 use App\Http\Controllers\Api\ProfileController;
+use App\Http\Controllers\Api\HealthController;
+
 
 //RUTAS PUBLICAS (sin autenticacion)
 //------------------------------------------------------------------------------------------
 //Comprobar salud de la api
-Route::get('/health', function () {
-    return response()->json([
-        'ok' => true,
-        'app' => config('app.name'),
-        'env' => config('app.env'),
-        'laravel' => app()->version(),
-        'time' => now()->toISOString(),
-    ]);
-});
+Route::get('/health', HealthController::class);
+
 
 //  LOGIN
 Route::post('/login', [AuthController::class, 'login']);
