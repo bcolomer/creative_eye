@@ -41,11 +41,14 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/orders/my', [OrderController::class, 'myOrders'])
         ->middleware('role:1,3'); // sólo admin (1) y cliente (3)
 
+ 
+
     //ADMINISTRADOR (rol_id = 1)
     Route::middleware(['role:1'])->group(function () {
         Route::apiResource('users', UserController::class);
         Route::apiResource('roles', RoleController::class);
         Route::apiResource('orders', OrderController::class)->except(['index']);
+        Route::apiResource('order-products', OrderProductController::class);
     });
 
     //ALMACEN (rol_id = 2)
@@ -59,6 +62,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     //CLIENTE (rol_id = 3)
     Route::middleware(['role:3'])->group(function () {
         Route::apiResource('orders', OrderController::class)->except(['index']);
+        Route::apiResource('order-products', OrderProductController::class);
+
     });
 
 

@@ -38,6 +38,9 @@ export class CarritoComponent implements OnInit {
   }
 
   calcularTotal(): void {
-    this.totalCarrito = this.productosDelCarrito.reduce((acumulador, item) => acumulador + parseFloat(item.precio), 0 );
+    this.totalCarrito = this.productosDelCarrito.reduce(
+      (acumulador, item) => acumulador + parseFloat(item.precio_unitario), // <-- ¡ARREGLADO!
+      0 
+    );
   }
 }

@@ -40,6 +40,11 @@ return [
             'driver' => 'session',
             'provider' => 'users',
         ],
+
+        'sanctum' => [
+            'driver' => 'sanctum', // Le dice a Laravel que use Tokens
+            'provider' => 'users',
+        ],
     ],
 
     /*

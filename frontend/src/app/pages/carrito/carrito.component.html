@@ -9,8 +9,10 @@
     
         <ul class="carrito__lista">
             <li *ngFor="let item of productosDelCarrito" class="carrito__item">
-                <span class="carrito__item-nombre">{{ item.nombre }}</span>
-                <span class="carrito__item-precio">{{ item.precio }} €</span>
+            
+            <span class="carrito__item-nombre">{{ item.producto.nombre }}</span>
+            
+            <span class="carrito__item-precio">{{ item.precio_unitario }} €</span>
             </li>
         </ul>
 

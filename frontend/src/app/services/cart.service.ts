@@ -33,7 +33,7 @@ export class CartService {
     console.log('Cargando carrito...');
     
     // 1. Llamamos a la API
-    const peticion = this.http.get<any[]>(`${this.apiUrl}/orders/my`);
+    const peticion = this.http.get<any[]>(`${this.apiUrl}/order-products`);
 
     // 2. Usamos .pipe(tap(...)) para "espiar" la respuesta y actualizar nuestra memoria local
     return peticion.pipe(
@@ -63,13 +63,13 @@ export class CartService {
 
 
     // Hacemos la petición POST
-    const peticion = this.http.post(`${this.apiUrl}/orders`, payload, httpOptions);
+    const peticion = this.http.post(`${this.apiUrl}/order-products`, payload, httpOptions);
 
-    // Usamos 'tap' otra vez para actualizar la memoria local con la respuesta que nos dé el backend (carrito actualizado).
+    // Actualizamos la memoria local con la respuesta que nos dé el backend (carrito actualizado).
     return peticion.pipe(
       tap(respuesta => {
         console.log('Respuesta de añadir producto:', respuesta);
-        this.cartItems.next(respuesta as any[]); // Actualizamos la memoria
+        this.loadCart().subscribe();
       })
     );
   }

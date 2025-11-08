@@ -30,7 +30,7 @@ export class AuthService {
 
   getProfile(): Observable<any> {
     // Esta llamada irá automáticamente con el token gracias al Interceptor
-    return this.http.get(`${this.apiUrl}/user`);
+    return this.http.get(`${this.apiUrl}/profile`);
   }
 
 isLoggedIn(): boolean {
