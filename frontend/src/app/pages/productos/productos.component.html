@@ -1,0 +1,24 @@
+<div class="productos">
+    <h1 class="productos__titulo">Catálogo de Productos</h1>
+
+    <div *ngIf="productos.length > 0" class="productos__contenedor">
+    
+        <div *ngFor="let producto of productos" class="productos__tarjeta" [routerLink]="['/producto', producto.producto_id]">
+    
+            <img 
+                class="productos__tarjeta-imagen" 
+                [src]="producto.foto" 
+                alt="{{ producto.nombre }}">
+    
+            <h2 class="productos__tarjeta-titulo">{{ producto.nombre }}</h2>
+    
+            <p class="productos__tarjeta-precio">{{ producto.precio | number:'1.0-2'}} €</p>
+    
+        </div>
+    </div>
+
+    <div *ngIf="productos.length === 0" class="productos__mensaje-vacio">
+        <p>Cargando productos...</p>
+    </div>
+
+</div>

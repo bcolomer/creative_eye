@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\OrderProduct;
 
+use Illuminate\Support\Facades\Auth;
+use App\Models\Product;
+use App\Models\Order;
+
 /**
  * @OA\Tag(
  *     name="Detalles de Pedido",
@@ -14,87 +18,132 @@ use App\Models\OrderProduct;
  */
 class OrderProductController extends Controller
 {
-    /**
+/**
      * @OA\Get(
-     *     path="/api/order-products",
-     *     summary="Listar todos los detalles de pedidos",
-     *     description="Devuelve todos los productos asociados a pedidos existentes.
-     *     **Solo accesible para roles de Almacén o Administrador.**",
-     *     tags={"Detalles de Pedido"},
-     *     security={{"bearerAuth":{}}},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de detalles de pedidos",
-     *         @OA\JsonContent(type="array", @OA\Items(
-     *             @OA\Property(property="pedido_id", type="integer", example=1),
-     *             @OA\Property(property="producto_id", type="integer", example=3),
-     *             @OA\Property(property="cantidad", type="integer", example=2),
-     *             @OA\Property(property="precio_unitario", type="number", example=49.99),
-     *             @OA\Property(property="precio_total", type="number", example=99.98)
-     *         ))
-     *     )
+     * path="/api/order-products",
+     * summary="Listar los productos del carrito activo",
+     * description="Devuelve los productos asociados al pedido en estado 'pendiente'
+     * (carrito) del usuario autenticado.",
+     * tags={"Detalles de Pedido"},
+     * security={{"bearerAuth":{}}},
+     * @OA\Response(
+     * response=200,
+     * description="Lista de productos en el carrito",
+     * @OA\JsonContent(type="array", @OA\Items(
+     * @OA\Property(property="producto_id", type="integer", example=3),
+     * @OA\Property(property="cantidad", type="integer", example=2),
+     * @OA\Property(property="precio_unitario", type="number", example=49.99)
+     * ))
+     * ),
+     * @OA\Response(response=404, description="El usuario no tiene un carrito activo")
      * )
      */
-    // lista los pedidos de los productos
-    public function index()
+public function index()
     {
-        $detalles = OrderProduct::with(['pedido', 'producto'])->get();
-        return response()->json($detalles);
+        $user = Auth::user();
+
+        // 1. Comprobamos el rol del usuario
+        if ($user->rol_id == 2) { 
+            // ----- ES ROL 2 (ALMACÉN) -----
+            // (Esta es la lógica antigua que tenías)
+            $detalles = OrderProduct::with(['pedido', 'producto'])->get();
+            return response()->json($detalles);
+        
+        } else {
+            // ----- ES ROL 1 (ADMIN) o ROL 3 (CLIENTE) -----
+            
+            // 2. Buscamos su "carrito activo" (un pedido 'pendiente')
+            $carrito = Order::where('usuario_id', $user->usuario_id)
+                            // ->where('estado', 'pendiente')
+                            ->first(); // Obtenemos el primero (o null)
+
+            // 3. Si no tiene un carrito activo, devolvemos una lista vacía
+            if (!$carrito) {
+                return response()->json([]); // ¡Importante! Devolver un array vacío
+            }
+
+            // 4. Si SÍ tiene carrito, devolvemos solo los productos de ESE carrito
+            $detalles = OrderProduct::where('pedido_id', $carrito->pedido_id)
+                                    ->with('producto') 
+                                    ->get();
+
+            return response()->json($detalles);
+        }
     }
 
     /**
      * @OA\Post(
-     *     path="/api/order-products",
-     *     summary="Añadir un producto a un pedido",
-     *     description="Crea una nueva línea de pedido con producto, cantidad y precio unitario.
-     *     Calcula automáticamente el precio total antes de guardar.",
-     *     tags={"Detalles de Pedido"},
-     *     security={{"bearerAuth":{}}},
-     *     @OA\RequestBody(
-     *         required=true,
-     *         @OA\JsonContent(
-     *             required={"pedido_id","producto_id","cantidad","precio_unitario"},
-     *             @OA\Property(property="pedido_id", type="integer", example=1),
-     *             @OA\Property(property="producto_id", type="integer", example=5),
-     *             @OA\Property(property="cantidad", type="integer", example=3),
-     *             @OA\Property(property="precio_unitario", type="number", example=24.99)
-     *         )
-     *     ),
-     *     @OA\Response(
-     *         response=201,
-     *         description="Producto añadido al pedido correctamente",
-     *         @OA\JsonContent(
-     *             @OA\Property(property="message", type="string", example="Producto añadido al pedido correctamente"),
-     *             @OA\Property(property="detalle", type="object",
-     *                 @OA\Property(property="pedido_id", type="integer", example=1),
-     *                 @OA\Property(property="producto_id", type="integer", example=5),
-     *                 @OA\Property(property="cantidad", type="integer", example=3),
-     *                 @OA\Property(property="precio_unitario", type="number", example=24.99),
-     *                 @OA\Property(property="precio_total", type="number", example=74.97)
-     *             )
-     *         )
-     *     ),
-     *     @OA\Response(response=422, description="Error de validación")
+     * path="/api/order-products",
+     * summary="Añadir un producto a un pedido (Carrito)",
+     * description="Crea una nueva línea de pedido (o actualiza la cantidad)
+     * para el 'carrito' (pedido pendiente) del usuario autenticado.",
+     * tags={"Detalles de Pedido"},
+     * security={{"bearerAuth":{}}},
+     * @OA\RequestBody(
+     * required=true,
+     * @OA\JsonContent(
+     * required={"producto_id","cantidad"},
+     * @OA\Property(property="producto_id", type="integer", example=5),
+     * @OA\Property(property="cantidad", type="integer", example=1)
+     * )
+     * ),
+     * @OA\Response(response=201, description="Producto añadido/actualizado en el carrito"),
+     * @OA\Response(response=422, description="Error de validación (ej. producto_id no existe)"),
+     * @OA\Response(response=404, description="Producto no encontrado en BBDD")
      * )
      */
-    public function store(Request $request)
-    {
-        $validated = $request->validate([
-            'pedido_id' => 'required|exists:pedidos,pedido_id',
-            'producto_id' => 'required|exists:productos,producto_id',
-            'cantidad' => 'required|integer|min:1',
-            'precio_unitario' => 'required|numeric|min:0',
-        ]);
+    public function store(Request $request){
 
-        // Calcular el total antes de guardar
-        $validated['precio_total'] = $validated['cantidad'] * $validated['precio_unitario'];
+    // Validamos SÓLO lo que el frontend nos envía
+    $data = $request->validate([
+        'producto_id' => 'required|exists:productos,producto_id',
+        'cantidad' => 'required|integer|min:1',
+    ]);
 
-        $detalle = OrderProduct::create($validated);
+    // Obtenemos el usuario que está haciendo la petición
+    $user = Auth::user();
 
-        return response()->json([
-            'message' => 'Producto añadido al pedido correctamente',
-            'detalle' => $detalle,
-        ], 201);
+    // Buscamos su "carrito activo" (un pedido 'pendiente') y si no tiene, se crea
+    $carrito = Order::firstOrCreate(
+        [
+            'usuario_id' => $user->usuario_id,
+            //'estado' => 'pendiente' 
+        ],
+        [
+            'fecha' => now(), 
+            'total' => 0      
+        ]
+    );
+
+    // Buscamos el precio REAL del producto en la BBDD
+    $producto = Product::find($data['producto_id']);
+    if (!$producto) {
+        return response()->json(['message' => 'Producto no encontrado en BBDD'], 404);
+    }
+
+    // Creamos (o actualizamos) la línea del carrito (Usamos updateOrCreate para evitar duplicados si se añade el mismo producto)
+    $orderProduct = OrderProduct::updateOrCreate(
+        [
+            'pedido_id' => $carrito->pedido_id,
+            'producto_id' => $producto->producto_id,
+        ],
+        [
+            'cantidad' => $data['cantidad'],
+            'precio_unitario' => $producto->precio,
+            'precio_total' => $data['cantidad'] * $producto->precio
+        ]
+    );
+    
+    // $nuevoTotal = $carrito->orderProducts()->sum('precio_total');
+
+    // Actualizamos el campo 'total' en la tabla 'pedidos'
+    // $carrito->total = $nuevoTotal;
+    // $carrito->save();
+
+    return response()->json([
+        'message' => 'Producto añadido al carrito correctamente',
+        'detalle' => $orderProduct
+    ], 201);
     }
 
     /**

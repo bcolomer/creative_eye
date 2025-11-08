@@ -14,20 +14,26 @@ class CheckRole
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
     public function handle(Request $request, Closure $next, ...$roles): Response
-    {
-        $user = $request->user();
-        // Si el usuario no está autenticado
-        if (!$user) {
-            return response()->json(['message' => 'No autenticado.'], 401);
-        }
+{
+    $user = $request->user();
 
-        // Si su rol NO está en los roles permitidos
-        if (!in_array($user->rol_id, $roles)) {
-            return response()->json(['message' => 'Acceso denegado.'], 403);
-        }
-
-        // Si todo está bien, continúa con la petición
-
-        return $next($request);
+    // Si no está autenticado
+    if (!$user) {
+        return response()->json(['message' => 'No autenticado.'], 401);
     }
+
+ 
+    $allowedRoles = collect($roles)
+        ->flatMap(fn($r) => explode(',', $r)) 
+        ->map(fn($r) => (int)$r)              
+        ->toArray();
+
+    // Verificar si el rol del usuario está permitido
+    if (!in_array($user->rol_id, $allowedRoles)) {
+        return response()->json(['message' => 'Acceso denegado.'], 403);
+    }
+
+    return $next($request);
+}
+
 }

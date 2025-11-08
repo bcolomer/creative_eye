@@ -879,22 +879,18 @@
                 "tags": [
                     "Detalles de Pedido"
                 ],
-                "summary": "Listar todos los detalles de pedidos",
-                "description": "Devuelve todos los productos asociados a pedidos existentes.\n     *     **Solo accesible para roles de Almacén o Administrador.**",
+                "summary": "Listar los productos del carrito activo",
+                "description": "Devuelve los productos asociados al pedido en estado 'pendiente'\n     * (carrito) del usuario autenticado.",
                 "operationId": "d577df37f526b57e8586016c7e55dbbd",
                 "responses": {
                     "200": {
-                        "description": "Lista de detalles de pedidos",
+                        "description": "Lista de productos en el carrito",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "type": "array",
                                     "items": {
                                         "properties": {
-                                            "pedido_id": {
-                                                "type": "integer",
-                                                "example": 1
-                                            },
                                             "producto_id": {
                                                 "type": "integer",
                                                 "example": 3
@@ -906,10 +902,6 @@
                                             "precio_unitario": {
                                                 "type": "number",
                                                 "example": 49.99
-                                            },
-                                            "precio_total": {
-                                                "type": "number",
-                                                "example": 99.98
                                             }
                                         },
                                         "type": "object"
@@ -917,6 +909,9 @@
                                 }
                             }
                         }
+                    },
+                    "404": {
+                        "description": "El usuario no tiene un carrito activo"
                     }
                 },
                 "security": [
@@ -929,8 +924,8 @@
                 "tags": [
                     "Detalles de Pedido"
                 ],
-                "summary": "Añadir un producto a un pedido",
-                "description": "Crea una nueva línea de pedido con producto, cantidad y precio unitario.\n     *     Calcula automáticamente el precio total antes de guardar.",
+                "summary": "Añadir un producto a un pedido (Carrito)",
+                "description": "Crea una nueva línea de pedido (o actualiza la cantidad)\n     * para el 'carrito' (pedido pendiente) del usuario autenticado.",
                 "operationId": "bdd3e78dc80156a586840335de0fa416",
                 "requestBody": {
                     "required": true,
@@ -938,27 +933,17 @@
                         "application/json": {
                             "schema": {
                                 "required": [
-                                    "pedido_id",
                                     "producto_id",
-                                    "cantidad",
-                                    "precio_unitario"
+                                    "cantidad"
                                 ],
                                 "properties": {
-                                    "pedido_id": {
-                                        "type": "integer",
-                                        "example": 1
-                                    },
                                     "producto_id": {
                                         "type": "integer",
                                         "example": 5
                                     },
                                     "cantidad": {
                                         "type": "integer",
-                                        "example": 3
-                                    },
-                                    "precio_unitario": {
-                                        "type": "number",
-                                        "example": 24.99
+                                        "example": 1
                                     }
                                 },
                                 "type": "object"
@@ -968,48 +953,13 @@
                 },
                 "responses": {
                     "201": {
-                        "description": "Producto añadido al pedido correctamente",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Producto añadido al pedido correctamente"
-                                        },
-                                        "detalle": {
-                                            "properties": {
-                                                "pedido_id": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "producto_id": {
-                                                    "type": "integer",
-                                                    "example": 5
-                                                },
-                                                "cantidad": {
-                                                    "type": "integer",
-                                                    "example": 3
-                                                },
-                                                "precio_unitario": {
-                                                    "type": "number",
-                                                    "example": 24.99
-                                                },
-                                                "precio_total": {
-                                                    "type": "number",
-                                                    "example": 74.97
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
+                        "description": "Producto añadido/actualizado en el carrito"
                     },
                     "422": {
-                        "description": "Error de validación"
+                        "description": "Error de validación (ej. producto_id no existe)"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado en BBDD"
                     }
                 },
                 "security": [

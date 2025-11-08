@@ -4,6 +4,9 @@ import { Routes } from '@angular/router';
 import { InicioComponent } from './pages/inicio/inicio.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PerfilComponent } from './pages/perfil/perfil.component';
+import { ProductosComponent } from './pages/productos/productos.component';
+import { ProductoDetalleComponent } from './pages/producto-detalle/producto-detalle.component';
+import { CarritoComponent } from './pages/carrito/carrito.component';
 
 import { authGuard } from './auth.guard'; 
 
@@ -16,15 +19,30 @@ export const routes: Routes = [
   },
 
   { 
-    path: 'login', // Con esto añadimos la ruta login http://localhost:4200/login
+    path: 'login', // Ruta login http://localhost:4200/login
     component: LoginComponent 
   },
 
   {
-    path: 'perfil', // http://localhost:4200/perfil
+    path: 'perfil', // Ruta perfil http://localhost:4200/perfil
     component: PerfilComponent,
     canActivate: [ authGuard ]
-  }
+  },
 
+  {
+    path: 'productos', // Ruta productos http://localhost:4200/productos
+    component: ProductosComponent
+  },
+
+  {
+    // El ':id' es un parámetro. Angular lo entiende de forma interna y la clase ProductoDetalleComponent lo leera.
+    path: 'producto/:id', 
+    component: ProductoDetalleComponent
+  },
+
+  {
+    path: 'carrito', // Ruta carrito http://localhost:4200/carrito)
+    component: CarritoComponent
+  }
 
 ];

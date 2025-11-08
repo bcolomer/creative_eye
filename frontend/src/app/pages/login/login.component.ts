@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { AuthService } from '../../services/auth.service';
+import { CartService } from '../../services/cart.service';
 
 // Añadimos la ruta a la que se redirigirá cuando se inicie sesión
 import { Router } from '@angular/router';
@@ -26,8 +27,8 @@ export class LoginComponent {
 
   constructor(
     private authService: AuthService,
-    // Añadimos la ruta
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) {}
 
   login(): void {
@@ -55,10 +56,15 @@ export class LoginComponent {
         this.router.navigate(['/']); 
         
         console.log('Pidiendo perfil del usuario');
+
         this.authService.getProfile().subscribe({
             
             next: (perfil) => {
-                console.log('¡Perfil recibido!', perfil);
+              console.log('¡Perfil recibido!', perfil);
+
+              console.log('Cargando carrito...');
+              this.cartService.loadCart().subscribe();
+              this.router.navigate(['/']);
             },
 
             error: (errPerfil) => {
