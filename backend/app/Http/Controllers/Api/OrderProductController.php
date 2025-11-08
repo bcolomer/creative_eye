@@ -18,7 +18,7 @@ use App\Models\Order;
  */
 class OrderProductController extends Controller
 {
-/**
+    /**
      * @OA\Get(
      * path="/api/order-products",
      * summary="Listar los productos del carrito activo",
@@ -38,24 +38,23 @@ class OrderProductController extends Controller
      * @OA\Response(response=404, description="El usuario no tiene un carrito activo")
      * )
      */
-public function index()
+    public function index()
     {
         $user = Auth::user();
 
         // 1. Comprobamos el rol del usuario
-        if ($user->rol_id == 2) { 
+        if ($user->rol_id == 2) {
             // ----- ES ROL 2 (ALMACÉN) -----
             // (Esta es la lógica antigua que tenías)
             $detalles = OrderProduct::with(['pedido', 'producto'])->get();
             return response()->json($detalles);
-        
         } else {
             // ----- ES ROL 1 (ADMIN) o ROL 3 (CLIENTE) -----
-            
+
             // 2. Buscamos su "carrito activo" (un pedido 'pendiente')
             $carrito = Order::where('usuario_id', $user->usuario_id)
-                            // ->where('estado', 'pendiente')
-                            ->first(); // Obtenemos el primero (o null)
+                // ->where('estado', 'pendiente')
+                ->first(); // Obtenemos el primero (o null)
 
             // 3. Si no tiene un carrito activo, devolvemos una lista vacía
             if (!$carrito) {
@@ -64,8 +63,8 @@ public function index()
 
             // 4. Si SÍ tiene carrito, devolvemos solo los productos de ESE carrito
             $detalles = OrderProduct::where('pedido_id', $carrito->pedido_id)
-                                    ->with('producto') 
-                                    ->get();
+                ->with('producto')
+                ->get();
 
             return response()->json($detalles);
         }
@@ -89,61 +88,74 @@ public function index()
      * ),
      * @OA\Response(response=201, description="Producto añadido/actualizado en el carrito"),
      * @OA\Response(response=422, description="Error de validación (ej. producto_id no existe)"),
-     * @OA\Response(response=404, description="Producto no encontrado en BBDD")
+     * @OA\Response(response=404, description="Producto no encontrado en BBDD"),
+     * @OA\Response(response=403, description="Acceso denegado (ej. rol de Almacén intentando comprar)")
      * )
      */
-    public function store(Request $request){
 
-    // Validamos SÓLO lo que el frontend nos envía
-    $data = $request->validate([
-        'producto_id' => 'required|exists:productos,producto_id',
-        'cantidad' => 'required|integer|min:1',
-    ]);
+    public function store(Request $request)
+    { // Obtenemos el usuario que está haciendo la petición
+        $user = Auth::user();
 
-    // Obtenemos el usuario que está haciendo la petición
-    $user = Auth::user();
+        // --- AÑADE ESTE BLOQUE ---
+        // 1. Comprobamos el rol del usuario
+        if ($user->rol_id == 2) {
+            // Rol 2 no tiene permitido añadir a carrito.
+            return response()->json([
+                'message' => 'El personal de almacén no puede realizar compras con esta cuenta.'
+            ], 403); // 403 Forbidden
+        }
 
-    // Buscamos su "carrito activo" (un pedido 'pendiente') y si no tiene, se crea
-    $carrito = Order::firstOrCreate(
-        [
-            'usuario_id' => $user->usuario_id,
-            //'estado' => 'pendiente' 
-        ],
-        [
-            'fecha' => now(), 
-            'total' => 0      
-        ]
-    );
+        // Validamos SÓLO lo que el frontend nos envía
+        $data = $request->validate([
+            'producto_id' => 'required|exists:productos,producto_id',
+            'cantidad' => 'required|integer|min:1',
+        ]);
 
-    // Buscamos el precio REAL del producto en la BBDD
-    $producto = Product::find($data['producto_id']);
-    if (!$producto) {
-        return response()->json(['message' => 'Producto no encontrado en BBDD'], 404);
-    }
+        // Obtenemos el usuario que está haciendo la petición
+        $user = Auth::user();
 
-    // Creamos (o actualizamos) la línea del carrito (Usamos updateOrCreate para evitar duplicados si se añade el mismo producto)
-    $orderProduct = OrderProduct::updateOrCreate(
-        [
-            'pedido_id' => $carrito->pedido_id,
-            'producto_id' => $producto->producto_id,
-        ],
-        [
-            'cantidad' => $data['cantidad'],
-            'precio_unitario' => $producto->precio,
-            'precio_total' => $data['cantidad'] * $producto->precio
-        ]
-    );
-    
-    // $nuevoTotal = $carrito->orderProducts()->sum('precio_total');
+        // Buscamos su "carrito activo" (un pedido 'pendiente') y si no tiene, se crea
+        $carrito = Order::firstOrCreate(
+            [
+                'usuario_id' => $user->usuario_id,
+                //'estado' => 'pendiente'
+            ],
+            [
+                'fecha_pedido' => now()->toDateString(),
+                'total_pedido' => 0
+            ]
+        );
 
-    // Actualizamos el campo 'total' en la tabla 'pedidos'
-    // $carrito->total = $nuevoTotal;
-    // $carrito->save();
+        // Buscamos el precio REAL del producto en la BBDD
+        $producto = Product::find($data['producto_id']);
+        if (!$producto) {
+            return response()->json(['message' => 'Producto no encontrado en BBDD'], 404);
+        }
 
-    return response()->json([
-        'message' => 'Producto añadido al carrito correctamente',
-        'detalle' => $orderProduct
-    ], 201);
+        // Creamos (o actualizamos) la línea del carrito (Usamos updateOrCreate para evitar duplicados si se añade el mismo producto)
+        $orderProduct = OrderProduct::updateOrCreate(
+            [
+                'pedido_id' => $carrito->pedido_id,
+                'producto_id' => $producto->producto_id,
+            ],
+            [
+                'cantidad' => $data['cantidad'],
+                'precio_unitario' => $producto->precio,
+                'precio_total' => $data['cantidad'] * $producto->precio
+            ]
+        );
+
+        // $nuevoTotal = $carrito->orderProducts()->sum('precio_total');
+
+        // Actualizamos el campo 'total' en la tabla 'pedidos'
+        // $carrito->total = $nuevoTotal;
+        // $carrito->save();
+
+        return response()->json([
+            'message' => 'Producto añadido al carrito correctamente',
+            'detalle' => $orderProduct
+        ], 201);
     }
 
     /**
