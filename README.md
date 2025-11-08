@@ -20,6 +20,7 @@
 ---
 
 ## 📚 Índice
+- [🚨 Checkpoint (10 de Noviembre)](#-checkpoint-10-de-noviembre)
 - [🛍️ Sobre nosotros](#️-sobre-nosotros)
 - [🎨 Anteproyecto](#-anteproyecto)
   - [🏷️ Título del Proyecto](#️-título-del-proyecto)
@@ -28,14 +29,23 @@
   - [🎯 Objetivos](#-objetivos)
   - [🧰 Tecnologías Utilizadas](#-tecnologías-utilizadas)
   - [🧩 Modelo E/R (Propuesta Inicial)](#-modelo-er-propuesta-inicial)
-- [💡 Próximamente](#-próximamente)
 - [🧭 Estado del proyecto](#-estado-del-proyecto)
 - [🔗 Enlaces](#-enlaces)
 - [ℹ️ Meta](#ℹ️-meta)
 
 ---
+## 🚨 Checkpoint (10 de Noviembre)
+
+Este es el entregable para la revisión del proyecto.
+
+* **Estado:** Se ha completado el 100% de la API REST del Backend (ver `routes/api.php`) y se ha iniciado la lógica del Frontend (login/logout, carrito, catálogo, productos-detalles).
+* **Bitácora (Histórico de Tareas):** https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link
+* **Vídeo Explicativo (5 min):** > **[]**
+
+---
 
 ## 🛍️ Sobre nosotros
+
 **CREATIVE EYE** es una tienda online especializada en cámaras, lentes, iluminación y accesorios para fotografía y video.  
 Nuestro objetivo es ayudarte a capturar tu visión con el mejor equipo y las últimas novedades del mercado.  
 🧩 *En desarrollo...*
@@ -48,10 +58,11 @@ Nuestro objetivo es ayudarte a capturar tu visión con el mejor equipo y las úl
 **Creative Eye**
 
 ### 👥 Autores del Proyecto
-- **Bárbara Colomer**  
-- **David Márquez Córdoba**
+- **Bárbara Colomer**  (Backend - Laravel)
+- **David Márquez Córdoba** (Frontend - Angular)
 
 ### 💡 Descripción del Proyecto
+
 **Creative Eye** es una aplicación web de comercio electrónico especializada en la venta de cámaras, lentes, trípodes, micrófonos, iluminación y accesorios para fotografía y vídeo.  
 El proyecto propone una solución moderna, rápida y accesible, orientada tanto a profesionales como a aficionados, con **arquitectura MVC**, **panel de administración**, **carrito de compras**, **registro de usuarios** y **gestión de pedidos**.  
 El diseño será **responsive (mobile first)** y contemplará **buenas prácticas de seguridad, rendimiento y SEO**.
@@ -73,20 +84,15 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 
 | Área | Tecnologías / Herramientas |
 |---|---|
-| **Frontend** | 🅰️ **Angular** – catálogo, filtros, ficha de producto, carrito, registro/inicio de sesión, zona privada |
-| **Backend** | ⚙️ **Laravel** – API REST, autenticación, lógica de negocio, gestión de stock, panel de administración (CRUDs) |
-| **Base de datos** | 🗄️ **Relacional** (productos, categorías, usuarios, pedidos, inventario) |
-| **Despliegue** | ☁️ **AWS** (S3+CloudFront para frontend, Elastic Beanstalk/EC2 para backend) |
-| **Control de versiones** | 🧩 **GitHub** (repositorio y gestión de versiones) |
+| **Frontend** | 🅰️ **Angular 16+** – catálogo, filtros, ficha de producto, carrito, registro/inicio de sesión, zona privada |
+| **Backend** | ⚙️ **Laravel** – API REST, autenticación (Sanctum), lógica de negocio, gestión de stock, panel de administración (CRUDs)(Blade)  |
+| **Base de datos** | 🗄️ **Relacional** **MySQL**  (productos, categorías, usuarios, pedidos, inventario) |
+| **Documentación** | Swagger (L5-Swagger) |
+| **Despliegue** | ☁️ **AWS EC2** |
+| **Control de versiones** | 🧩 **GitHub y Git** (repositorio y gestión de versiones) |
 
 ### 🧩 Modelo E/R (Propuesta Inicial)
 <img width="886" height="491" alt="imagen" src="https://github.com/user-attachments/assets/5b6972ee-93c7-4cea-88fe-c039ec0c8418" />
-
-
----
-
-## 💡 Próximamente
-- Catálogo completo de productos 📦 *(En desarrollo)*
 
 ---
 
@@ -97,15 +103,19 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 ---
 
 ## 🔗 Enlaces
-- 🧱 **Anteproyecto en Notion**: https://www.notion.so/Anteproyecto-Creative-Eye-28b35eb2301b80b0b17ec49d977fc938?source=copy_link
-- 📝 **Bitácora de tareas**: https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link
-- 🪄 **Diseño de Interfaces Web**: https://www.notion.so/Dise-o-de-Interfaces-Web-28b35eb2301b808a9475eba32c4e136a?source=copy_link
+- 🧱 **Anteproyecto en Notion:** https://www.notion.so/Anteproyecto-Creative-Eye-2860500081b480628336ce9c20084e42?source=copy_link
+- ⬆️ **Diseño User-Flow (FigJam):** https://www.figma.com/board/7Qe10sug08n89GTVjrrzBJ/UserFlow?node-id=0-1&t=mJzCm8YDNegGWkGT-1
+- 📱 **Presentación del prototipo:** https://www.figma.com/proto/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=72-570&p=f&t=rtxvLnMmATTED3Yf-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=72%3A570
+- 🖼️ **Diseño (Prototipo Alta/Baja Fidelidad & Átomos/UI kit):** https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1
+- 📝 **Presentación PDF (Entrega Final):** https://1drv.ms/b/c/154c4a205c4d6e44/EXH8U7NGRNBCpPtqlgRNIWkBjT1raq8gwEglBAijzGbKrw?e=rHgaYw
+- 🎬 **Vídeo Final (10 min):** 
+
 ---
 
 ## ℹ️ Meta
-📅 **Versión:** 0.1 *(En desarrollo)*  
+📅 **Versión:** 0.5 *(En desarrollo)*  
 💼 **Autores:** Barbara Colomer, David Marquez Cordoba  
-🌐 **Sitio web:** _En desarrollo_  
+🌐 **Sitio web:** www.creative-eye.com  
 📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com  
 
 > “Captura el momento. Crea tu visión.”
