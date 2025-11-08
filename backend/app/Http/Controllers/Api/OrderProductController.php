@@ -38,27 +38,37 @@ class OrderProductController extends Controller
      * @OA\Response(response=404, description="El usuario no tiene un carrito activo")
      * )
      */
-    public function index()
+public function index()
     {
-        // Obtenemos el usuario que está haciendo la petición
         $user = Auth::user();
 
-        // Buscamos su "carrito activo" (un pedido 'pendiente')
-        $carrito = Order::where('usuario_id', $user->usuario_id)
-                     //   ->where('estado', 'pendiente')
-                        ->first(); // Obtenemos el primero (o null)
+        // 1. Comprobamos el rol del usuario
+        if ($user->rol_id == 2) { 
+            // ----- ES ROL 2 (ALMACÉN) -----
+            // (Esta es la lógica antigua que tenías)
+            $detalles = OrderProduct::with(['pedido', 'producto'])->get();
+            return response()->json($detalles);
+        
+        } else {
+            // ----- ES ROL 1 (ADMIN) o ROL 3 (CLIENTE) -----
+            
+            // 2. Buscamos su "carrito activo" (un pedido 'pendiente')
+            $carrito = Order::where('usuario_id', $user->usuario_id)
+                            // ->where('estado', 'pendiente')
+                            ->first(); // Obtenemos el primero (o null)
 
-        // Si no tiene un carrito activo, devolvemos una lista vacía
-        if (!$carrito) {
-            return response()->json([]); 
+            // 3. Si no tiene un carrito activo, devolvemos una lista vacía
+            if (!$carrito) {
+                return response()->json([]); // ¡Importante! Devolver un array vacío
+            }
+
+            // 4. Si SÍ tiene carrito, devolvemos solo los productos de ESE carrito
+            $detalles = OrderProduct::where('pedido_id', $carrito->pedido_id)
+                                    ->with('producto') 
+                                    ->get();
+
+            return response()->json($detalles);
         }
-
-        // Si SÍ tiene carrito, devolvemos solo los productos de ESE carrito
-        $detalles = OrderProduct::where('pedido_id', $carrito->pedido_id)
-                                ->with('producto')
-                                ->get();
-
-        return response()->json($detalles);
     }
 
     /**

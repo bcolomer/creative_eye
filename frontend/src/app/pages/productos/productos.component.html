@@ -12,7 +12,7 @@
     
             <h2 class="productos__tarjeta-titulo">{{ producto.nombre }}</h2>
     
-            <p class="productos__tarjeta-precio">{{ producto.precio }} €</p>
+            <p class="productos__tarjeta-precio">{{ producto.precio | number:'1.0-2'}} €</p>
     
         </div>
     </div>

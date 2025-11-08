@@ -10,13 +10,21 @@
         <ul class="carrito__lista">
             <li *ngFor="let item of productosDelCarrito" class="carrito__item">
             
-            <span class="carrito__item-nombre">{{ item.producto.nombre }}</span>
-            
-            <span class="carrito__item-precio">{{ item.precio_unitario }} €</span>
+                <span class="carrito__item-nombre">{{ item.producto.nombre }}</span>
+                
+                <span class="carrito__item-cantidad">(Cantidad: {{ item.cantidad }})</span>
+
+                <span class="carrito__item-precio">{{ item.precio_unitario | number:'1.0-2'}} €</span>
+
+                <button 
+                    class="carrito__item-eliminar" 
+                    type="button"
+                    (click)="eliminarProducto(item.id)">&times; 
+                </button>
             </li>
         </ul>
 
-        <p class="carrito__total">Total: <span class="carrito__total-cantidad">{{ totalCarrito | number:'1.2-2' }} €</span></p>
+        <p class="carrito__total">Total: <span class="carrito__total-cantidad">{{ totalCarrito | number:'1.0-2' }} €</span></p>
 
     </div>
 </div>

@@ -38,9 +38,28 @@ export class CarritoComponent implements OnInit {
   }
 
   calcularTotal(): void {
+    // 👇 --- ¡AQUÍ ESTÁ EL ARREGLO! ---
+    // Ahora suma la columna 'precio_total' de cada línea
     this.totalCarrito = this.productosDelCarrito.reduce(
-      (acumulador, item) => acumulador + parseFloat(item.precio_unitario), // <-- ¡ARREGLADO!
+      (acumulador, item) => acumulador + parseFloat(item.precio_total), 
       0 
     );
+  }
+
+  eliminarProducto(itemId: number): void {
+    
+    console.log('Solicitando eliminar el item ID:', itemId);
+    
+    // Llamamos a la función del servicio
+    this.cartService.removeProduct(itemId).subscribe({
+      
+      next: (respuesta) => {
+        console.log('Producto eliminado con éxito', respuesta);
+      },
+      error: (err) => {
+        console.error('Error al eliminar el producto:', err);
+        alert('No se pudo eliminar el producto.');
+      }
+    });
   }
 }

@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { Router } from '@angular/router';
+import { CartService } from './cart.service';
 
 
 @Injectable({
@@ -18,7 +19,8 @@ export class AuthService {
   
   constructor(
     private http: HttpClient,
-    private router: Router
+    private router: Router,
+    private cartService: CartService
   ) { }
 
   
@@ -45,6 +47,8 @@ isLoggedIn(): boolean {
   logout(): void {
     // Borramos el token de la memoria del navegador
     localStorage.removeItem('token');
+    // Borramos la memoria del carrito para que no lo vea el siguiente usuario a loguearse
+    this.cartService.clearCart();
     
     // Redirigimos al usuario a la página de inicio
     console.log('Sesión cerrada. ¡Hasta la próxima!');

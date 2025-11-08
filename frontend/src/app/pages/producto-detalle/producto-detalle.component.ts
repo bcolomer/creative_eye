@@ -21,7 +21,7 @@ export class ProductoDetalleComponent implements OnInit {
 
   // *** Controlar en caso de no encontrar un producto ****
   errorMessage: string | null = null; // Para guardar el mensaje de error
-
+  public cantidad: number = 1;
 
   constructor(
     private route: ActivatedRoute, // Para leer la URL
@@ -57,18 +57,28 @@ export class ProductoDetalleComponent implements OnInit {
     }
   }
 
-  // Llamamos al CartService para añadir el producto actual al carrito.
-  addToCart(): void {
+  actualizarCantidad(valor: number): void {
+    const nuevaCantidad = this.cantidad + valor;
+    
+    if (nuevaCantidad >= 1) {
+      this.cantidad = nuevaCantidad;
+    }
+  }
 
+  // Llamamos al CartService para añadir el producto actual al carrito.
+addToCart(): void { 
     if (this.producto) {
-      this.cartService.addProduct(this.producto).subscribe({
+      
+      // 4. AHORA lee la cantidad de 'this.cantidad'
+      this.cartService.addProduct(this.producto, this.cantidad).subscribe({
         
-      // "next" se ejecuta si la API da OK
-      next: (respuesta) => {
-        console.log('Producto añadido con éxito', respuesta);
-        alert('¡Producto añadido al carrito!'); 
-      },
-      error: (err) => {
+        next: (respuesta) => {
+          console.log('Producto añadido con éxito', respuesta);
+          alert('¡Producto añadido al carrito!'); 
+          // (Opcional) Resetea la cantidad a 1 después de añadir
+          this.cantidad = 1; 
+        },
+        error: (err) => {
           console.error('Error al añadir el producto:', err);
           alert('No se pudo añadir el producto. Inténtalo de nuevo.');
         }
