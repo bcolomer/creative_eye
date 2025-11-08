@@ -12,6 +12,8 @@ return new class extends Migration {
             $table->string('nombre');
             $table->string('nombre_usuario')->unique();
             $table->string('foto')->nullable();
+            $table->string('password');
+
             $table->foreignId('rol_id')->constrained('roles', column: 'rol_id')->cascadeOnDelete();
             $table->timestamps();
         });
