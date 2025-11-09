@@ -122,5 +122,3 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 > “Captura el momento. Crea tu visión.”
 
 
-
-

@@ -1,0 +1,108 @@
+
+import { Injectable } from '@angular/core';
+
+import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
+
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+
+
+@Injectable({
+  providedIn: 'root'
+})
+
+
+export class CartService {
+
+  // URL de la api que llamará al backend
+  private apiUrl = '/api';
+
+  // Es un 'BehaviorSubject' guarda una lista de productos (tipo any[]).
+  private cartItems = new BehaviorSubject<any[]>([]); // Inicializamos con la lista vacía
+
+  // El '$' al final ($) es una convención para nombrar Observables.
+  public cartItems$ = this.cartItems.asObservable();
+
+  constructor(private http: HttpClient) {
+
+  }
+
+  
+  //Cargar el carrito guardado (de la BBDD) Llama a la ruta de Cliente: GET /api/orders/my
+  
+  loadCart(): Observable<any> {
+    console.log('Cargando carrito...');
+    
+    // 1. Llamamos a la API
+    const peticion = this.http.get<any[]>(`${this.apiUrl}/order-products`);
+
+    // 2. Usamos .pipe(tap(...)) para "espiar" la respuesta y actualizar nuestra memoria local
+    return peticion.pipe(
+      tap(datos => {
+        console.log('Carrito cargado de la BBDD:', datos);
+        this.cartItems.next(datos); // ¡Actualizamos la memoria!
+      }),
+      catchError((err) => {
+        // Si la API falla (403, 404, 500...)
+        console.error('Error al cargar el carrito:', err);
+        // Publicamos un array vacío para que la app no se rompa
+        this.cartItems.next([]); 
+        // Re-lanzamos el error (opcional, pero buena práctica)
+        return throwError(() => err); 
+      })
+    );
+  }
+
+  addProduct(producto: any, cantidad: number): Observable<any> {
+
+    console.log(`Enviando ${cantidad} del producto a la base de datos...`, producto);
+
+    const payload = {
+      producto_id: producto.producto_id,
+      cantidad: cantidad 
+    };
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    };
+
+
+    // Hacemos la petición POST
+    const peticion = this.http.post(`${this.apiUrl}/order-products`, payload, httpOptions);
+
+    // Actualizamos la memoria local con la respuesta que nos dé el backend (carrito actualizado).
+    return peticion.pipe(
+      tap(respuesta => {
+        console.log('Respuesta de añadir producto:', respuesta);
+        
+        // le volvemos a pedir al backend la lista 100% actualizada
+        this.loadCart().subscribe();
+      })
+    );
+  }
+
+
+  // Limpiamos el carrito del usuario logeado para que el siguiente usuario no lo vea
+  clearCart(): void {
+    this.cartItems.next([]);
+  }
+
+
+  removeProduct(itemId: number): Observable<any> {
+    
+    console.log(`CartService: Eliminando item ${itemId} (DELETE /api/order-products/${itemId})...`);
+
+    // 1. Hacemos la petición DELETE a la API
+    const peticion = this.http.delete(`${this.apiUrl}/order-products/${itemId}`);
+
+    return peticion.pipe(
+      tap(respuesta => {
+        console.log('Respuesta de eliminar producto:', respuesta);
+        // Recargamos el carrito
+        this.loadCart().subscribe();
+      })
+    );
+  }
+}

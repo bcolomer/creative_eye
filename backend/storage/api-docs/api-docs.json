@@ -1,0 +1,2049 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Gestión — Proyecto Integrado",
+        "description": "\n *     ## 📘 Descripción general\n *     Esta API está desarrollada en **Laravel 11 + Sanctum**, y permite la gestión completa de usuarios, roles, productos, categorías y pedidos.\n *\n *     ---\n *     ## 🔒 Autenticación\n *     - Usa **Laravel Sanctum** (token tipo *Bearer*).\n *     - Para probar endpoints protegidos, primero realiza un **login** (`/api/login`) y luego haz clic en **Authorize** en la parte superior derecha de Swagger.\n *     - Introduce el token devuelto por el login con el formato:\n *\n *       ```\n *       Bearer TU_TOKEN_AQUI\n *       ```\n *\n *     ---\n *     ## 🧩 Roles y permisos\n *     El middleware `role` controla el acceso según el rol del usuario autenticado:\n *\n *     | Rol                     | ID | Permisos principales                                               |\n *     |-------------------------|----|--------------------------------------------------------------------|\n *     | 🧑‍💼 **Administrador** | 1  | Gestión completa: usuarios, roles, pedidos propios                 |\n *     | 📦 **Almacén**         | 2  | CRUD de productos, categorías y gestión de pedidos                  |\n *     | 🛍️ **Cliente**         | 3  | Puede crear y consultar sus propios pedidos                         |\n *\n *     ---\n *     ## 🚦 Códigos de respuesta comunes\n *     | Código  | Significado                                 |\n *     |---------|---------------------------------------------|\n *     | 200     | Operación exitosa                           |\n *     | 201     | Recurso creado                              |\n *     | 401     | No autenticado (sin token o token inválido) |\n *     | 403     | Acceso denegado (rol no autorizado)         |\n *     | 404     | Recurso no encontrado                       |\n *     | 422     | Error de validación de datos                |\n *     | 500     | Error interno del servidor                  |\n *     ",
+        "contact": {
+            "name": "Equipo de desarrollo",
+            "email": "david.marquez.cordoba@gmail.com, barbaracolomer@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://127.0.0.1:8000",
+            "description": "Servidor principal"
+        }
+    ],
+    "paths": {
+        "/api/login": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Iniciar sesión",
+                "description": "Permite al usuario autenticarse y obtener un token de acceso (Sanctum). Puedes usar cualquiera de los siguientes usuarios de prueba:\n     *         - **Administrador:** juan@administrador.com / 12345678\n     *         - **Almacén:** jose@almacen.com / 12345678\n     *         - **Cliente:** pedro@cliente.com / 12345678",
+                "operationId": "222b2625838e3c57e017987f73598fda",
+                "requestBody": {
+                    "description": "Credenciales del usuario",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre_usuario",
+                                    "password"
+                                ],
+                                "oneOf": [
+                                    {
+                                        "properties": {
+                                            "nombre_usuario": {
+                                                "type": "string",
+                                                "example": "juan@administrador.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "12345678"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "properties": {
+                                            "nombre_usuario": {
+                                                "type": "string",
+                                                "example": "jose@almacen.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "12345678"
+                                            }
+                                        },
+                                        "type": "object"
+                                    },
+                                    {
+                                        "properties": {
+                                            "nombre_usuario": {
+                                                "type": "string",
+                                                "example": "pedro@cliente.com"
+                                            },
+                                            "password": {
+                                                "type": "string",
+                                                "example": "12345678"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inicio de sesión correcto",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Inicio de sesión correcto"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan Palomo"
+                                                },
+                                                "nombre_usuario": {
+                                                    "type": "string",
+                                                    "example": "juan@administrador.com"
+                                                },
+                                                "rol_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|eyJhbGciOiJIUzI1..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Credenciales incorrectas"
+                    },
+                    "422": {
+                        "description": "Error de validación de datos"
+                    }
+                }
+            }
+        },
+        "/api/register": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Registrar un nuevo usuario",
+                "description": "Crea un nuevo usuario con rol de cliente (3) y devuelve su token de acceso",
+                "operationId": "8e4e3cb7b46126f4696379d3c7eeb4ad",
+                "requestBody": {
+                    "description": "Datos del usuario a registrar",
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "nombre_usuario",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Maria LaPaz"
+                                    },
+                                    "nombre_usuario": {
+                                        "type": "string",
+                                        "format": "email",
+                                        "example": "marialapaz@cliente.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario registrado correctamente"
+                                        },
+                                        "usuario": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Maria LaPaz"
+                                                },
+                                                "nombre_usuario": {
+                                                    "type": "string",
+                                                    "example": "marialapaz@cliente.com"
+                                                },
+                                                "rol_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "token": {
+                                            "type": "string",
+                                            "example": "1|eyJhbGciOiJIUzI1..."
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "tags": [
+                    "Autenticación"
+                ],
+                "summary": "Cerrar sesión",
+                "description": "Cierra la sesión del usuario autenticado y elimina su token",
+                "operationId": "ad65cbbd4e9f201619eae184a5961a98",
+                "responses": {
+                    "200": {
+                        "description": "Sesión cerrada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Sesión cerrada correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories": {
+            "get": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Listar todas las categorías",
+                "description": "Devuelve un listado con todas las categorías registradas. Endpoint público (no requiere autenticación).",
+                "operationId": "ac9c4d978ea4e5b72915ca9728e5b8b1",
+                "responses": {
+                    "200": {
+                        "description": "Lista de categorías",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "categoria_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Iluminación"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Crear una nueva categoría",
+                "description": "Permite crear una categoría nueva (requiere rol de **almacén** o **administrador**).\n     *     Ejemplo: crear una categoría llamada `Iluminación`.",
+                "operationId": "cca49a87d9b0ebb9a98ad7c154b71737",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Iluminación"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Categoría creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categoría creada correctamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "categoria_id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Iluminación"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "403": {
+                        "description": "Prohibido - No autorizado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/categories/{id}": {
+            "get": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Mostrar una categoría específica",
+                "description": "Devuelve los datos de una categoría en función de su ID.\n     *     Ejemplo: `/api/categories/1` devuelve la categoría 'Iluminación'.",
+                "operationId": "09767bb2e47dde77dd1e2591428b0ae1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría encontrada",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "categoria_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Iluminación"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Actualizar una categoría existente",
+                "description": "Permite modificar el nombre de una categoría (requiere rol de **almacén** o **administrador**).",
+                "operationId": "7dcf71887e585de7f881e9eb98d86126",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Iluminación interior"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Categoría actualizada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categoría actualizada correctamente"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "categoria_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Iluminación interior"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Categorías"
+                ],
+                "summary": "Eliminar una categoría",
+                "description": "Elimina una categoría específica (solo **almacén** o **administrador**).\n     *     Ejemplo: `/api/categories/10` eliminará la categoría Iluminación.",
+                "operationId": "9b61b65823f4a21f182506b34ddf805c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la categoría a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Categoría eliminada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Categoría eliminada correctamente"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "404": {
+                        "description": "Categoría no encontrada"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/health": {
+            "get": {
+                "tags": [
+                    "Sistema"
+                ],
+                "summary": "Verifica el estado del servidor",
+                "description": "Devuelve información básica del entorno y la versión de Laravel.",
+                "operationId": "86f59596b50693fd899d11bc931d8060",
+                "responses": {
+                    "200": {
+                        "description": "API operativa",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "ok": {
+                                            "type": "boolean",
+                                            "example": true
+                                        },
+                                        "app": {
+                                            "type": "string",
+                                            "example": "API Tienda"
+                                        },
+                                        "env": {
+                                            "type": "string",
+                                            "example": "local"
+                                        },
+                                        "laravel": {
+                                            "type": "string",
+                                            "example": "11.x"
+                                        },
+                                        "time": {
+                                            "type": "string",
+                                            "example": "2025-11-07T15:32:00Z"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/orders": {
+            "get": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Listar todos los pedidos",
+                "description": "Muestra todos los pedidos con su usuario y productos asociados.\n     *     <b>Solo accesible por roles de Almacén.</b>",
+                "operationId": "955bb77a45ae173a485fadb8befed93f",
+                "responses": {
+                    "200": {
+                        "description": "Lista de pedidos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "pedido_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "usuario_id": {
+                                                "type": "integer",
+                                                "example": 5
+                                            },
+                                            "total_pedido": {
+                                                "type": "number",
+                                                "example": 149.99
+                                            },
+                                            "fecha_pedido": {
+                                                "type": "string",
+                                                "example": "2025-11-07"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Crear un nuevo pedido",
+                "description": "Permite crear un pedido con uno o varios productos.\n     *     Cada item debe incluir `producto_id` y `cantidad`.\n     *     <b>Solo accesible para usuarios autenticados (Cliente o Administrador).</b>",
+                "operationId": "2123ba58dadb22bd6f2c8081af562230",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "items"
+                                ],
+                                "properties": {
+                                    "items": {
+                                        "type": "array",
+                                        "items": {
+                                            "properties": {
+                                                "producto_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "cantidad": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Pedido creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Pedido creado correctamente"
+                                        },
+                                        "pedido": {
+                                            "properties": {
+                                                "pedido_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "usuario_id": {
+                                                    "type": "integer",
+                                                    "example": 7
+                                                },
+                                                "total_pedido": {
+                                                    "type": "number",
+                                                    "example": 199.99
+                                                },
+                                                "fecha_pedido": {
+                                                    "type": "string",
+                                                    "example": "2025-11-07"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders/{id}": {
+            "get": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Mostrar un pedido específico",
+                "description": "Devuelve un pedido con su usuario y productos asociados.\n     *     <b>Solo accesible para el rol de Almacén.</b>",
+                "operationId": "88d27387b1e409e075c18609d4a0c300",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido encontrado"
+                    },
+                    "404": {
+                        "description": "Pedido no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Actualizar un pedido",
+                "description": "Permite modificar un pedido existente.\n     *     <b>Solo accesible para el rol de Almacén.</b>",
+                "operationId": "38a1b85e8294795a1b0dc438a36e319f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "usuario_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "fecha_pedido": {
+                                        "type": "string",
+                                        "example": "2025-11-07"
+                                    },
+                                    "total_pedido": {
+                                        "type": "number",
+                                        "example": 89.9
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Pedido actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Pedido no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Eliminar un pedido",
+                "description": "Elimina un pedido existente.\n     *     <b>Solo accesible para el rol de Almacén.</b>",
+                "operationId": "bab875a1ed962fb33565ab9b48c0d494",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Pedido eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Pedido no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/orders/my": {
+            "get": {
+                "tags": [
+                    "Pedidos"
+                ],
+                "summary": "Listar pedidos del usuario autenticado",
+                "description": "Devuelve todos los pedidos del usuario autenticado junto con sus productos.\n     *     <b>Accesible para Administrador y Cliente (solo sus propios pedidos).</b>",
+                "operationId": "52a30ee2f7e8302d90c2c69040795c9e",
+                "responses": {
+                    "200": {
+                        "description": "Pedidos del usuario autenticado"
+                    },
+                    "404": {
+                        "description": "No se encontraron pedidos para este usuario"
+                    },
+                    "401": {
+                        "description": "Usuario no autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/order-products": {
+            "get": {
+                "tags": [
+                    "Detalles de Pedido"
+                ],
+                "summary": "Listar los productos del carrito activo",
+                "description": "Devuelve los productos asociados al pedido en estado 'pendiente'\n     * (carrito) del usuario autenticado.",
+                "operationId": "d577df37f526b57e8586016c7e55dbbd",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos en el carrito",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "producto_id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "cantidad": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "precio_unitario": {
+                                                "type": "number",
+                                                "example": 49.99
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "El usuario no tiene un carrito activo"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Detalles de Pedido"
+                ],
+                "summary": "Añadir un producto a un pedido (Carrito)",
+                "description": "Crea una nueva línea de pedido (o actualiza la cantidad)\n     * para el 'carrito' (pedido pendiente) del usuario autenticado.",
+                "operationId": "bdd3e78dc80156a586840335de0fa416",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "producto_id",
+                                    "cantidad"
+                                ],
+                                "properties": {
+                                    "producto_id": {
+                                        "type": "integer",
+                                        "example": 5
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 1
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto añadido/actualizado en el carrito"
+                    },
+                    "422": {
+                        "description": "Error de validación (ej. producto_id no existe)"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado en BBDD"
+                    },
+                    "403": {
+                        "description": "Acceso denegado (ej. rol de Almacén intentando comprar)"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/order-products/{id}": {
+            "get": {
+                "tags": [
+                    "Detalles de Pedido"
+                ],
+                "summary": "Mostrar un detalle de pedido específico",
+                "description": "Devuelve la información completa de una línea de pedido (pedido + producto).",
+                "operationId": "880913b0cf75af33fc23138b5f54126f",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle encontrado"
+                    },
+                    "404": {
+                        "description": "Detalle no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Detalles de Pedido"
+                ],
+                "summary": "Actualizar un detalle de pedido",
+                "description": "Permite modificar cantidad o precio unitario de una línea de pedido.\n     *     Recalcula automáticamente el precio total.",
+                "operationId": "a933312cb02de0c84b1fd9f165f78469",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 7
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "precio_unitario": {
+                                        "type": "number",
+                                        "example": 59.9
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Detalle actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Detalle no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Detalles de Pedido"
+                ],
+                "summary": "Eliminar un detalle de pedido",
+                "description": "Elimina una línea de pedido específica (producto de un pedido).\n     *     **Solo accesible por roles de Almacén o Administrador.**",
+                "operationId": "3bf16132af4c3935b08ce03dcc43f11c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del detalle de pedido",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalle eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Detalle no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Listar todos los productos",
+                "description": "Devuelve un listado de todos los productos disponibles. Endpoint público (sin autenticación).",
+                "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
+                "responses": {
+                    "200": {
+                        "description": "Lista de productos",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "producto_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Lámpara de escritorio"
+                                            },
+                                            "precio": {
+                                                "type": "number",
+                                                "example": 39.99
+                                            },
+                                            "cantidad": {
+                                                "type": "integer",
+                                                "example": 25
+                                            },
+                                            "codigo": {
+                                                "type": "string",
+                                                "example": "LPD-001"
+                                            },
+                                            "categoria_id": {
+                                                "type": "integer",
+                                                "example": 3
+                                            },
+                                            "foto": {
+                                                "type": "string",
+                                                "example": "https://example.com/lampara.jpg"
+                                            },
+                                            "descripcion": {
+                                                "type": "string",
+                                                "example": "Lámpara de escritorio LED con brazo flexible."
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Crear un nuevo producto",
+                "description": "Crea un nuevo producto en la base de datos. **Solo accesible para roles de Almacén o Administrador.**",
+                "operationId": "785644b7d7dd38af4b51dafd0fbc1b6d",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "precio",
+                                    "cantidad",
+                                    "codigo"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Lámpara de pie moderna"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": 89.9
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 15
+                                    },
+                                    "codigo": {
+                                        "type": "string",
+                                        "example": "LPM-002"
+                                    },
+                                    "categoria_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://example.com/lampara-pie.jpg"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Lámpara moderna con base metálica y luz cálida."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Producto creado correctamente"
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/products/{producto_id}": {
+            "get": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Mostrar un producto específico",
+                "description": "Devuelve la información detallada de un producto en función de su ID. Endpoint público.",
+                "operationId": "8aa1ea210d4fa1e20a5872734e4fdc8c",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "path",
+                        "description": "ID del producto a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 1
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto encontrado"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Actualizar un producto",
+                "description": "Permite modificar los datos de un producto existente. **Solo accesible para roles de Almacén o Administrador.**",
+                "operationId": "464eb73e3b797bf82e77553a3a897a75",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Lámpara LED actualizada"
+                                    },
+                                    "precio": {
+                                        "type": "number",
+                                        "example": 59.99
+                                    },
+                                    "cantidad": {
+                                        "type": "integer",
+                                        "example": 30
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://example.com/lampara-nueva.jpg"
+                                    },
+                                    "descripcion": {
+                                        "type": "string",
+                                        "example": "Lámpara con nuevo diseño y más brillo."
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Producto actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Productos"
+                ],
+                "summary": "Eliminar un producto",
+                "description": "Elimina un producto del catálogo. **Solo accesible para roles de Almacén o Administrador.**",
+                "operationId": "1b3d844112ed95332546dc1198504660",
+                "parameters": [
+                    {
+                        "name": "producto_id",
+                        "in": "path",
+                        "description": "ID del producto a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Producto eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Producto no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/profile": {
+            "get": {
+                "tags": [
+                    "Perfil"
+                ],
+                "summary": "Obtener el perfil del usuario autenticado",
+                "description": "Devuelve la información del usuario que ha iniciado sesión.\n     *     Debes iniciar sesión primero (usa el token del endpoint `/api/login` y haz clic en **Authorize**).",
+                "operationId": "f1784685f8270527da017b3616288443",
+                "responses": {
+                    "200": {
+                        "description": "Perfil obtenido correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "usuario_id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Juan Administrador"
+                                        },
+                                        "nombre_usuario": {
+                                            "type": "string",
+                                            "example": "juan@administrador.com"
+                                        },
+                                        "foto": {
+                                            "type": "string",
+                                            "example": "https://randomuser.me/api/portraits/men/33.jpg"
+                                        },
+                                        "rol_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Perfil"
+                ],
+                "summary": "Actualizar el perfil del usuario autenticado",
+                "description": "Permite modificar los datos personales del usuario logueado.\n     *     Se pueden enviar uno o varios campos, todos son opcionales.\n     *     Si se envía `password`, debe incluir también `password_confirmation`.",
+                "operationId": "875e8801180287e4193f1aced9023960",
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Juan A. Pérez"
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://randomuser.me/api/portraits/men/40.jpg"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    },
+                                    "password_confirmation": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Perfil actualizado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Perfil actualizado correctamente"
+                                        },
+                                        "user": {
+                                            "properties": {
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Juan A. Pérez"
+                                                },
+                                                "foto": {
+                                                    "type": "string",
+                                                    "example": "https://randomuser.me/api/portraits/men/40.jpg"
+                                                },
+                                                "rol_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autenticado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Listar todos los roles",
+                "description": "Devuelve todos los roles disponibles en el sistema.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "ca86f0a206144dfbd695b749b4b28f9d",
+                "responses": {
+                    "200": {
+                        "description": "Lista de roles",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "rol_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Administrador"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Crear un nuevo rol",
+                "description": "Permite crear un nuevo rol en el sistema.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "341b8b162b61267c7bd187500aea5bc4",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Supervisor"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Rol creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Rol creado correctamente"
+                                        },
+                                        "rol": {
+                                            "properties": {
+                                                "rol_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Supervisor"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Mostrar un rol específico",
+                "description": "Devuelve los datos de un rol según su ID.",
+                "operationId": "15c404caf238f1861c81f68205d328e5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rol encontrado"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Actualizar un rol existente",
+                "description": "Permite modificar el nombre de un rol existente.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "c73ab816ae8fb7c34a995d37ba577082",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Empleado"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Rol actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Eliminar un rol",
+                "description": "Elimina un rol existente del sistema.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "ffa6ef115d86b00cc6c54a6210019f9c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del rol a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 4
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Rol eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Rol no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Listar todos los usuarios",
+                "description": "Devuelve una lista con todos los usuarios del sistema junto con su rol.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "566aed8efb436ca506e0ef51a032ecd9",
+                "responses": {
+                    "200": {
+                        "description": "Lista de usuarios obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "usuario_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "nombre": {
+                                                "type": "string",
+                                                "example": "Juan Pérez"
+                                            },
+                                            "nombre_usuario": {
+                                                "type": "string",
+                                                "example": "juan@administrador.com"
+                                            },
+                                            "foto": {
+                                                "type": "string",
+                                                "example": "https://randomuser.me/api/portraits/men/22.jpg"
+                                            },
+                                            "rol": {
+                                                "properties": {
+                                                    "rol_id": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Administrador"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Crear un nuevo usuario",
+                "description": "Crea un nuevo usuario en la base de datos.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "be551c1d694a01c164966f58bfa77013",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "nombre",
+                                    "nombre_usuario",
+                                    "rol_id",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "Laura Gómez"
+                                    },
+                                    "nombre_usuario": {
+                                        "type": "string",
+                                        "example": "laura@creative.es"
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://randomuser.me/api/portraits/women/12.jpg"
+                                    },
+                                    "rol_id": {
+                                        "type": "integer",
+                                        "example": 3
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "12345678"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario creado correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Usuario creado correctamente"
+                                        },
+                                        "usuario": {
+                                            "properties": {
+                                                "usuario_id": {
+                                                    "type": "integer",
+                                                    "example": 4
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Laura Gómez"
+                                                },
+                                                "nombre_usuario": {
+                                                    "type": "string",
+                                                    "example": "laura@creative.es"
+                                                },
+                                                "rol_id": {
+                                                    "type": "integer",
+                                                    "example": 3
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/users/{id}": {
+            "get": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Mostrar un usuario específico",
+                "description": "Devuelve los datos de un usuario, incluyendo su rol, según su ID.",
+                "operationId": "6f51bd5fa2dddcd25e44cfa53dcbd10a",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a consultar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 2
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario encontrado"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "put": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Actualizar un usuario existente",
+                "description": "Permite actualizar los datos de un usuario, incluyendo su rol o contraseña.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "070e37fc9aff78ae73860751bc990ed3",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a actualizar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 3
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": false,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "nombre": {
+                                        "type": "string",
+                                        "example": "José Fernández"
+                                    },
+                                    "foto": {
+                                        "type": "string",
+                                        "example": "https://randomuser.me/api/portraits/men/12.jpg"
+                                    },
+                                    "rol_id": {
+                                        "type": "integer",
+                                        "example": 2
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "123456789"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Usuario actualizado correctamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Usuarios"
+                ],
+                "summary": "Eliminar un usuario",
+                "description": "Elimina un usuario del sistema.\n     *     **Solo accesible para el rol Administrador.**",
+                "operationId": "0b4133ed462528a5e648b88ead11e929",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID del usuario a eliminar",
+                        "required": true,
+                        "schema": {
+                            "type": "integer",
+                            "example": 5
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Usuario eliminado correctamente"
+                    },
+                    "404": {
+                        "description": "Usuario no encontrado"
+                    }
+                },
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "bearerAuth": {
+                "type": "http",
+                "description": "Autenticación por token Bearer (Laravel Sanctum)",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Autenticación",
+            "description": "Endpoints para registro, login y cierre de sesión"
+        },
+        {
+            "name": "Categorías",
+            "description": "Gestión de categorías de productos (visualización pública y administración por roles)"
+        },
+        {
+            "name": "Sistema",
+            "description": "Rutas de comprobación del estado del servidor"
+        },
+        {
+            "name": "Pedidos",
+            "description": "Gestión de pedidos: creación, consulta, actualización y eliminación de pedidos.\n *     - Los usuarios con rol **Almacén** pueden gestionar todos los pedidos.\n *     - Los usuarios con rol **Administrador** o **Cliente** pueden consultar únicamente los suyos."
+        },
+        {
+            "name": "Detalles de Pedido",
+            "description": "Gestión de productos asociados a un pedido (líneas del pedido)"
+        },
+        {
+            "name": "Productos",
+            "description": "Gestión de productos (públicos para visualización, privados para CRUD por roles de almacén o administrador)"
+        },
+        {
+            "name": "Perfil",
+            "description": "Operaciones relacionadas con el perfil del usuario autenticado"
+        },
+        {
+            "name": "Roles",
+            "description": "Gestión de roles de usuario (solo accesible para administradores)"
+        },
+        {
+            "name": "Usuarios",
+            "description": "Gestión de usuarios del sistema (solo accesible para administradores)"
+        }
+    ]
+}

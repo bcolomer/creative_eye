@@ -1,25 +1,41 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
-import { HealthService } from './services/health.service';
+import { RouterOutlet, RouterLink } from '@angular/router';
+import { CartService } from './services/cart.service';
+// import { HealthService } from './services/health.service';
+// import { LoginComponent } from './pages/login/login.component';
+import { AuthService } from './services/auth.service';
 
+// LoginComponent - Prueba
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet],
+  imports: [CommonModule, RouterOutlet, RouterLink],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements OnInit { 
   title = 'frontend';
-  msg = '';
 
-  constructor(private health: HealthService) {}
+  public cartItemCount: number = 0;
 
-  checkApi() {
-    this.health.ping().subscribe({
-      next: (res) => (this.msg = `✅ API ok: Laravel ${res.laravel} (${res.time})`),
-      error: (err) => (this.msg = `❌ Error: ${err.message}`)
+  constructor(
+    private cartService: CartService,
+    private authService: AuthService
+  ) {}
+
+  ngOnInit(): void {
+
+    this.cartService.cartItems$.subscribe(items => {
+
+      this.cartItemCount = items.length;
+      console.log('Cambios en carrito:', this.cartItemCount);
     });
+
+    if (this.authService.isLoggedIn()) {
+      // Si SÍ lo está, le decimos al CartService que cargue el carrito de la bbdd
+      console.log('Usuario ya logueado, cargando carrito...');
+      this.cartService.loadCart().subscribe();
+    }
   }
 }
