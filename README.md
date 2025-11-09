@@ -40,7 +40,7 @@ Este es el entregable para la revisión del proyecto.
 
 * **Estado:** Se ha completado el 100% de la API REST del Backend (ver `routes/api.php`) y se ha iniciado la lógica del Frontend (login/logout, carrito, catálogo, productos-detalles).
 * **Bitácora (Histórico de Tareas):** https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link
-* **Vídeo Explicativo (5 min):** > **[]**
+* **Vídeo Explicativo (5 min):** > **https://youtu.be/XC-a1BShykY**
 
 ---
 
@@ -108,6 +108,7 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 - 📱 **Presentación del prototipo:** https://www.figma.com/proto/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=72-570&p=f&t=rtxvLnMmATTED3Yf-1&scaling=contain&content-scaling=fixed&page-id=0%3A1&starting-point-node-id=72%3A570
 - 🖼️ **Diseño (Prototipo Alta/Baja Fidelidad & Átomos/UI kit):** https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1
 - 📝 **Presentación PDF (Entrega Final):** https://1drv.ms/b/c/154c4a205c4d6e44/EXH8U7NGRNBCpPtqlgRNIWkBjT1raq8gwEglBAijzGbKrw?e=rHgaYw
+- 📹 **Vídeo checkpoint (5 min):** https://youtu.be/XC-a1BShykY
 - 🎬 **Vídeo Final (10 min):** 
 
 ---
@@ -119,5 +120,6 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com  
 
 > “Captura el momento. Crea tu visión.”
+
 
 
