@@ -40,7 +40,7 @@ Este es el entregable para la revisión del proyecto.
 
 * **Estado:** Se ha completado el 100% de la API REST del Backend (ver `routes/api.php`) y se ha iniciado la lógica del Frontend (login/logout, carrito, catálogo, productos-detalles).
 * **Bitácora (Histórico de Tareas):** https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link
-* **Vídeo Explicativo (5 min):** > **https://youtu.be/XC-a1BShykY**
+* **Vídeo Explicativo (5 min):** > https://youtu.be/XC-a1BShykY
 
 ---
 
@@ -120,6 +120,7 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com  
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
