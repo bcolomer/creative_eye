@@ -960,6 +960,9 @@
                     },
                     "404": {
                         "description": "Producto no encontrado en BBDD"
+                    },
+                    "403": {
+                        "description": "Acceso denegado (ej. rol de Almacén intentando comprar)"
                     }
                 },
                 "security": [

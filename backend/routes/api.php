@@ -43,8 +43,12 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // GET /api/order-products (para ver el carrito)
     Route::get('/order-products', [OrderProductController::class, 'index']);
 
-    // POST /api/order-products (para añadir/actualizar producto en carrito)
+    // POST PUT /api/order-products (para añadir/actualizar producto en carrito)
     Route::post('/order-products', [OrderProductController::class, 'store']);
+    Route::put('/order-products/{id}', [OrderProductController::class, 'update']);
+    // /api/order-products/{id} elimina un producto del pedido id
+    Route::delete('/order-products/{id}', [OrderProductController::class, 'destroy']);
+    Route::get('/order-products/{id}', [OrderProductController::class, 'show']);
 
 
 
@@ -70,9 +74,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/orders', [OrderController::class, 'index']);
         //    Route::apiResource('order-products', OrderProductController::class);
 
-        Route::get('/order-products/{id}', [OrderProductController::class, 'show']);
-        Route::put('/order-products/{id}', [OrderProductController::class, 'update']);
-        Route::delete('/order-products/{id}', [OrderProductController::class, 'destroy']);
+        //   Route::get('/order-products/{id}', [OrderProductController::class, 'show']);
+        // Route::put('/order-products/{id}', [OrderProductController::class, 'update']);
+        //  Route::delete('/order-products/{id}', [OrderProductController::class, 'destroy']);
     });
 
     //CLIENTE (rol_id = 3)
