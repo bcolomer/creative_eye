@@ -97,8 +97,47 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 ---
 
 ## 🧭 Estado del proyecto
-🚀 *Commit inicial:* configuración del repositorio y README.  
-🧩 *Repositorio en desarrollo*
+
+🚀 **Commit inicial:** Configuración del repositorio y README.  
+🔨 **Repositorio en desarrollo.**  
+📦 **Avances alcanzados:**
+
+### ✅ **Backend:**
+- API con Laravel configurada.
+- Rutas y controladores definidos.
+- Sistema de autenticación básico:
+    - **Login** y **registro** funcionando.
+- Documentación de la API con **Swagger** implementada.
+- Estructura de la base de datos definida y migraciones básicas realizadas.
+- Seeders y factories en desarrollo.
+
+### ✅ **Frontend:**
+- Proyecto Angular (Standalone Components) estructurado y configurado.
+- Sistema de **Rutas** (`RouterModule`) implementado con:
+    - **Rutas públicas** (`/productos`).
+    - **Rutas privadas** protegidas (`/perfil`).
+- **Autenticación completa**:
+    - **Login** (con guardado de token en `localStorage`).
+    - **Logout** (eliminación de token).
+    - **AuthGuard** (protección de rutas).
+    - **AuthInterceptor** (envío del token a la API).
+- **Servicios (`HttpClient`)** creados para consumir la API REST:
+    - `AuthService`
+    - `ProductService`
+- **Catálogo de Productos** implementado:
+    - Vista de **Lista** (`/productos`).
+    - Vista de **Detalle** (`/producto/:id`) con manejo de 404.
+- **Metodología BEM** aplicada para la maquetación HTML.
+
+### ✅ **Otras tareas completadas:**
+- Progreso en el diseño y UX/UI con wireframes iniciales.
+
+### ❌ **Tareas por completar:**
+- Configuración inicial de **AWS** pendiente de implementación.
+- Completar la implementación de **migraciones** y **seeders** en el backend.
+- Finalizar el **diseño** del frontend y realizar pruebas de funcionalidad.
+- **Despliegue** del backend y frontend en **AWS**.
+- Terminación de la **documentación Swagger** y **README** completo del proyecto.
 
 ---
 
@@ -120,5 +159,6 @@ Desarrollar una tienda online especializada con foco en **experiencia de usuario
 📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com  
 
 > “Captura el momento. Crea tu visión.”
+
 
 
