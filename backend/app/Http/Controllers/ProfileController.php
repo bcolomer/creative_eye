@@ -28,8 +28,16 @@ class ProfileController extends Controller
     {
         $request->user()->fill($request->validated());
 
+        if ($request->hasFile('foto')) {
+
+            $path = $request->file('foto')->store('profile-photos', 'public');
+
+
+            $request->user()->foto = '/storage/' . $path;
+        }
+
         if ($request->user()->isDirty('nombre_usuario')) {
-            // $request->user()->email_verified_at = null;
+            $request->user()->email_verified_at = null;
         }
 
         $request->user()->save();

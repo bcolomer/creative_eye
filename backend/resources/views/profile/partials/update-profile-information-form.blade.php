@@ -13,7 +13,7 @@
         @csrf
     </form>
 
-    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6">
+    <form method="post" action="{{ route('profile.update') }}" class="mt-6 space-y-6" enctype="multipart/form-data">
         @csrf
         @method('patch')
 
@@ -25,9 +25,9 @@
 
         <div>
             <x-input-label for="nombre_usuario" :value="__('Nombre de Usuario (Email)')" />
-                      {{-- bloquea escribir en nombre de usuario para evitar modificarlo con disabled --}}
+                      {{-- bloquea escribir en nombre de usuario para evitar modificarlo con readonly --}}
 
-            <x-text-input id="nombre_usuario" name="nombre_usuario" type="email" class="mt-1 block w-full bg-gray-100" :value="old('nombre_usuario', $user->nombre_usuario)" required autocomplete="username" disabled />
+            <x-text-input id="nombre_usuario" name="nombre_usuario" type="email" class="mt-1 block w-full bg-gray-100 dark:bg-gray-700" :value="old('nombre_usuario', $user->nombre_usuario)" required autocomplete="username" readonly />
             <x-input-error class="mt-2" :messages="$errors->get('nombre_usuario')" />
             @if ($user instanceof \Illuminate\Contracts\Auth\MustVerifyEmail && ! $user->hasVerifiedEmail())
                 <div>
@@ -47,7 +47,15 @@
                 </div>
             @endif
         </div>
+        <div class="mt-4">
+            <x-input-label for="foto" :value="__('Foto de Perfil (Opcional)')" />
 
+            <img {{-- class="h-16 w-16 rounded-full object-cover my-2" --}} src="{{ $user->foto }}" alt="{{ $user->nombre }}">
+
+            <x-text-input id="foto" name="foto" type="file" class="mt-1 block w-full" />
+
+            <x-input-error class="mt-2" :messages="$errors->get('foto')" />
+        </div>
         <div class="flex items-center gap-4">
             <x-primary-button>{{ __('Save') }}</x-primary-button>
 
