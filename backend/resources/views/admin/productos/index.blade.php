@@ -56,9 +56,7 @@
 
                 @foreach ($productos as $producto)
 
-                    {{-- 1. La tarjeta AHORA es un enlace (<a>) --}}
-                    {{-- (La ruta 'productos.edit' aún no existe, la crearemos después)--}}
-                {{--     <div>eliminar este div si lo dejo como enlace a --}}
+
                     <a href="{{ route('productos.edit', $producto->producto_id) }}"
                        class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg
                               hover:shadow-lg transition-shadow duration-200">
@@ -72,8 +70,7 @@
                                 {{ $producto->nombre }}
                             </h3>
                         </div>
-                    </a> {{-- </div> eliminar este div si lo dejo como enlace  --}}
-                    {{-- Fin de la Card/Enlace --}}
+                    </a>
 
                 @endforeach
 

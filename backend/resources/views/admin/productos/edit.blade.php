@@ -65,7 +65,7 @@
                         {{-- CAMPO FOTO --}}
                         <div class="mt-4">
                             <x-input-label for="foto" :value="__('Foto de Producto (Opcional: Subir una nueva)')" />
-                            <img class="h-32 w-32 rounded-md object-cover my-2" src="{{ $producto->foto }}" alt="{{ $producto->nombre }}">
+                            <img class="h-full w-48 rounded-md object-cover my-2" src="{{ $producto->foto }}" alt="{{ $producto->nombre }}">
                             <x-text-input id="foto" name="foto" type="file" class="mt-1 block w-full" />
                             <x-input-error class="mt-2" :messages="$errors->get('foto')" />
                         </div>

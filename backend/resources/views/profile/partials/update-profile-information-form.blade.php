@@ -1,3 +1,6 @@
+@php
+    /** @var \App\Models\User $user */
+@endphp
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -49,11 +52,8 @@
         </div>
         <div class="mt-4">
             <x-input-label for="foto" :value="__('Foto de Perfil (Opcional)')" />
-
-            <img {{-- class="h-16 w-16 rounded-full object-cover my-2" --}} src="{{ $user->foto }}" alt="{{ $user->nombre }}">
-
+            <img  class="{{--h-16 w-16--}} rounded-md object-cover my-2"  src="{{ $user->foto }}" alt="{{ $user->nombre }}">
             <x-text-input id="foto" name="foto" type="file" class="mt-1 block w-full" />
-
             <x-input-error class="mt-2" :messages="$errors->get('foto')" />
         </div>
         <div class="flex items-center gap-4">
