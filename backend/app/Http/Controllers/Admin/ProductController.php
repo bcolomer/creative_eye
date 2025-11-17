@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
@@ -26,7 +27,7 @@ class ProductController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.productos.create');
     }
 
     /**
@@ -34,7 +35,30 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // Validar los datos del formulario (el "paquete" $request)
+        $validated = $request->validate([
+            'nombre' => 'required|string|max:255',
+            'descripcion' => 'nullable|string',
+            'precio' => 'required|numeric|min:0',
+            'cantidad' => 'required|integer|min:0',
+            'codigo' => 'required|string|max:255|unique:productos,codigo',
+            'foto' => 'nullable|image|max:1024',
+        ]);
+
+        // Comprobar si se ha subido una foto
+        if ($request->hasFile('foto')) {
+            // Guardar la nueva foto en 'storage/app/public/product-photos'
+            $path = $request->file('foto')->store('product-photos', 'public');
+            // Guardamos la ruta pública (ej. /storage/product-photos/imagen.jpg)
+            $validated['foto'] = '/storage/' . $path;
+        }
+
+        // Crear el producto en la BBDD con los datos validados
+        $producto = Product::create($validated);
+
+        // Redirigir al usuario de vuelta a la lista de productos
+        //    con un mensaje de éxito.
+        return redirect()->route('productos.index')->with('status', '¡Producto creado con éxito!');
     }
 
     /**
@@ -95,8 +119,20 @@ class ProductController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Product $product)
+    public function destroy(Product $producto)
     {
-        //
+        //  Comprobamos si la foto es un archivo local del storage
+        if ($producto->foto && str_starts_with($producto->foto, '/storage/')) {
+            // Convertimos '/storage/product-photos/foto.jpg' en 'product-photos/foto.jpg'
+            $storagePath = str_replace('/storage/', '', $producto->foto);
+
+            // Borramos el archivo físico
+            Storage::disk('public')->delete($storagePath);
+        }
+
+        // Borramos el producto de la base de datos
+        $producto->delete();
+
+        return redirect()->route('productos.index')->with('status', '¡Producto eliminado con éxito!');
     }
 }

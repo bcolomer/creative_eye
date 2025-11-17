@@ -83,4 +83,31 @@
             </div>
         </div>
     </div>
+    <div class="pb-12">
+        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
+                <div class="p-6 text-gray-900 dark:text-gray-100">
+
+                    <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                        {{ __('Borrar Producto') }}
+                    </h2>
+
+                    <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                        {{ __('Una vez que el producto sea eliminado, todos sus datos serán borrados permanentemente. Asegúrate de que quieres borrar este producto.') }}
+                    </p>
+
+                    {{-- Este es el formulario de borrado --}}
+                    <form method="POST" action="{{ route('productos.destroy', $producto->producto_id) }}" class="mt-6" onsubmit="return confirm('¿Estás seguro de que quieres borrar este producto? ¡El cambio es permanente.!');">                        @csrf
+                        @method('DELETE')
+
+                        {{-- Usamos el botón de peligro (rojo) de Breeze --}}
+                        <x-danger-button>
+                            {{ __('Borrar Producto') }}
+                        </x-danger-button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
 </x-app-layout>

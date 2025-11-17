@@ -34,6 +34,12 @@ Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
     Route::get('/productos/{producto}/edit', [ProductController::class, 'edit'])->name('productos.edit');
     //  actualizar el producto
     Route::put('/productos/{producto}', [ProductController::class, 'update'])->name('productos.update');
+    // crear producto
+    Route::get('/productos/crear', [ProductController::class, 'create'])->name('productos.create');
+    // Ruta para RECIBIR y GUARDAR el producto
+    Route::post('/productos', [ProductController::class, 'store'])->name('productos.store');
+    // Ruta para BORRAR el producto de la BBDD
+    Route::delete('/productos/{producto}', [ProductController::class, 'destroy'])->name('productos.destroy');
 });
 
 

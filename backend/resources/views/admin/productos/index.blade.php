@@ -51,6 +51,15 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
+            {{-- Botón para "Crear Producto Nuevo" --}}
+            <div class="flex justify-end mb-4">
+                <a href="{{ route('productos.create') }}">
+                    <x-primary-button>
+                        {{ __('Crear Nuevo Producto') }}
+                    </x-primary-button>
+                </a>
+            </div>
+
             {{-- Grid de Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
