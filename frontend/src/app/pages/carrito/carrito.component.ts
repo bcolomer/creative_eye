@@ -35,11 +35,11 @@ export class CarritoComponent implements OnInit {
         console.error('Error al hacer click en el carrito:', err);
       }
     });
+
+    this.cartService.loadCart().subscribe();
   }
 
   calcularTotal(): void {
-    // 👇 --- ¡AQUÍ ESTÁ EL ARREGLO! ---
-    // Ahora suma la columna 'precio_total' de cada línea
     this.totalCarrito = this.productosDelCarrito.reduce(
       (acumulador, item) => acumulador + parseFloat(item.precio_total), 
       0 
