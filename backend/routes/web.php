@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
+use App\Http\Controllers\Admin\UserController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -42,5 +43,26 @@ Route::middleware(['auth', 'verified', 'role:2'])->group(function () {
     Route::delete('/productos/{producto}', [ProductController::class, 'destroy'])->name('productos.destroy');
 });
 
+// --- RUTAS DE ADMINISTRADOR (Solo Rol 1) ---
+Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
+
+    // Lista de Usuarios
+    Route::get('/usuarios', [UserController::class, 'index'])->name('admin.usuarios.index');
+
+    //  Mostrar formulario para crear
+    Route::get('/usuarios/crear', [UserController::class, 'create'])->name('admin.usuarios.create');
+
+    //  Guardar el nuevo usuario
+    Route::post('/usuarios', [UserController::class, 'store'])->name('admin.usuarios.store');
+
+    // Edición de Usuario (Mostrar formulario)
+    Route::get('/usuarios/{user}/edit', [UserController::class, 'edit'])->name('admin.usuarios.edit');
+
+    // Actualizar Usuario (Guardar cambios)
+    Route::put('/usuarios/{user}', [UserController::class, 'update'])->name('admin.usuarios.update');
+
+    // Borrar Usuario
+    Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('admin.usuarios.destroy');
+});
 
 require __DIR__ . '/auth.php';
