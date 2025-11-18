@@ -23,18 +23,30 @@ export class AuthService {
     private cartService: CartService
   ) { }
 
-  
+  /**
+   * 
+   * @param datos 
+   * @returns 
+   */
   login(datos: any): Observable<any> {
     
     // Enviamos los datos (username y password) a la ruta /api/login
     return this.http.post(`${this.apiUrl}/login`, datos);
   }
 
+  /**
+   * 
+   * @returns 
+   */
   getProfile(): Observable<any> {
     // Esta llamada irá automáticamente con el token gracias al Interceptor
     return this.http.get(`${this.apiUrl}/profile`);
   }
 
+  /**
+   * 
+   * @returns 
+   */
   isLoggedIn(): boolean {
     // (!!) Convierte el resultado (un string o null) en un booleano (true/false)
     const token = localStorage.getItem('token');
@@ -43,7 +55,9 @@ export class AuthService {
     return (token !== null) && (token.length > 0);
   }
 
-  // Añadimos el logout del usuario
+  /**
+   * Añadimos el logout del usuario
+   */
   logout(): void {
     // Borramos el token de la memoria del navegador
     localStorage.removeItem('token');
@@ -55,6 +69,11 @@ export class AuthService {
     this.router.navigate(['/']); 
   }
 
+  /**
+   * 
+   * @param datos 
+   * @returns 
+   */
   register(datos: any): Observable<any> {
     
     const httpOptions = {
@@ -66,6 +85,23 @@ export class AuthService {
 
     // Enviamos a la ruta que Bárbara definió: /api/register
     return this.http.post(`${this.apiUrl}/register`, datos, httpOptions);
+  }
+
+  /**
+   * Actualiza los datos del perfil del usuario logueado y envía los datos modificados al backend.
+   * @param datos 
+   * @returns 
+   */
+  updateProfile(datos: any): Observable<any> {
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    };
+    
+    return this.http.put(`${this.apiUrl}/profile`, datos, httpOptions);
   }
 
 }
