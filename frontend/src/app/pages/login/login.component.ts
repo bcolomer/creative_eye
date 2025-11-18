@@ -5,14 +5,15 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 
 // Añadimos la ruta a la que se redirigirá cuando se inicie sesión
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'

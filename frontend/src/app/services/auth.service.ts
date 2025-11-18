@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http'; 
 //Con esto manejamos las respuestas
 import { Observable } from 'rxjs';
 
@@ -35,7 +35,7 @@ export class AuthService {
     return this.http.get(`${this.apiUrl}/profile`);
   }
 
-isLoggedIn(): boolean {
+  isLoggedIn(): boolean {
     // (!!) Convierte el resultado (un string o null) en un booleano (true/false)
     const token = localStorage.getItem('token');
     
@@ -53,6 +53,19 @@ isLoggedIn(): boolean {
     // Redirigimos al usuario a la página de inicio
     console.log('Sesión cerrada. ¡Hasta la próxima!');
     this.router.navigate(['/']); 
+  }
+
+  register(datos: any): Observable<any> {
+    
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      })
+    };
+
+    // Enviamos a la ruta que Bárbara definió: /api/register
+    return this.http.post(`${this.apiUrl}/register`, datos, httpOptions);
   }
 
 }
