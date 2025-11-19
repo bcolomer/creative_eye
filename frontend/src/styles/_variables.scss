@@ -1,0 +1,33 @@
+// --- PALETA COLORES ---
+
+// Colores Principales (Teal - Acentos visuales y confianza)
+$color-teal-dark:   #00747C; // Petróleo (Botones, enlaces fuertes)
+$color-teal-light:  #00BBC9; // Turquesa (Acentos, hover)
+
+// Colores Neutros (Gray - Base y equilibrio)
+$color-gray-light:  #CACACA; // Gris claro (Fondos secundarios, bordes)
+$color-gray-medium: #878787; // Gris medio (Textos secundarios)
+$color-gray-dark:   #202022; // Negro suave (Texto principal, encabezados)
+$color-white:       #FFFFFF; // Fondo de tarjetas y general
+
+// Mapeo Semántico
+$color-primary:     $color-teal-dark;
+$color-secondary:   $color-teal-light;
+$color-text-main:   $color-gray-dark;
+$color-text-light:  $color-gray-medium;
+$color-bg-body:     #f5f5f5;
+$color-bg-card:     $color-white;
+$color-border:      $color-gray-light;
+
+// --- TIPOGRAFÍA ---
+
+// H1, H2, Nav, Botones 
+$font-primary:      'Poppins', sans-serif; 
+// H3 
+$font-secondary:    'Playfair Display', serif;
+// Párrafos, Footer 
+$font-body:         'Raleway', sans-serif;
+
+// --- TAMAÑOS BASE ---
+$spacing-unit:      8px;
+$border-radius:     8px; // Radio estándar para cards y botones
