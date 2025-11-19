@@ -1,33 +1,48 @@
-// --- PALETA COLORES ---
+// ==============================================
+// 🎨 CREATIVE EYE - VARIABLES DE ESTILO (UI KIT)
+// ==============================================
 
-// Colores Principales (Teal - Acentos visuales y confianza)
-$color-teal-dark:   #00747C; // Petróleo (Botones, enlaces fuertes)
-$color-teal-light:  #00BBC9; // Turquesa (Acentos, hover)
+// --- 1. PALETA DE COLORES ---
 
-// Colores Neutros (Gray - Base y equilibrio)
-$color-gray-light:  #CACACA; // Gris claro (Fondos secundarios, bordes)
-$color-gray-medium: #878787; // Gris medio (Textos secundarios)
-$color-gray-dark:   #202022; // Negro suave (Texto principal, encabezados)
-$color-white:       #FFFFFF; // Fondo de tarjetas y general
+// Principales (Acción y Confianza)
+$color-primario:       #00747C; // Botones, enlaces 
+$color-secundario:     #00BBC9; // Acentos, hover, iconos activos
 
-// Mapeo Semántico
-$color-primary:     $color-teal-dark;
-$color-secondary:   $color-teal-light;
-$color-text-main:   $color-gray-dark;
-$color-text-light:  $color-gray-medium;
-$color-bg-body:     #f5f5f5;
-$color-bg-card:     $color-white;
-$color-border:      $color-gray-light;
+// Neutros (Estructura y Legibilidad)
+$color-blanco:         #FFFFFF; // Fondos de tarjetas y general
+$color-gris-claro:     #CACACA; // Bordes, fondos secundarios
+$color-gris-medio:     #878787; // Textos secundarios
+$color-gris-oscuro:    #202022; // Texto principal, encabezados
 
-// --- TIPOGRAFÍA ---
+// Para el usuario
+$color-exito:          #28a745; 
+$color-error:          #dc3545; 
+$color-aviso:          #ffc107; 
 
-// H1, H2, Nav, Botones 
-$font-primary:      'Poppins', sans-serif; 
-// H3 
-$font-secondary:    'Playfair Display', serif;
-// Párrafos, Footer 
-$font-body:         'Raleway', sans-serif;
+// --- 2. TIPOGRAFÍA ---
 
-// --- TAMAÑOS BASE ---
-$spacing-unit:      8px;
-$border-radius:     8px; // Radio estándar para cards y botones
+// Títulos (H1, H2), Nav, Botones
+$fuente-titulos:       'Poppins', sans-serif; 
+
+// Subtítulos (H3, Cards)
+$fuente-decorativa:    'Playfair Display', serif;
+
+// Cuerpo de texto, Párrafos, Footer
+$fuente-cuerpo:        'Raleway', sans-serif;
+
+// Pesos de fuente (Weights)
+$peso-ligero:          300;
+$peso-regular:         400;
+$peso-medio:           500;
+$peso-seminegrita:     600;
+
+// --- 3. DIMENSIONES Y ESPACIADO ---
+$unidad-espaciado:     8px;    
+$radio-borde:          8px;    
+$ancho-maximo:         1200px; 
+
+// --- 4. PUNTOS DE RUPTURA (Responsive) ---
+$movil:                480px;
+$tablet:               768px;
+$escritorio:           1024px;
+$escritorio-grande:    1200px;
