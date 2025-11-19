@@ -978,13 +978,13 @@
                     "Detalles de Pedido"
                 ],
                 "summary": "Mostrar un detalle de pedido específico",
-                "description": "Devuelve la información completa de una línea de pedido (pedido + producto).",
+                "description": "Devuelve la información completa de una línea de pedido (un item del carrito).\n     * Solo el **dueño del carrito** (Cliente/Admin) o el rol de **Almacén** pueden usar esta ruta.",
                 "operationId": "880913b0cf75af33fc23138b5f54126f",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID del detalle de pedido",
+                        "description": "ID de la línea de pedido (el item del carrito)",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -995,6 +995,9 @@
                 "responses": {
                     "200": {
                         "description": "Detalle encontrado"
+                    },
+                    "403": {
+                        "description": "Acceso denegado (no eres el dueño del carrito)"
                     },
                     "404": {
                         "description": "Detalle no encontrado"
@@ -1010,13 +1013,14 @@
                 "tags": [
                     "Detalles de Pedido"
                 ],
-                "summary": "Actualizar un detalle de pedido",
-                "description": "Permite modificar cantidad o precio unitario de una línea de pedido.\n     *     Recalcula automáticamente el precio total.",
+                "summary": "Actualizar un producto del carrito",
+                "description": "Permite **actualizar la cantidad** de un producto en el carrito.\n     * Solo el **dueño del carrito** (Cliente/Admin) o el rol de **Almacén** pueden usar esta ruta.",
                 "operationId": "a933312cb02de0c84b1fd9f165f78469",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
+                        "description": "ID de la línea de pedido (el item del carrito)",
                         "required": true,
                         "schema": {
                             "type": "integer",
@@ -1025,18 +1029,18 @@
                     }
                 ],
                 "requestBody": {
-                    "required": false,
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
+                                "required": [
+                                    "cantidad"
+                                ],
                                 "properties": {
                                     "cantidad": {
+                                        "description": "La nueva cantidad deseada",
                                         "type": "integer",
                                         "example": 2
-                                    },
-                                    "precio_unitario": {
-                                        "type": "number",
-                                        "example": 59.9
                                     }
                                 },
                                 "type": "object"
@@ -1048,8 +1052,14 @@
                     "200": {
                         "description": "Detalle actualizado correctamente"
                     },
+                    "403": {
+                        "description": "Acceso denegado (no eres el dueño del carrito)"
+                    },
                     "404": {
                         "description": "Detalle no encontrado"
+                    },
+                    "422": {
+                        "description": "Error de validación (ej. cantidad < 1)"
                     }
                 },
                 "security": [
