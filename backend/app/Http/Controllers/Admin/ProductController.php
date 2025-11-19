@@ -14,8 +14,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $productos = Product::all();
-        /*   ide dice que es igual a poner esto: $productos = \App\Models\Product::all(); */
+        $productos = Product::paginate(5);
+        /* $productos = Product::all();  */
 
         return view('admin.productos.index', [
             'productos' => $productos
