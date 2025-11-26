@@ -1,0 +1,42 @@
+// =========================================
+//                  MIXINS
+// =========================================
+
+// Importamos variables para tener acceso a los puntos de ruptura
+@import 'variables';
+
+// Mixin para Media Queries (Responsive)
+@mixin version($punto-ruptura) {
+    @if $punto-ruptura == 'movil' {
+    @media (max-width: #{$movil}) { @content; }
+    }
+
+    @else if $punto-ruptura == 'tablet' {
+    @media (max-width: #{$tablet}) { @content; }
+    }
+
+    @else if $punto-ruptura == 'escritorio' {
+    @media (max-width: #{$escritorio}) { @content; }
+    }
+}
+
+// Mixin para flex centrado 
+@mixin flex-centro {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+// Mixin para Cards (Sombra y borde suave)
+@mixin tarjeta-estilo {
+    background-color: $color-blanco;
+    border: 1px solid $color-gris-claro;
+    border-radius: $radio-borde;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+        transform: translateY(-5px); // Efecto de elevación 
+        box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    }
+}

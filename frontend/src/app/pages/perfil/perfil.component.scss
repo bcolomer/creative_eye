@@ -1,0 +1,165 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.perfil {
+    // Centrado vertical y horizontal en la página
+    @include flex-centro;
+    min-height: calc(100vh - 150px);
+    padding: $unidad-espaciado * 4 $unidad-espaciado * 2;
+
+    // --- CARD PRINCIPAL ---
+    &__contenedor {
+        @include tarjeta-estilo;
+        background-color: $color-blanco;
+        padding: $unidad-espaciado * 4;
+        width: 100%;
+        max-width: 800px; 
+        display: flex;
+        flex-direction: column;
+        gap: $unidad-espaciado * 4;
+    }
+
+    &__contenido-superior {
+        display: flex;
+        gap: $unidad-espaciado * 4;
+
+        @include version('movil') {
+        flex-direction: column;
+        align-items: center;
+        }
+    }
+
+    // FOTO
+    &__columna-foto {
+        flex: 0 0 30%; 
+        display: flex;
+        flex-direction: column;
+        align-items: center;   
+        justify-content: center; 
+    }
+
+    &__avatar-wrapper {
+        width: 150px;
+        height: 150px;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 4px solid $color-blanco; 
+        box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        margin-bottom: $unidad-espaciado * 2;
+        background-color: $color-gris-claro; 
+    }
+
+    &__foto-imagen {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    &__foto-input {
+        font-size: 0.8rem;
+        color: $color-gris-medio;
+        width: 100%;
+        text-align: center;
+    }
+
+    // FORMULARIO
+    &__formulario {
+        flex: 1; 
+        display: flex;
+        flex-direction: column;
+        gap: $unidad-espaciado * 2;
+    }
+
+    &__grupo-form {
+        display: flex;
+        flex-direction: column;
+        gap: $unidad-espaciado / 2;
+    }
+
+    &__etiqueta {
+        font-family: $fuente-titulos; 
+        font-weight: $medium;
+        font-size: 0.9rem;
+        color: $color-gris-oscuro;
+    }
+
+    &__entrada {
+        padding: 10px 12px;
+        border: 1px solid $color-gris-claro;
+        border-radius: $radio-borde;
+        font-family: $fuente-cuerpo;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+
+        &:focus {
+        outline: none;
+        border-color: $color-secundario;
+        }
+
+        &:disabled {
+        background-color: #f9f9f9;
+        color: $color-gris-medio;
+        cursor: not-allowed;
+        }
+    }
+
+    // Separador 
+    &__separador {
+        font-family: $fuente-titulos;
+        font-size: 1rem;
+        color: $color-secundario; 
+        margin-top: $unidad-espaciado;
+        margin-bottom: 0;
+        font-weight: $medium;
+    }
+
+    // BOTONES 
+    &__acciones {
+        display: flex;
+        justify-content:space-between;
+        align-items: center;
+        padding-top: $unidad-espaciado * 2;
+        border-top: 1px solid rgba($color-gris-claro, 0.3); 
+
+        @include version('movil') {
+        flex-direction: column-reverse;
+        gap: $unidad-espaciado * 2;
+        }
+    }
+
+    &__boton {
+        padding: 12px 24px;
+        border-radius: $radio-borde;
+        font-family: $fuente-titulos;
+        font-weight: $medium;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        min-width: 160px;
+
+        @include version('movil') {
+        width: 100%; 
+        }
+
+        // Estilo botón actualizar 
+        &--actualizar {
+        background-color: $color-primario; 
+        color: $color-blanco;
+
+        &:hover {
+            background-color: $color-secundario; 
+            transform: translateY(-2px);
+        }
+        }
+
+        // Estilo botón cerrar sesión 
+        &--logout {
+        background-color: $color-gris-oscuro; 
+        color: $color-blanco;
+
+        &:hover {
+            background-color: black; 
+        }
+        }
+    }
+}

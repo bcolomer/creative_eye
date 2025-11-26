@@ -1,0 +1,157 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.producto-detalle {
+    padding: $unidad-espaciado * 4 0;
+
+    &__titulo {
+        font-family: $fuente-titulos;
+        font-size: 2rem;
+        color: $color-gris-oscuro;
+        margin-bottom: $unidad-espaciado * 3;
+        
+        @include version('movil') {
+        font-size: 1.5rem;
+        text-align: center;
+        }
+    }
+
+    // Contenedor principal
+    &__principal {
+        display: flex;
+        gap: $unidad-espaciado * 6; 
+        margin-bottom: $unidad-espaciado * 4;
+        align-items: flex-start;
+
+        @include version('movil') {
+        flex-direction: column;
+        gap: $unidad-espaciado * 3;
+        }
+    }
+
+    // Imagen
+    &__imagen {
+        width: 50%; 
+        max-width: 500px;
+        border-radius: $radio-borde;
+        border: 1px solid $color-gris-claro;
+        background-color: $color-blanco;
+        padding: $unidad-espaciado * 2;
+        object-fit: contain;
+
+        @include version('movil') {
+        width: 100%; 
+        max-width: none;
+        }
+    }
+
+    // Información
+    &__info {
+        width: 50%;
+        display: flex;
+        flex-direction: column;
+        gap: $unidad-espaciado * 2;
+
+        @include version('movil') {
+        width: 100%;
+        }
+
+        &-item {
+        font-family: $fuente-cuerpo;
+        font-size: 1.1rem;
+        color: $color-gris-medio;
+        }
+
+        &-dato {
+        font-weight: $semibold;
+        color: $color-gris-oscuro;
+        margin-left: 5px;
+    
+        &--precio {
+            font-size: 1.5rem;
+            color: $color-primario;
+        }
+        }
+    }
+
+    // Stepper + Botón
+    &__compra {
+        margin-top: $unidad-espaciado * 2;
+        display: flex;
+        gap: $unidad-espaciado * 2;
+        align-items: center;
+
+        @include version('movil') {
+        flex-direction: column;
+        align-items: stretch; 
+        }
+    }
+
+    // Stepper 
+    &__stepper {
+        display: flex;
+        align-items: center;
+        border: 1px solid $color-gris-claro;
+        border-radius: $radio-borde;
+        overflow: hidden;
+
+        &-boton {
+        background-color: $color-blanco;
+        padding: 10px 15px;
+        font-size: 1.2rem;
+        transition: background 0.2s;
+
+        &:hover {
+            background-color: $color-gris-claro;
+        }
+        }
+
+        &-valor {
+        padding: 0 15px;
+        font-weight: $semibold;
+        min-width: 40px;
+        text-align: center;
+        }
+    }
+
+    // Botón Añadir al carrito
+    &__boton-comprar {
+        background-color: $color-primario;
+        color: $color-blanco;
+        padding: 12px 24px;
+        border-radius: $radio-borde;
+        font-size: 1rem;
+        font-weight: $medium;
+        transition: all 0.3s ease;
+        flex-grow: 1; 
+        text-align: center;
+
+        &:hover {
+        background-color: $color-secundario;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba($color-primario, 0.3);
+        }
+    }
+
+    // Descripción
+    &__descripcion {
+        font-family: $fuente-cuerpo;
+        line-height: 1.8;
+        color: $color-gris-oscuro;
+        background-color: $color-blanco;
+        padding: $unidad-espaciado * 3;
+        border-radius: $radio-borde;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+
+    // Estados de carga y error
+    &__cargando, &__error {
+        text-align: center;
+        padding: $unidad-espaciado * 4;
+        font-size: 1.2rem;
+    }
+    
+    &__error {
+        color: $color-error;
+    }
+}

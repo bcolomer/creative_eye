@@ -1,8 +1,8 @@
 // ==============================================
-// 🎨 CREATIVE EYE - VARIABLES DE ESTILO (UI KIT)
+// CREATIVE EYE - VARIABLES DE ESTILO (UI KIT)
 // ==============================================
 
-// --- 1. PALETA DE COLORES ---
+// --- PALETA DE COLORES ---
 
 // Principales (Acción y Confianza)
 $color-primario:       #00747C; // Botones, enlaces 
@@ -19,7 +19,7 @@ $color-exito:          #28a745;
 $color-error:          #dc3545; 
 $color-aviso:          #ffc107; 
 
-// --- 2. TIPOGRAFÍA ---
+// --- TIPOGRAFÍA ---
 
 // Títulos (H1, H2), Nav, Botones
 $fuente-titulos:       'Poppins', sans-serif; 
@@ -30,19 +30,18 @@ $fuente-decorativa:    'Playfair Display', serif;
 // Cuerpo de texto, Párrafos, Footer
 $fuente-cuerpo:        'Raleway', sans-serif;
 
-// Pesos de fuente (Weights)
-$peso-ligero:          300;
-$peso-regular:         400;
-$peso-medio:           500;
-$peso-seminegrita:     600;
+// Pesos de fuente
+$light:                 300;
+$regular:               400;
+$medium:                500;
+$semibold:              600;
 
-// --- 3. DIMENSIONES Y ESPACIADO ---
+// --- DIMENSIONES Y ESPACIADO ---
 $unidad-espaciado:     8px;    
 $radio-borde:          8px;    
 $ancho-maximo:         1200px; 
 
-// --- 4. PUNTOS DE RUPTURA (Responsive) ---
+// --- PUNTOS DE RUPTURA (Responsive) ---
 $movil:                480px;
 $tablet:               768px;
 $escritorio:           1024px;
-$escritorio-grande:    1200px;
