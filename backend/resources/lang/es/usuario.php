@@ -31,6 +31,8 @@ return [
     'field_photo_url' => 'URL de Foto de Perfil (Opcional)',
     'button_create' => 'Crear Usuario',
     'button_delete_account' => 'Eliminar Cuenta', // Para el botón de borrado en edit.blade.php
-
+    'edit_title_prefix' => 'Editar Usuario:',
+    'button_update' => 'Guardar Cambios',
+    'advanced_options_title' => 'Opciones Avanzadas (Borrar Cuenta)',
 
 ];

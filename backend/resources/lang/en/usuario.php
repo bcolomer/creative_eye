@@ -31,4 +31,7 @@ return [
     'field_photo_url' => 'Profile Photo URL (Optional)',
     'button_create' => 'Create User',
     'button_delete_account' => 'Delete Account',
+    'edit_title_prefix' => 'Edit User:',
+    'button_update' => 'Save Changes',
+    'advanced_options_title' => 'Advanced Options (Delete Account)',
 ];

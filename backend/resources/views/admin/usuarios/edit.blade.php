@@ -6,7 +6,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            {{ __('Editar Usuario:') }} {{ $user->nombre }}
+            {{ __('usuario.edit_title_prefix') }} {{ $user->nombre }}
         </h2>
     </x-slot>
 
@@ -55,7 +55,7 @@
                             <div class="md:col-span-2">
                                 <x-input-label for="rol_id" :value="__('usuario.field_role')" />
                                 <select id="rol_id" name="rol_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
-                                    <option value="">{{ __('Selecciona un Rol') }}</option>
+                                    <option value="">{{ __('usuario.select_role') }}</option>
                                     {{-- El controlador le pasa la variable $roles con todos los roles --}}
                                     @foreach ($roles as $rol)
                                         <option value="{{ $rol->rol_id }}" {{ old('rol_id', $user->rol_id) == $rol->rol_id ? 'selected' : '' }}>
@@ -70,7 +70,7 @@
                         {{-- BOTÓN DE GUARDAR --}}
                         <div class="flex items-center justify-end mt-6">
                             <x-primary-button>
-                                {{ __('Guardar Cambios') }}
+                                {{ __('usuario.button_update') }}
                             </x-primary-button>
                         </div>
                     </form>
@@ -78,7 +78,7 @@
                     {{-- Formulario de Borrado de Cuenta  --}}
                     <div class="mt-8 border-t border-gray-200 dark:border-gray-700 pt-6">
                         <h3 class="text-lg font-semibold text-gray-900 dark:text-gray-100 mb-4">
-                            {{ __('Opciones Avanzadas (Borrar Cuenta)') }}
+                            {{ __('usuario.advanced_options_title') }}
                         </h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
                             {{ __('admin.delete_account_info') }}

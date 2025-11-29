@@ -59,7 +59,7 @@
 
                             {{-- CAMPO PASSWORD (Opcional: Si se deja vacío, usa 12345678) --}}
                             <div>
-                                <x-input-label for="password" :value="{{ __('usuario.field_password_optional') }}" />
+                                <x-input-label for="password" :value="__('usuario.field_password_optional')" />
                                 <p class="text-xs text-gray-500 dark:text-gray-400 mb-1">{{ __('admin.password_optional_info') }}</p>
                                 <x-text-input id="password" name="password" type="password" class="mt-1 block w-full" autocomplete="new-password" />
                                 <x-input-error class="mt-2" :messages="$errors->get('password')" />
