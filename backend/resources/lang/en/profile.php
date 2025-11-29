@@ -1,32 +1,32 @@
 <?php
 
 return [
-    // --- Mensajes de Éxito del Controlador (Existentes) ---
-    'profile_updated' => 'Tu información de perfil ha sido actualizada.',
-    'account_deleted' => 'Tu cuenta ha sido eliminada correctamente.',
+    // --- Controller Success Messages (Existing) ---
+    'profile_updated' => 'Your profile information has been updated.',
+    'account_deleted' => 'Your account has been successfully deleted.',
 
-    // --- Vistas de Estructura y Títulos ---
-    'page_title' => 'Perfil',
-    'info_title' => 'Información de Perfil',
-    'update_password_title' => 'Actualizar Contraseña',
-    'delete_account_title' => 'Eliminar Cuenta',
-    'delete_modal_title' => '¿Estás seguro de que quieres eliminar tu cuenta?',
-    'delete_title' => 'Borrar Cuenta',
+    // --- Structure and Title Views ---
+    'page_title' => 'Profile',
+    'info_title' => 'Profile Information',
+    'update_password_title' => 'Update Password',
+    'delete_account_title' => 'Delete Account',
+    'delete_modal_title' => 'Are you sure you want to delete your account?',
+    'delete_title' => 'Delete Account',
 
-    // --- Textos Descriptivos ---
-    'info_description' => 'Actualiza la información de perfil y dirección de correo electrónico de tu cuenta.',
-    'email_unverified_info' => 'Tu dirección de correo electrónico no está verificada.',
-    'update_password_info' => 'Asegúrate de que tu cuenta utiliza una contraseña larga y aleatoria para mantenerse segura.',
-    'delete_info_1' => 'Una vez que tu cuenta sea eliminada, todos sus recursos y datos serán borrados permanentemente. Antes de eliminar tu cuenta, por favor descarga cualquier dato o información que desees conservar.',
-    'delete_info_2' => 'Una vez que tu cuenta sea eliminada, todos sus recursos y datos serán borrados permanentemente. Por favor, introduce tu contraseña para confirmar que deseas eliminar tu cuenta de forma permanente.',
-    'saved_message' => 'Guardado.',
+    // --- Descriptive Texts ---
+    'info_description' => 'Update your account\'s profile information and email address.',
+    'email_unverified_info' => 'Your email address is unverified.',
+    'update_password_info' => 'Ensure your account is using a long, random password to stay secure.',
+    'delete_info_1' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Before deleting your account, please download any data or information that you wish to retain.',
+    'delete_info_2' => 'Once your account is deleted, all of its resources and data will be permanently deleted. Please enter your password to confirm you would like to permanently delete your account.',
+    'saved_message' => 'Saved.',
 
-    // --- Etiquetas y Botones ---
-    'field_current_password' => 'Contraseña Actual',
-    'field_new_password' => 'Nueva Contraseña',
-    'field_photo_optional' => 'Foto de Perfil (Opcional)',
-    'button_save' => 'Guardar',
-    'button_delete_account' => 'Eliminar Cuenta',
-    'button_resend_verification' => 'Haz clic aquí para reenviar el correo de verificación.',
-    'button_cancel' => 'Cancelar',
+    // --- Labels and Buttons ---
+    'field_current_password' => 'Current Password',
+    'field_new_password' => 'New Password',
+    'field_photo_optional' => 'Profile Photo (Optional)',
+    'button_save' => 'Save',
+    'button_delete_account' => 'Delete Account',
+    'button_resend_verification' => 'Click here to re-send the verification email.',
+    'button_cancel' => 'Cancel',
 ];

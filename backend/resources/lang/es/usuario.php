@@ -23,6 +23,7 @@ return [
     'create_title' => 'Crear Nuevo Usuario',
     'field_name' => 'Nombre',
     'field_email' => 'Email (Nombre de Usuario)',
+    'field_email_info' => 'Email (Nombre de Usuario)',
     'field_role' => 'Rol',
     'select_role' => 'Selecciona un Rol',
     'field_password_optional' => 'Contraseña (Opcional)',

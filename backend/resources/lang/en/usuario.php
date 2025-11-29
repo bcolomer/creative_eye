@@ -23,6 +23,7 @@ return [
     'create_title' => 'Create New User',
     'field_name' => 'Name',
     'field_email' => 'Email (Username)',
+    'field_email_info' => 'Email (Username)',
     'field_role' => 'Role',
     'select_role' => 'Select a Role',
     'field_password_optional' => 'Password (Optional)',
