@@ -65,7 +65,7 @@ class UserController extends Controller
             'foto' => $validated['foto'] ?? '/images/creativelogo.png', // Fallback si no hay foto
         ]);
 
-        return redirect()->route('admin.usuarios.index')->with('status', '¡Usuario ' . $user->nombre . ' creado con éxito!');
+        return redirect()->route('admin.usuarios.index')->with('status', __('usuario.create_success_msg', ['nombre' => $user->nombre]));
     }
 
     /**
@@ -111,7 +111,7 @@ class UserController extends Controller
             'rol_id' => $validated['rol_id'],
         ]);
 
-        return redirect()->route('admin.usuarios.index')->with('status', '¡Usuario ' . $user->nombre . ' actualizado con éxito!');
+        return redirect()->route('admin.usuarios.index')->with('status', __('usuario.update_success_msg', ['nombre' => $user->nombre]));
     }
 
     /**
@@ -129,6 +129,6 @@ class UserController extends Controller
         // 2. Borrar el usuario de la base de datos
         $user->delete();
 
-        return redirect()->route('admin.usuarios.index')->with('status', '¡Usuario ' . $user->nombre . ' eliminado con éxito!');
+        return redirect()->route('admin.usuarios.index')->with('status', __('usuario.delete_success_msg', ['nombre' => $user->nombre]));
     }
 }

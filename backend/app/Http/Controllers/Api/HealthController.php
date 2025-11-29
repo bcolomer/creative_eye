@@ -35,6 +35,7 @@ class HealthController extends Controller
     {
         return response()->json([
             'ok' => true,
+            'message' => __('api.api_status'),/* debug para comprobar internacionalizacion */
             'app' => config('app.name'),
             'env' => config('app.env'),
             'laravel' => app()->version(),

@@ -2,7 +2,7 @@
     {{-- Cabecera (Header) --}}
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Editar Producto: {{ $producto->nombre }}
+            {{ __('producto.edit_title') }}: {{ $producto->nombre }}
         </h2>
     </x-slot>
 
@@ -14,7 +14,7 @@
 
                     {{-- AVISO DE ÉXITO --}}
                     @if (session('status'))
-                        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400">
+                        <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400 p-3 bg-green-100 dark:bg-green-700 rounded-lg">
                             {{ session('status') }}
                         </div>
                     @endif
@@ -25,14 +25,14 @@
 
                         {{-- CAMPO NOMBRE --}}
                         <div>
-                            <x-input-label for="nombre" :value="__('Nombre')" />
+                            <x-input-label for="nombre" :value="__('producto.field_name')" />
                             <x-text-input id="nombre" name="nombre" type="text" class="mt-1 block w-full" :value="old('nombre', $producto->nombre)" required autofocus />
                             <x-input-error class="mt-2" :messages="$errors->get('nombre')" />
                         </div>
 
                         {{-- CAMPO DESCRIPCIÓN --}}
                         <div class="mt-4">
-                            <x-input-label for="descripcion" :value="__('Descripción')" />
+                            <x-input-label for="descripcion" :value="__('producto.field_description')" />
                             <textarea id="descripcion" name="descripcion" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('descripcion', $producto->descripcion) }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('descripcion')" />
                         </div>
@@ -42,21 +42,21 @@
 
                             {{-- CAMPO PRECIO --}}
                             <div>
-                                <x-input-label for="precio" :value="__('Precio')" />
+                                <x-input-label for="precio" :value="__('producto.field_price')" />
                                 <x-text-input id="precio" name="precio" type="number" step="0.01" class="mt-1 block w-full" :value="old('precio', $producto->precio)" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('precio')" />
                             </div>
 
                             {{-- CAMPO CANTIDAD (Stock) --}}
                             <div>
-                                <x-input-label for="cantidad" :value="__('Stock (Cantidad)')" />
+                                <x-input-label for="cantidad" :value="__('producto.field_stock')" />
                                 <x-text-input id="cantidad" name="cantidad" type="number" class="mt-1 block w-full" :value="old('cantidad', $producto->cantidad)" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('cantidad')" />
                             </div>
 
                             {{-- CAMPO CÓDIGO --}}
                             <div>
-                                <x-input-label for="codigo" :value="__('Código')" />
+                                <x-input-label for="codigo" :value="__('producto.field_code')" />
                                 <x-text-input id="codigo" name="codigo" type="text" class="mt-1 block w-full" :value="old('codigo', $producto->codigo)" required />
                                 <x-input-error class="mt-2" :messages="$errors->get('codigo')" />
                             </div>
@@ -64,7 +64,7 @@
 
                         {{-- CAMPO FOTO --}}
                         <div class="mt-4">
-                            <x-input-label for="foto" :value="__('Foto de Producto (Opcional: Subir una nueva)')" />
+                            <x-input-label for="foto" :value="__('producto.field_photo_edit')" />
                             <img class="h-full w-48 rounded-md object-cover my-2" src="{{ $producto->foto }}" alt="{{ $producto->nombre }}">
                             <x-text-input id="foto" name="foto" type="file" class="mt-1 block w-full" />
                             <x-input-error class="mt-2" :messages="$errors->get('foto')" />
@@ -73,7 +73,7 @@
 
                         <div class="flex items-center justify-end mt-6">
                             <x-primary-button>
-                                {{ __('Guardar Cambios') }}
+                                {{ __('producto.button_update') }}
                             </x-primary-button>
                         </div>
 
@@ -89,20 +89,20 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
-                        {{ __('Borrar Producto') }}
+                        {{__('producto.delete_title') }}
                     </h2>
 
                     <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
-                        {{ __('Una vez que el producto sea eliminado, todos sus datos serán borrados permanentemente. Asegúrate de que quieres borrar este producto.') }}
+                        {{ __('admin.delete_product_info') }}
                     </p>
 
                     {{-- Este es el formulario de borrado --}}
-                    <form method="POST" action="{{ route('productos.destroy', $producto->producto_id) }}" class="mt-6" onsubmit="return confirm('¿Estás seguro de que quieres borrar este producto? ¡El cambio es permanente.!');">                        @csrf
+                    <form method="POST" action="{{ route('productos.destroy', $producto->producto_id) }}" class="mt-6" onsubmit="return confirm('{{ __('admin.confirm_delete_product') }}');">                        @csrf
                         @method('DELETE')
 
                         {{-- Usamos el botón de peligro (rojo) de Breeze --}}
                         <x-danger-button>
-                            {{ __('Borrar Producto') }}
+                            {{ __('producto.button_delete') }}
                         </x-danger-button>
                     </form>
 

@@ -19,7 +19,7 @@ class CheckRole
 
         // Si no está autenticado
         if (!$user) {
-            return response()->json(['message' => 'No autenticado.'], 401);
+            return response()->json(['message' => __('auth.not_authenticated')], 401);
         }
 
 
@@ -34,11 +34,11 @@ class CheckRole
             // Si la petición espera una respuesta JSON (es decir, viene de Angular o Postman/Swagger),
             // devolvemos el JSON 403.
             if ($request->expectsJson()) {
-                return response()->json(['message' => 'Acceso denegado.'], 403);
+                return response()->json(['message' => __('auth.access_denied')], 403);
             }
 
             // Si es una petición normal de navegador (rutas web), forzamos el error de Blade.
-            abort(403, 'Acceso denegado. No tienes permiso para acceder a esta sección.');
+            abort(403, __('auth.access_denied_section'));
         }
 
         return $next($request);

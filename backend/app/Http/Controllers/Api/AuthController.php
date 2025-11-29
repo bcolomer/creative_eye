@@ -78,7 +78,7 @@ class AuthController extends Controller
         // Si no existe o la contraseña no coincide
         if (!$user || !Hash::check($request->password, $user->password)) {
             return response()->json([
-                'message' => 'Credenciales incorrectas',
+                'message' => __('api.credentials_incorrect'),
             ], 401);
         }
 
@@ -89,7 +89,7 @@ class AuthController extends Controller
 
         // Devolver el token al frontend
         return response()->json([
-            'message' => 'Inicio de sesión correcto',
+            'message' => __('api.login_success'),
             'user' => $user,
             'token' => $token,
         ]);
@@ -149,7 +149,7 @@ class AuthController extends Controller
 
         // Devolver el token al frontend
         return response()->json([
-            'message' => 'Usuario registrado correctamente',
+            'message' => __('api.register_success'),
             'usuario' => $user,
             'token' => $token,
         ], 201);
@@ -178,6 +178,6 @@ class AuthController extends Controller
         // Elimina todos los tokens del usuario autenticado
         $request->user()->tokens()->delete();
 
-        return response()->json(['message' => 'Sesión cerrada correctamente']);
+        return response()->json(['message' => __('api.logout_success')]);
     }
 }

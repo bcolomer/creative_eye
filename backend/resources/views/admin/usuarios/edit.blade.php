@@ -30,7 +30,7 @@
                         {{-- Mensajes de Error (si los hay) --}}
                         @if ($errors->any())
                             <div class="mb-4 font-medium text-red-600 dark:text-red-400">
-                                Se encontraron {{ $errors->count() }} errores al intentar actualizar.
+                            {{ __('admin.validation_errors', ['count' => $errors->count()]) }}
                             </div>
                         @endif
 
@@ -39,21 +39,21 @@
 
                             {{-- CAMPO NOMBRE --}}
                             <div>
-                                <x-input-label for="nombre" :value="__('Nombre')" />
+                                <x-input-label for="nombre" :value="__('usuario.field_name')" />
                                 <x-text-input id="nombre" name="nombre" type="text" class="mt-1 block w-full" :value="old('nombre', $user->nombre)" required autofocus />
                                 <x-input-error class="mt-2" :messages="$errors->get('nombre')" />
                             </div>
 
                             {{-- CAMPO EMAIL / NOMBRE DE USUARIO (READONLY) --}}
                             <div>
-                                <x-input-label for="nombre_usuario" :value="__('Email (Nombre de Usuario)')" />
+                                <x-input-label for="nombre_usuario" :value="__('usuario.field_email')" />
                                 <x-text-input id="nombre_usuario" name="nombre_usuario" type="email" class="mt-1 block w-full bg-gray-100 dark:bg-gray-700" :value="$user->nombre_usuario" readonly />
                                 <x-input-error class="mt-2" :messages="$errors->get('nombre_usuario')" />
                             </div>
 
                             {{-- CAMPO ROL (Dropdown) --}}
                             <div class="md:col-span-2">
-                                <x-input-label for="rol_id" :value="__('Rol')" />
+                                <x-input-label for="rol_id" :value="__('usuario.field_role')" />
                                 <select id="rol_id" name="rol_id" class="mt-1 block w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm" required>
                                     <option value="">{{ __('Selecciona un Rol') }}</option>
                                     {{-- El controlador le pasa la variable $roles con todos los roles --}}
@@ -81,14 +81,14 @@
                             {{ __('Opciones Avanzadas (Borrar Cuenta)') }}
                         </h3>
                         <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">
-                            Al borrar esta cuenta se eliminarán todos los pedidos y datos asociados (incluyendo la foto de perfil).
+                            {{ __('admin.delete_account_info') }}
                         </p>
 
-                        <form method="POST" action="{{ route('admin.usuarios.destroy', $user->usuario_id) }}" onsubmit="return confirm('¿Estás seguro de que deseas eliminar la cuenta de {{ $user->nombre }}? Es permanente.');">
+                        <form method="POST" action="{{ route('admin.usuarios.destroy', $user->usuario_id) }}" onsubmit="return confirm({{ __('admin.confirm_delete_user', ['nombre' => $user->nombre]) }});">
                             @csrf
                             @method('DELETE')
                             <x-danger-button type="submit">
-                                {{ __('Eliminar Cuenta') }}
+                                {{ __('usuario.button_delete_account') }}
                             </x-danger-button>
                         </form>
                     </div>

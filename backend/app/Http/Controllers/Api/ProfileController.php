@@ -97,7 +97,7 @@ class ProfileController extends Controller
         $user->update($validated);
 
         return response()->json([
-            'message' => 'Perfil actualizado correctamente',
+            'message' => __('api.profile_updated'),
             'user' => $user,
         ], 200);
     }

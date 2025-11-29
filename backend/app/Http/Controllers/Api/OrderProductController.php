@@ -45,7 +45,6 @@ class OrderProductController extends Controller
         // 1. Comprobamos el rol del usuario
         if ($user->rol_id == 2) {
             // ----- ES ROL 2 (ALMACÉN) -----
-            // (Esta es la lógica antigua que tenías)
             $detalles = OrderProduct::with(['pedido', 'producto'])->get();
             return response()->json($detalles);
         } else {
@@ -58,7 +57,7 @@ class OrderProductController extends Controller
 
             // 3. Si no tiene un carrito activo, devolvemos una lista vacía
             if (!$carrito) {
-                return response()->json([]); // ¡Importante! Devolver un array vacío
+                return response()->json([]);
             }
 
             // 4. Si SÍ tiene carrito, devolvemos solo los productos de ESE carrito
@@ -102,7 +101,7 @@ class OrderProductController extends Controller
         if ($user->rol_id == 2) {
             // Rol 2 no tiene permitido añadir a carrito.
             return response()->json([
-                'message' => 'El personal de almacén no puede realizar compras con esta cuenta.'
+                'message' => __('api.store_staff_forbidden')
             ], 403); // 403 Forbidden
         }
 
@@ -130,7 +129,7 @@ class OrderProductController extends Controller
         // Buscamos el precio REAL del producto en la BBDD
         $producto = Product::find($data['producto_id']);
         if (!$producto) {
-            return response()->json(['message' => 'Producto no encontrado en BBDD'], 404);
+            return response()->json(['message' => __('api.product_not_found_db')], 404);
         }
 
         // Creamos (o actualizamos) la línea del carrito (Usamos updateOrCreate para evitar duplicados si se añade el mismo producto)
@@ -153,7 +152,7 @@ class OrderProductController extends Controller
         // $carrito->save();
 
         return response()->json([
-            'message' => 'Producto añadido al carrito correctamente',
+            'message' => __('api.product_added_to_cart'),
             'detalle' => $orderProduct
         ], 201);
     }
@@ -188,7 +187,7 @@ class OrderProductController extends Controller
         $detalle = OrderProduct::with(['pedido', 'producto'])->find($id);
 
         if (!$detalle) {
-            return response()->json(['message' => 'Detalle no encontrado'], 404);
+            return response()->json(['message' => __('api.detail_not_found')], 404);
         }
 
         //  Buscamos el pedido al que pertenece este item
@@ -202,7 +201,7 @@ class OrderProductController extends Controller
         }
 
         // Si no es ninguno de los dos, no tiene permiso
-        return response()->json(['message' => 'Acceso denegado: no puedes ver este item.'], 403);
+        return response()->json(['message' => __('api.access_denied_item')], 403);
     }
     /**
      * @OA\Put(
@@ -242,7 +241,7 @@ class OrderProductController extends Controller
         $detalle = OrderProduct::find($id);
 
         if (!$detalle) {
-            return response()->json(['message' => 'Detalle no encontrado'], 404);
+            return response()->json(['message' => __('api.detail_not_found')], 404);
         }
 
         //  Buscamos el pedido al que pertenece este item
@@ -272,13 +271,13 @@ class OrderProductController extends Controller
             $detalle->update($validated);
 
             return response()->json([
-                'message' => 'Detalle actualizado correctamente',
+                'message' => __('api.detail_updated'),
                 'detalle' => $detalle,
             ]);
         }
 
         //  Si no es ninguno de los dos, no tiene permiso
-        return response()->json(['message' => 'Acceso denegado: no puedes modificar este pedido.'], 403);
+        return response()->json(['message' => __('api.access_denied_order')], 403);
     }
     /**
      * @OA\Delete(
@@ -305,11 +304,11 @@ class OrderProductController extends Controller
         $detalle = OrderProduct::find($id);
 
         if (!$detalle) {
-            return response()->json(['message' => 'Detalle no encontrado'], 404);
+            return response()->json(['message' => __('api.detail_not_found')], 404);
         }
 
         $detalle->delete();
 
-        return response()->json(['message' => 'Detalle eliminado correctamente']);
+        return response()->json(['message' => __('api.detail_deleted')]);
     }
 }

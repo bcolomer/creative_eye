@@ -77,14 +77,14 @@ class RoleController extends Controller
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255|unique:roles,nombre',
         ], [
-            'nombre.required' => 'El nombre del rol es obligatorio.',
-            'nombre.unique' => 'Este rol ya existe.',
+            'nombre.required' => __('api.role_name_required'),
+            'nombre.unique' => __('api.role_name_unique'),
         ]);
 
         $rol = Role::create($validatedData);
 
         return response()->json([
-            'message' => 'Rol creado correctamente',
+            'message' => __('api.role_created'),
             'rol' => $rol,
         ], 201);
     }
@@ -113,7 +113,7 @@ class RoleController extends Controller
         $rol = Role::find($id);
 
         if (!$rol) {
-            return response()->json(['message' => 'Rol no encontrado'], 404);
+            return response()->json(['message' => __('api.role_not_found')], 404);
         }
 
         return response()->json($rol);
@@ -152,20 +152,20 @@ class RoleController extends Controller
         $rol = Role::find($id);
 
         if (!$rol) {
-            return response()->json(['message' => 'Rol no encontrado'], 404);
+            return response()->json(['message' => __('api.role_not_found')], 404);
         }
 
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:255|unique:roles,nombre,' . $rol->rol_id . ',rol_id',
         ], [
-            'nombre.required' => 'El nombre del rol es obligatorio.',
-            'nombre.unique' => 'Ya existe otro rol con este nombre.',
+            'nombre.required' => __('api.role_name_required'),
+            'nombre.unique' => __('api.role_name_unique_other'),
         ]);
 
         $rol->update($validatedData);
 
         return response()->json([
-            'message' => 'Rol actualizado correctamente',
+            'message' => __('api.role_updated'),
             'rol' => $rol,
         ]);
     }
@@ -195,11 +195,11 @@ class RoleController extends Controller
         $rol = Role::find($id);
 
         if (!$rol) {
-            return response()->json(['message' => 'Rol no encontrado'], 404);
+            return response()->json(['message' => __('api.role_not_found')], 404);
         }
 
         $rol->delete();
 
-        return response()->json(['message' => 'Rol eliminado correctamente']);
+        return response()->json(['message' => __('api.role_deleted')]);
     }
 }

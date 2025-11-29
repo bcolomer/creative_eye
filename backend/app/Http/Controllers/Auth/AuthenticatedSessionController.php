@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
             $request->session()->regenerateToken();
 
             return redirect('/login')->withErrors([
-                'nombre_usuario' => 'Acceso denegado. No tienes permiso para acceder a este panel.'
+                'nombre_usuario' => __('auth.access_denied_role')
             ]);
         }
 

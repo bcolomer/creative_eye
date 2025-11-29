@@ -95,7 +95,7 @@ class OrderController extends Controller
         if (!$user) {
             // Mensaje de debug temporal para saber qué está pasando
             return response()->json([
-                'message' => 'Usuario no autenticado',
+                'message' => __('api.user_not_authenticated'),
                 'headers' => $request->header('Authorization'),
             ], 401);
         }
@@ -136,7 +136,7 @@ class OrderController extends Controller
             DB::commit();
 
             return response()->json([
-                'message' => 'Pedido creado correctamente',
+                'message' => __('api.order_created'),
                 'pedido'  => $pedido->load('usuario', 'productos'),
             ], 201);
         } catch (\Exception $e) {
@@ -144,7 +144,7 @@ class OrderController extends Controller
             \Log::error('Error en store OrderController: ' . $e->getMessage());
 
             return response()->json([
-                'message' => 'Error al crear el pedido',
+                'message' => __('api.order_creation_error'),
                 'error'   => $e->getMessage(),
             ], 500);
         }
@@ -174,7 +174,7 @@ class OrderController extends Controller
         $pedido = Order::with('usuario', 'productos')->find($id);
 
         if (!$pedido) {
-            return response()->json(['message' => 'Pedido no encontrado'], 404);
+            return response()->json(['message' => __('api.order_not_found')], 404);
         }
 
         return response()->json($pedido);
@@ -212,7 +212,7 @@ class OrderController extends Controller
         $pedido = Order::find($id);
 
         if (!$pedido) {
-            return response()->json(['message' => 'Pedido no encontrado'], 404);
+            return response()->json(['message' => __('api.order_not_found')], 404);
         }
 
         $validated = $request->validate([
@@ -224,7 +224,7 @@ class OrderController extends Controller
         $pedido->update($validated);
 
         return response()->json([
-            'message' => 'Pedido actualizado correctamente',
+            'message' => __('api.order_updated'),
             'pedido' => $pedido,
         ]);
     }
@@ -253,12 +253,12 @@ class OrderController extends Controller
         $pedido = Order::find($id);
 
         if (!$pedido) {
-            return response()->json(['message' => 'Pedido no encontrado'], 404);
+            return response()->json(['message' => __('api.order_not_found')], 404);
         }
 
         $pedido->delete();
 
-        return response()->json(['message' => 'Pedido eliminado correctamente']);
+        return response()->json(['message' => __('api.order_deleted')]);
     }
 
     /**
@@ -280,13 +280,13 @@ class OrderController extends Controller
         $user = $request->user();
 
         if (!$user) {
-            return response()->json(['message' => 'Usuario no autenticado'], 401);
+            return response()->json(['message' => __('api.user_not_authenticated')], 401);
         }
 
         $orders = $user->pedidos()->with(['productos'])->get();
 
         if ($orders->isEmpty()) {
-            return response()->json(['message' => 'No se encontraron pedidos para este usuario'], 404);
+            return response()->json(['message' => __('api.no_orders_found')], 404);
         }
 
         return response()->json($orders);
