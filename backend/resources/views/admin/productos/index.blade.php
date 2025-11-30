@@ -1,43 +1,3 @@
-{{-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lista de Productos</title>
-</head>
-<body>
-    <h1>Panel de Administración - Lista de Productos</h1>
-
-    <table border="1">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Precio</th>
-                <th>Stock</th>
-                <th>Codigo</th>
-                <th>Imagen</th>
-                <th>Descripcion</th>
-
-            </tr>
-        </thead>
-        <tbody>
-            @foreach ($productos as $producto)
-                <tr>
-                    <td>{{ $producto->producto_id }}</td>
-                    <td>{{ $producto->nombre }}</td>
-                    <td>{{ $producto->precio }}</td>
-                    <td>{{ $producto->cantidad }}</td>
-                    <td>{{ $producto->codigo }}</td>
-                    <td><img src="{{ $producto->foto }}" alt=""></td>
-                    <td>{{ $producto->descripcion }}</td>
-                </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body>
-</html> --}}
-
 
 <x-app-layout>
     {{-- Cabecera (Header) --}}
@@ -56,12 +16,13 @@
         <div class="flex justify-between items-center mb-4">
 
             {{-- Formulario de Búsqueda --}}
-            {{-- <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-sm">
-                <x-text-input type="text" name="search" placeholder="{{ __('producto.search_placeholder') }}" class="w-full mr-2" value="{{ request('search') }}" />
+
+           <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-sm">
+                <x-text-input type="text" name="search" placeholder="__('producto.search_placeholder')" class="w-full mr-2" value="{{ request('search') }}" />
                 <x-primary-button type="submit">
-                    {{ __('producto.button_search') }}
+                   {{ __('producto.button_search')}}
                 </x-primary-button>
-            </form> --}}
+            </form>
 
             {{-- Botón de Creación --}}
             <a href="{{ route('productos.create') }}">
@@ -82,21 +43,30 @@
             {{-- Grid de Cards --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
 
-                @foreach ($productos as $producto)
+                @forelse ($productos as $producto)
                 <a href="{{ route('productos.edit', $producto->producto_id) }}"
-                class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg
-                hover:shadow-lg transition-shadow duration-200">
-                        {{--  la Imagen --}}
-                        <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="w-full h-48 object-cover">
-                        {{-- el Nombre --}}
-                        <div class="p-4 text-center">
-                            <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100 truncate">
-                                {{ $producto->nombre }}
-                            </h3>
-                        </div>
-                    </a>
-
-                @endforeach
+                    class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg
+                    hover:shadow-lg transition-shadow duration-200">
+                    {{--  la Imagen --}}
+                    <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="w-full h-48 object-cover">
+                    {{-- el Nombre --}}
+                    <div class="p-4 text-center">
+                        <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100 truncate">
+                            {{ $producto->nombre }}
+                        </h3>
+                    </div>
+                </a>
+                @empty
+                    {{-- MENSAJE DE NO RESULTADOS --}}
+                    <div class="md:col-span-4 text-center py-12 bg-white dark:bg-gray-800 rounded-lg shadow-lg">
+                        <h3 class="text-xl font-semibold text-gray-700 dark:text-gray-300 mb-2">
+                            {{ __('producto.no_results_title') }}
+                        </h3>
+                        <p class="text-gray-500 dark:text-gray-400">
+                            {{ __('producto.no_results_info') }}
+                        </p>
+                    </div>
+                @endforelse
 
             </div>
              {{-- paginacion --}}

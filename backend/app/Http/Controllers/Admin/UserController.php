@@ -12,17 +12,34 @@ class UserController extends Controller
      * Display a listing of the resource.
      *
      */
-    public function index()
+    public function index(Request $request)
     {
-        // Usamos 'with' para cargar también el nombre del ROL de cada usuario de forma eficiente
-        $users = User::with('rol')->paginate(5);
 
-        //  Devolvemos la vista (que crearemos después)
+        // Obtener el término de búsqueda y el Query Builder
+        $search = $request->input('search');
+        $query = User::with('rol'); // Siempre cargamos el rol
+
+        // Aplicar el filtro si existe un término de búsqueda
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('nombre', 'like', '%' . $search . '%')          // Buscar por Nombre
+                    ->orWhere('nombre_usuario', 'like', '%' . $search . '%') // Buscar por Email/Username
+
+                    // Buscar por nombre de ROL
+                    ->orWhereHas('rol', function ($r) use ($search) {
+                        $r->where('nombre', 'like', '%' . $search . '%');
+                    });
+            });
+        }
+
+        // Obtener los usuarios (filtrados o todos) con paginación
+        $users = $query->paginate(5)->appends(['search' => $search]);
+
+        // Devolver la vista
         return view('admin.usuarios.index', [
             'users' => $users
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
