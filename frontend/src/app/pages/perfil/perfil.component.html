@@ -1,97 +1,99 @@
 <div class="perfil">
-    <h1 class="perfil__titulo">Gestión de Perfil</h1>
+    
+    <div class="perfil__contenedor">
 
-    <div class="perfil__foto-contenedor">
-        <img 
-            class="perfil__foto-imagen" 
-            [src]="usuario.foto || 'assets/img/avatar-placeholder.png'" 
-            alt="Foto de perfil">
-        <input class="perfil__foto-input" type="file" name="image" accept="image/*">
-    </div>
-
-    <form class="perfil__formulario" id="perfilForm">
-        
-        <div class="perfil__grupo-form">
-            <label class="perfil__etiqueta" for="nombre">Nombre:</label>
-            <input 
-            class="perfil__entrada" 
-            type="text" 
-            id="nombre" 
-            name="nombre" 
-            required
-            [(ngModel)]="usuario.nombre"> 
-        </div>
-        
-        <div class="perfil__grupo-form">
-            <label class="perfil__etiqueta" for="email">Nombre usuario:</label>
-            <input 
-            class="perfil__entrada" 
-            type="email" 
-            id="email"  
-            name="email" 
-            required 
-            autocomplete="email"
-            [(ngModel)]="usuario.nombre_usuario"
-            disabled>
-        </div>
-        
-        <div class="perfil__grupo-form">
-            <label class="perfil__etiqueta" for="pass-antigua">Contraseña Actual:</label>
-            <div class="perfil__grupo-pass">
-                <label class="perfil__etiqueta-pass" for="pass-antigua">&#129763;</label>
-                <input 
-                class="perfil__entrada" 
-                type="password" 
-                id="pass-antigua" 
-                name="passwordActual" 
-                required 
-                autocomplete="current-password"
-                [(ngModel)]="passActual"> </div>
-        </div>
-
-        <h2 class="perfil__subtitulo">Cambiar Contraseña</h2>
-
-        <div class="perfil__grupo-form">
-            <label class="perfil__etiqueta" for="pass-nueva">Nueva Contraseña:</label>
-            <div class="perfil__grupo-pass">
-                <label class="perfil__etiqueta-pass" for="pass-nueva"></label>
-                <input 
-                class="perfil__entrada" 
-                type="password" 
-                id="pass-nueva" 
-                name="passwordNueva" 
-                autocomplete="new-password"
-                [(ngModel)]="passNueva">
+        <div class="perfil__contenido-superior">
+            
+            <div class="perfil__columna-foto">
+                <div class="perfil__avatar-wrapper">
+                    <img 
+                        class="perfil__foto-imagen" 
+                        [src]="usuario.foto || 'assets/img/avatar-placeholder.png'" 
+                        alt="Foto de perfil">
+                </div>
+                <input class="perfil__foto-input" type="file" name="image" accept="image/*">
             </div>
-        </div>
-        
-        <div class="perfil__grupo-form">
-            <label class="perfil__etiqueta" for="pass-confirma">Confirmar Nueva Contraseña:</label>
-            <div class="perfil__grupo-pass">
-                <label class="perfil__etiqueta-pass" for="pass-confirma"></label>
-                <input 
-                class="perfil__entrada" 
-                type="password" 
-                id="pass-confirma" 
-                name="passwordConfirm" 
-                autocomplete="new-password"
-                [(ngModel)]="passConfirm">
-            </div>
-        </div>
-        
-    </form> 
 
-    <button 
-        class="perfil__boton perfil__boton--logout" 
-        type="button" 
-        (click)="logout()">
-        Cerrar Sesión
-    </button>
+            <form class="perfil__formulario" id="perfilForm">
+                
+                <div class="perfil__grupo-form">
+                    <label class="perfil__etiqueta" for="nombre">Nombre</label>
+                    <input 
+                    class="perfil__entrada" 
+                    type="text" 
+                    id="nombre" 
+                    name="nombre" 
+                    required
+                    [(ngModel)]="usuario.nombre"> 
+                </div>
+                
+                <div class="perfil__grupo-form">
+                    <label class="perfil__etiqueta" for="email">Correo electrónico</label>
+                    <input 
+                    class="perfil__entrada" 
+                    type="email" 
+                    id="email"  
+                    name="email" 
+                    required 
+                    autocomplete="username"
+                    [(ngModel)]="usuario.nombre_usuario"
+                    disabled>
+                </div>
+                
+                <div class="perfil__grupo-form">
+                    <label class="perfil__etiqueta" for="pass-antigua">Contraseña actual</label>
+                    <input 
+                    class="perfil__entrada" 
+                    type="password" 
+                    id="pass-antigua" 
+                    name="passwordActual" 
+                    required 
+                    autocomplete="current-password"
+                    [(ngModel)]="passActual"> 
+                </div>
 
-    <button 
-        class="perfil__boton perfil__boton--actualizar" 
-        type="button" 
-        (click)="actualizarPerfil()">
-        Actualizar Perfil
-    </button>
+                <h3 class="perfil__separador">Cambiar contraseña</h3>
+
+                <div class="perfil__grupo-form">
+                    <label class="perfil__etiqueta" for="pass-nueva">Nueva contraseña</label>
+                    <input 
+                    class="perfil__entrada" 
+                    type="password" 
+                    id="pass-nueva" 
+                    name="passwordNueva" 
+                    autocomplete="new-password"
+                    [(ngModel)]="passNueva">
+                </div>
+                
+                <div class="perfil__grupo-form">
+                    <label class="perfil__etiqueta" for="pass-confirma">Confirmar nueva contraseña</label>
+                    <input 
+                    class="perfil__entrada" 
+                    type="password" 
+                    id="pass-confirma" 
+                    name="passwordConfirm" 
+                    autocomplete="new-password"
+                    [(ngModel)]="passConfirm">
+                </div>
+                
+            </form> 
+        </div>
+
+        <div class="perfil__acciones">
+            <button 
+                class="perfil__boton perfil__boton--logout" 
+                type="button" 
+                (click)="logout()">
+                Cerrar Sesión
+            </button>
+
+            <button 
+                class="perfil__boton perfil__boton--actualizar" 
+                type="button" 
+                (click)="actualizarPerfil()">
+                Actualizar perfil
+            </button>
+        </div>
+
+    </div> 
 </div>

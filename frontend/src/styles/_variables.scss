@@ -1,0 +1,47 @@
+// ==============================================
+// CREATIVE EYE - VARIABLES DE ESTILO (UI KIT)
+// ==============================================
+
+// --- PALETA DE COLORES ---
+
+// Principales (Acción y Confianza)
+$color-primario:       #00747C; // Botones, enlaces 
+$color-secundario:     #00BBC9; // Acentos, hover, iconos activos
+
+// Neutros (Estructura y Legibilidad)
+$color-blanco:         #FFFFFF; // Fondos de tarjetas y general
+$color-gris-claro:     #CACACA; // Bordes, fondos secundarios
+$color-gris-medio:     #878787; // Textos secundarios
+$color-gris-oscuro:    #202022; // Texto principal, encabezados
+
+// Para el usuario
+$color-exito:          #28a745; 
+$color-error:          #dc3545; 
+$color-aviso:          #ffc107; 
+
+// --- TIPOGRAFÍA ---
+
+// Títulos (H1, H2), Nav, Botones
+$fuente-titulos:       'Poppins', sans-serif; 
+
+// Subtítulos (H3, Cards)
+$fuente-decorativa:    'Playfair Display', serif;
+
+// Cuerpo de texto, Párrafos, Footer
+$fuente-cuerpo:        'Raleway', sans-serif;
+
+// Pesos de fuente
+$light:                 300;
+$regular:               400;
+$medium:                500;
+$semibold:              600;
+
+// --- DIMENSIONES Y ESPACIADO ---
+$unidad-espaciado:     8px;    
+$radio-borde:          8px;    
+$ancho-maximo:         1200px; 
+
+// --- PUNTOS DE RUPTURA (Responsive) ---
+$movil:                480px;
+$tablet:               768px;
+$escritorio:           1024px;

@@ -1,0 +1,111 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.carrito {
+    // Centrado y espaciado general
+    max-width: 800px; 
+    margin: 0 auto;
+    padding: $unidad-espaciado * 4 $unidad-espaciado * 2;
+    min-height: 60vh;
+
+    &__titulo {
+        font-family: $fuente-titulos;
+        color: $color-primario;
+        text-align: center;
+        margin-bottom: $unidad-espaciado * 4;
+        font-size: 2rem;
+    }
+
+    // Mensaje cuando está vacío
+    &__mensaje-vacio {
+        text-align: center;
+        padding: $unidad-espaciado * 4;
+        background-color: $color-blanco;
+        border-radius: $radio-borde;
+        border: 1px dashed $color-gris-claro;
+        color: $color-gris-medio;
+        font-size: 1.2rem;
+    }
+
+    // Lista de productos (tipo tarjeta/fila)
+    &__lista {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: $unidad-espaciado * 2;
+    }
+
+    // Cada fila del carrito
+    &__item {
+        @include tarjeta-estilo; 
+        padding: $unidad-espaciado * 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        
+        @include version('movil') {
+        flex-direction: column; // 
+        align-items: flex-start;
+        gap: $unidad-espaciado;
+        }
+
+        &-nombre {
+        font-family: $fuente-titulos;
+        font-weight: $medium;
+        color: $color-gris-oscuro;
+        flex-grow: 1; 
+        font-size: 1.1rem;
+        }
+
+        &-cantidad {
+        color: $color-gris-medio;
+        font-size: 0.9rem;
+        margin: 0 $unidad-espaciado * 2;
+        }
+
+        &-precio {
+        font-weight: $semibold;
+        color: $color-primario;
+        font-size: 1.1rem;
+        min-width: 80px; 
+        text-align: right;
+        }
+
+        // Botón de eliminar 
+        &-eliminar {
+        background-color: transparent;
+        color: $color-error; 
+        font-size: 1.5rem;
+        margin-left: $unidad-espaciado * 2;
+        padding: 4px 8px;
+        border-radius: 4px;
+        transition: all 0.2s;
+        line-height: 1; 
+
+        &:hover {
+            background-color: rgba($color-error, 0.1);
+            transform: scale(1.1);
+        }
+        }
+    }
+
+    // Sección del total
+    &__total {
+        margin-top: $unidad-espaciado * 4;
+        text-align: right;
+        font-family: $fuente-titulos;
+        font-size: 1.5rem;
+        color: $color-gris-oscuro;
+        padding-top: $unidad-espaciado * 2;
+        border-top: 2px solid $color-primario; 
+
+        &-cantidad {
+        font-weight: $semibold;
+        color: $color-primario;
+        font-size: 2rem; 
+        margin-left: $unidad-espaciado;
+        }
+    }
+}

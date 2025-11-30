@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet, RouterLink } from '@angular/router';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
 import { CartService } from './services/cart.service';
 // import { HealthService } from './services/health.service';
 // import { LoginComponent } from './pages/login/login.component';
@@ -10,7 +10,7 @@ import { AuthService } from './services/auth.service';
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
@@ -33,7 +33,6 @@ export class AppComponent implements OnInit {
     });
 
     if (this.authService.isLoggedIn()) {
-      // Si SÍ lo está, le decimos al CartService que cargue el carrito de la bbdd
       console.log('Usuario ya logueado, cargando carrito...');
       this.cartService.loadCart().subscribe();
     }
