@@ -100,7 +100,7 @@ class UserController extends Controller
         $usuario = User::create($validatedData);
 
         return response()->json([
-            'message' => 'Usuario creado correctamente',
+            'message' => __('api.user_created'),
             'usuario' => $usuario,
         ], 201);
     }
@@ -129,7 +129,7 @@ class UserController extends Controller
         $usuario = User::with('rol')->find($id);
 
         if (!$usuario) {
-            return response()->json(['message' => 'Usuario no encontrado'], 404);
+            return response()->json(['message' => __('api.user_not_found')], 404);
         }
 
         return response()->json($usuario);
@@ -170,7 +170,7 @@ class UserController extends Controller
         $usuario = User::find($id);
 
         if (!$usuario) {
-            return response()->json(['message' => 'Usuario no encontrado'], 404);
+            return response()->json(['message' => __('api.user_not_found')], 404);
         }
 
         $validatedData = $request->validate([
@@ -188,7 +188,7 @@ class UserController extends Controller
         $usuario->update($validatedData);
 
         return response()->json([
-            'message' => 'Usuario actualizado correctamente',
+            'message' => __('api.user_updated'),
             'usuario' => $usuario,
         ]);
     }
@@ -218,11 +218,11 @@ class UserController extends Controller
         $usuario = User::find($id);
 
         if (!$usuario) {
-            return response()->json(['message' => 'Usuario no encontrado'], 404);
+            return response()->json(['message' => __('api.user_not_found')], 404);
         }
 
         $usuario->delete();
 
-        return response()->json(['message' => 'Usuario eliminado correctamente']);
+        return response()->json(['message' => __('api.user_deleted')]);
     }
 }

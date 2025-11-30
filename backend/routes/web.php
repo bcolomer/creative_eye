@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\LanguageController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -64,5 +65,14 @@ Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     // Borrar Usuario
     Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('admin.usuarios.destroy');
 });
+
+
+// Ruta para cambiar el idioma con arrays por medio de botón como prueba para dashboard y welcome de Laravel
+Route::get('language/{locale}', [LanguageController::class, 'setLanguage'])->name('lang.switch');
+
+// Ruta para cambiar el idioma con json
+
+Route::get('lang/{locale}', [LanguageController::class, 'setLocale'])->name('locale.set');
+
 
 require __DIR__ . '/auth.php';

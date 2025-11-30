@@ -10,7 +10,7 @@
 
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                        {{ __('Dashboard') }}
+                        {{ __('nav.link_dashboard') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -36,20 +36,20 @@
                     <x-slot name="content">
                         {{-- ENLACES DENTRO DEL DROPDOWN (PC) --}}
                         <x-dropdown-link :href="route('profile.edit')">
-                            {{ __('Perfil') }}
+                            {{ __('nav.link_profile') }}
                         </x-dropdown-link>
 
                         {{-- PRODUCTOS: visible si es Almacén (2) --}}
                         @if(Auth::user()->rol_id == 2 /* || Auth::user()->rol_id == 1 */)
                         <x-dropdown-link :href="route('productos.index')">
-                            {{ __('Productos') }}
+                            {{ __('nav.link_products') }}
                         </x-dropdown-link>
                         @endif
 
                         {{-- USUARIOS: visible solo si es Admin (1) --}}
                         @if(Auth::user()->rol_id == 1)
                         <x-dropdown-link :href="route('admin.usuarios.index')">
-                            {{ __('Usuarios') }}
+                            {{ __('nav.link_users') }}
                         </x-dropdown-link>
                         @endif
 
@@ -57,7 +57,7 @@
                             @csrf
                             <x-dropdown-link :href="route('logout')"
                                 onclick="event.preventDefault(); this.closest('form').submit();">
-                                {{ __('Log Out') }}
+                                {{ __('nav.link_logout') }}
                             </x-dropdown-link>
                         </form>
                     </x-slot>
@@ -78,7 +78,7 @@
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                {{ __('Dashboard') }}
+                {{ __('nav.link_dashboard') }}
             </x-responsive-nav-link>
         </div>
 
@@ -92,20 +92,20 @@
             <div class="mt-3 space-y-1">
                 {{-- ENLACES RESPONSIVE --}}
                 <x-responsive-nav-link :href="route('profile.edit')">
-                    {{ __('Perfil') }}
+                    {{ __('nav.link_profile') }}
                 </x-responsive-nav-link>
 
                 {{-- PRODUCTOS (RESPONSIVE) --}}
                 @if(Auth::user()->rol_id == 1 || Auth::user()->rol_id == 2)
                 <x-responsive-nav-link :href="route('productos.index')">
-                    {{ __('Productos') }}
+                    {{ __('nav.link_products') }}
                 </x-responsive-nav-link>
                 @endif
 
                 {{-- USUARIOS (RESPONSIVE) --}}
                 @if(Auth::user()->rol_id == 1)
                 <x-responsive-nav-link :href="route('admin.usuarios.index')">
-                    {{ __('Usuarios') }}
+                    {{ __('nav.link_users') }}
                 </x-responsive-nav-link>
                 @endif
 
@@ -115,7 +115,7 @@
                     <x-responsive-nav-link :href="route('logout')"
                         onclick="event.preventDefault();
                                     this.closest('form').submit();">
-                        {{ __('Log Out') }}
+                        {{ __('nav.link_logout') }}
                     </x-responsive-nav-link>
                 </form>
             </div>

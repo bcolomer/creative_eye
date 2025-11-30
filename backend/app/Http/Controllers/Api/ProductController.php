@@ -116,7 +116,7 @@ class ProductController extends Controller
         $product = Product::where('producto_id', $producto_id)->first();
 
         if (!$product) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json(['message' => __('api.product_not_found')], 404);
         }
 
         return $product;
@@ -157,7 +157,7 @@ class ProductController extends Controller
         $product = Product::where('producto_id', $producto_id)->first();
 
         if (!$product) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json(['message' => __('api.product_not_found')], 404);
         }
 
         $product->update($request->all());
@@ -190,10 +190,10 @@ class ProductController extends Controller
         $product = Product::where('producto_id', $producto_id)->first();
 
         if (!$product) {
-            return response()->json(['message' => 'Producto no encontrado'], 404);
+            return response()->json(['message' => __('api.product_not_found')], 404);
         }
 
         $product->delete();
-        return response()->json(['message' => 'Producto eliminado correctamente'], 200);
+        return response()->json(['message' => __('api.product_deleted')], 200);
     }
 }

@@ -58,7 +58,7 @@ class ProductController extends Controller
 
         // Redirigir al usuario de vuelta a la lista de productos
         //    con un mensaje de éxito.
-        return redirect()->route('productos.index')->with('status', '¡Producto creado con éxito!');
+        return redirect()->route('productos.index')->with('status', __('producto.create_success'));
     }
 
     /**
@@ -113,7 +113,7 @@ class ProductController extends Controller
         $producto->update($validated);
 
 
-        return redirect()->route('productos.edit', $producto->producto_id)->with('status', '¡Producto actualizado con éxito!');
+        return redirect()->route('productos.edit', $producto->producto_id)->with('status', __('producto.update_success'));
     }
 
     /**
@@ -133,6 +133,6 @@ class ProductController extends Controller
         // Borramos el producto de la base de datos
         $producto->delete();
 
-        return redirect()->route('productos.index')->with('status', '¡Producto eliminado con éxito!');
+        return redirect()->route('productos.index')->with('status', __('producto.delete_success'));
     }
 }

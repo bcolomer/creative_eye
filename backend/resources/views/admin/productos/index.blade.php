@@ -43,7 +43,7 @@
     {{-- Cabecera (Header) --}}
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
-            Gestión de Productos (Almacén)
+            {{ __('producto.index_title') }}
         </h2>
     </x-slot>
 
@@ -57,19 +57,25 @@
 
             {{-- Formulario de Búsqueda --}}
             {{-- <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-sm">
-                <x-text-input type="text" name="search" placeholder="Buscar por nombre, código o precio..." class="w-full mr-2" value="{{ request('search') }}" />
+                <x-text-input type="text" name="search" placeholder="{{ __('producto.search_placeholder') }}" class="w-full mr-2" value="{{ request('search') }}" />
                 <x-primary-button type="submit">
-                    {{ __('Buscar') }}
+                    {{ __('producto.button_search') }}
                 </x-primary-button>
             </form> --}}
 
             {{-- Botón de Creación --}}
             <a href="{{ route('productos.create') }}">
                 <x-primary-button>
-                    {{ __('Crear Nuevo Producto') }}
+                   {{ __('producto.button_create_new') }}
                 </x-primary-button>
             </a>
         </div>
+
+        @if (session('status'))
+            <div class="mb-4 font-medium text-sm text-green-600 dark:text-green-400 p-3 bg-green-100 dark:bg-green-700 rounded-lg">
+                {{ session('status') }}
+            </div>
+        @endif
 
         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg"></div>
 
