@@ -27,6 +27,7 @@ class ProductController extends Controller
             // Buscamos coincidencia en: nombre, código o precio (usando LIKE)
             $query->where('nombre', 'like', '%' . $search . '%')
                 ->orWhere('codigo', 'like', '%' . $search . '%')
+                ->orWhere('descripcion', 'like', '%' . $search . '%')
                 ->orWhere('precio', 'like', '%' . $search . '%');
         }
 

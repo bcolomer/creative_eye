@@ -17,8 +17,8 @@
 
             {{-- Formulario de Búsqueda --}}
 
-           <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-sm">
-                <x-text-input type="text" name="search" placeholder="__('producto.search_placeholder')" class="w-full mr-2" value="{{ request('search') }}" />
+           <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-lg">
+                <x-text-input type="text" name="search" placeholder="{{__('producto.search_placeholder')  }}" class="w-full mr-2" value="{{ request('search') }}" />
                 <x-primary-button type="submit">
                    {{ __('producto.button_search')}}
                 </x-primary-button>
