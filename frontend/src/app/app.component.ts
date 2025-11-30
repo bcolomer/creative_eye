@@ -5,12 +5,13 @@ import { CartService } from './services/cart.service';
 // import { HealthService } from './services/health.service';
 // import { LoginComponent } from './pages/login/login.component';
 import { AuthService } from './services/auth.service';
+import { FooterComponent } from './shared/footer/footer.component';
 
 // LoginComponent - Prueba
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, FooterComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
