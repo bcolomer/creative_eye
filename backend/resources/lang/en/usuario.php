@@ -18,6 +18,11 @@ return [
     'no_photo' => 'No photo',
     'no_role' => 'No Role',
     'button_edit' => 'Edit',
+    'search_placeholder_user' => 'Search by name, email, or role...',
+    'button_search' => 'Search',
+    'no_search_results_title' => 'Oops! No users found.',
+    'no_search_results_info' => 'Try a different search by name, email, or role.',
+
 
     // --- Creation and Edition Views (create/edit.blade.php) ---
     'create_title' => 'Create New User',
@@ -34,4 +39,6 @@ return [
     'edit_title_prefix' => 'Edit User:',
     'button_update' => 'Save Changes',
     'advanced_options_title' => 'Advanced Options (Delete Account)',
+    'confirm_delete_admin_title' => 'Are you sure you want to delete :nombre?',
+    'confirm_delete_admin_info' => 'This action will permanently delete the user and their data. This action cannot be undone.',
 ];

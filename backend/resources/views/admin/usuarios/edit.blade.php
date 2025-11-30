@@ -84,13 +84,40 @@
                             {{ __('admin.delete_account_info') }}
                         </p>
 
-                        <form method="POST" action="{{ route('admin.usuarios.destroy', $user->usuario_id) }}" onsubmit="return confirm({{ __('admin.confirm_delete_user', ['nombre' => $user->nombre]) }});">
-                            @csrf
-                            @method('DELETE')
-                            <x-danger-button type="submit">
+                        {{-- Botón Disparador del Modal --}}
+                            <x-danger-button
+                                x-data=""
+                                x-on:click.prevent="$dispatch('open-modal', 'confirm-user-admin-deletion')"
+                            >
                                 {{ __('usuario.button_delete_account') }}
                             </x-danger-button>
-                        </form>
+                        </div>
+
+                        {{-- Modal de Confirmación --}}
+                        <x-modal name="confirm-user-admin-deletion" focusable>
+                            <form method="POST" action="{{ route('admin.usuarios.destroy', $user->usuario_id) }}" class="p-6">
+                                @csrf
+                                @method('DELETE')
+
+                                <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+                                    {{ __('usuario.confirm_delete_admin_title', ['nombre' => $user->nombre]) }}
+                                </h2>
+
+                                <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                                    {{ __('usuario.confirm_delete_admin_info') }}
+                                </p>
+
+                                <div class="mt-6 flex justify-end">
+                                    <x-secondary-button x-on:click="$dispatch('close')">
+                                        {{ __('profile.button_cancel') }}
+                                    </x-secondary-button>
+
+                                    <x-danger-button class="ms-3">
+                                        {{ __('usuario.button_delete_account') }}
+                                    </x-danger-button>
+                                </div>
+                            </form>
+                        </x-modal>
                     </div>
 
                 </div>

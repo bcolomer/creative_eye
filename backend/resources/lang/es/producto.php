@@ -9,13 +9,19 @@ return [
     // --- Vistas de Lista (index.blade.php) ---
     'index_title' => 'Gestión de Productos (Almacén)',
     'button_create_new' => 'Crear Nuevo Producto',
-    'search_placeholder' => 'Buscar por nombre, código o precio...',
+    'search_placeholder' => 'Buscar por nombre, código, descripción o precio...',
     'button_search' => 'Buscar',
+    // --- Claves de "No Resultados" (Añadidas) ---
+    'no_results_title' => '¡Vaya! No se encontraron productos.',
+    'no_results_info' => 'Intenta una búsqueda diferente o verifica si el término es correcto.',
 
     // --- Vistas de Creación y Edición (create/edit.blade.php) ---
     'create_title' => 'Crear Nuevo Producto',
     'edit_title' => 'Editar Producto',
     'delete_title' => 'Borrar Producto',
+    'confirm_delete_title' => '¿Estás seguro de que quieres eliminar este producto?',
+    'confirm_delete_info' => 'Esta acción es permanente. Una vez eliminado, todos sus datos serán borrados.',
+
 
     // --- Etiquetas de Campos (Labels) ---
     'field_name' => 'Nombre',

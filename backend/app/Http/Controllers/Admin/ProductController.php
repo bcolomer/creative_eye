@@ -12,11 +12,31 @@ class ProductController extends Controller
     /**
      * Muestra lista de productos.
      */
-    public function index()
-    {
-        $productos = Product::paginate(5);
-        /* $productos = Product::all();  */
 
+
+    public function index(Request $request)
+    {
+        // 1. Obtener el término de búsqueda de la URL
+        $search = $request->input('search');
+
+        // 2. Inicializar la consulta al modelo Product
+        $query = Product::query();
+
+        // 3. Aplicar el filtro si existe un término de búsqueda
+        if ($search) {
+            // Buscamos coincidencia en: nombre, código o precio (usando LIKE)
+            $query->where('nombre', 'like', '%' . $search . '%')
+                ->orWhere('codigo', 'like', '%' . $search . '%')
+                ->orWhere('descripcion', 'like', '%' . $search . '%')
+                ->orWhere('precio', 'like', '%' . $search . '%');
+        }
+
+        // 4. Obtener los productos (filtrados o todos) con paginación
+        // NOTA: Usamos ->appends(['search' => $search]) para que la paginación
+        // mantenga el término de búsqueda al cambiar de página.
+        $productos = $query->paginate(5)->appends(['search' => $search]);
+
+        // 5. Devolver la vista
         return view('admin.productos.index', [
             'productos' => $productos
         ]);

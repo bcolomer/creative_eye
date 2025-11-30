@@ -9,13 +9,19 @@ return [
     // --- List Views (index.blade.php) ---
     'index_title' => 'Product Management (Warehouse)',
     'button_create_new' => 'Create New Product',
-    'search_placeholder' => 'Search by name, code, or price...',
+    'search_placeholder' => 'Search by name, code, description or price...',
     'button_search' => 'Search',
+
+    // --- "No Results" Keys (Added) ---
+    'no_results_title' => 'Oops! No products found.',
+    'no_results_info' => 'Please try a different search or check if the term is correct.',
 
     // --- Creation and Edition Views (create/edit.blade.php) ---
     'create_title' => 'Create New Product',
     'edit_title' => 'Edit Product',
     'delete_title' => 'Delete Product',
+    'confirm_delete_title' => 'Are you sure you want to delete this product?',
+    'confirm_delete_info' => 'This action is permanent. Once deleted, all its data will be erased.',
 
     // --- Field Labels ---
     'field_name' => 'Name',

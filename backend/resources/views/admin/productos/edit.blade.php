@@ -96,15 +96,40 @@
                         {{ __('admin.delete_product_info') }}
                     </p>
 
-                    {{-- Este es el formulario de borrado --}}
-                    <form method="POST" action="{{ route('productos.destroy', $producto->producto_id) }}" class="mt-6" onsubmit="return confirm('{{ __('admin.confirm_delete_product') }}');">                        @csrf
-                        @method('DELETE')
+{{-- Botón Disparador del Modal (usa x-on:click para abrir el modal) --}}
+<x-danger-button
+    x-data=""
+    x-on:click.prevent="$dispatch('open-modal', 'confirm-product-deletion')"
+    class="mt-6"
+>
+    {{ __('producto.button_delete') }}
+</x-danger-button>
 
-                        {{-- Usamos el botón de peligro (rojo) de Breeze --}}
-                        <x-danger-button>
-                            {{ __('producto.button_delete') }}
-                        </x-danger-button>
-                    </form>
+{{-- Modal de Confirmación (El cuadro de diálogo) --}}
+<x-modal name="confirm-product-deletion" focusable>
+    <form method="POST" action="{{ route('productos.destroy', $producto->producto_id) }}" class="p-6">
+        @csrf
+        @method('DELETE')
+
+        <h2 class="text-lg font-medium text-gray-900 dark:text-gray-100">
+            {{ __('producto.confirm_delete_title') }}
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-600 dark:text-gray-400">
+            {{ __('producto.confirm_delete_info') }}
+        </p>
+
+        <div class="mt-6 flex justify-end">
+            <x-secondary-button x-on:click="$dispatch('close')">
+                {{ __('profile.button_cancel') }}
+            </x-secondary-button>
+
+            <x-danger-button class="ms-3">
+                {{ __('producto.button_delete') }}
+            </x-danger-button>
+        </div>
+    </form>
+</x-modal>
 
                 </div>
             </div>
