@@ -24,7 +24,8 @@ export class AppComponent implements OnInit {
 
   constructor(
     private cartService: CartService,
-    private authService: AuthService
+    // private authService: AuthService
+    public authService: AuthService
   ) {}
 
   ngOnInit(): void {
