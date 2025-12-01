@@ -2,7 +2,7 @@
     <div class="encabezado__contenedor">
         
         <a [routerLink]="['/']" class="encabezado__marca" (click)="closeMenu()">
-            <span class="encabezado__titulo">Creative Eye</span>
+            <img src="/assets/images/creativelogoheader.png" alt="Logo Creative Eye" class="encabezado__logo">
         </a>
 
         <button class="encabezado__hamburguesa" (click)="toggleMenu()" aria-label="Menú">
@@ -23,10 +23,22 @@
                 <li class="encabezado__item">
                     <a [routerLink]="['/productos']" (click)="closeMenu()" routerLinkActive="encabezado__enlace--activo" class="encabezado__enlace">Tienda</a>
                 </li>
-                
-                <li class="encabezado__item" *ngIf="authService.isLoggedIn()">
+                                
+                <li class="encabezado__item" *ngIf="authService.isLoggedIn() && !authService.isAlmacen()">
                     <a [routerLink]="['/carrito']" (click)="closeMenu()" routerLinkActive="encabezado__enlace--activo" class="encabezado__enlace">
                         Carrito <span *ngIf="cartItemCount > 0" class="encabezado__contador">({{ cartItemCount }})</span>
+                    </a>
+                </li>
+
+                <li class="encabezado__item" *ngIf="authService.isAdmin()">
+                    <a href="http://127.0.0.1:8000/usuarios" target="_blank" class="encabezado__enlace encabezado__enlace--boton">
+                        Admin
+                    </a>
+                </li>
+
+                <li class="encabezado__item" *ngIf="authService.isAlmacen()">
+                    <a href="http://127.0.0.1:8000/productos" target="_blank" class="encabezado__enlace encabezado__enlace--boton">
+                        Almacén
                     </a>
                 </li>
                 
