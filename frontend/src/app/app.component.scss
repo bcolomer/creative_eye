@@ -26,12 +26,25 @@
         text-decoration: none;
         color: $color-blanco;
         cursor: pointer;
+        margin-right: $unidad-espaciado * 2;
     }
 
-    &__titulo {
-        font-family: $fuente-titulos;
-        font-weight: $semibold;
-        font-size: 1.5rem;
+    // Estilo del logo
+    &__logo {
+        height: 60px;
+        width: auto;  // Mantiene la proporción
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        
+        
+        @include version('tablet') {
+        height: 50px;
+        }
+
+        // Efecto zoom al pasar el ratón por el logo
+        &:hover {
+            transform: scale(1.05);
+        }
     }
 
     // --- MENú HAMBURGUESA ---
@@ -44,7 +57,7 @@
         padding: 5px;
 
         @include version('movil') {
-        display: block; 
+            display: block; 
         }
     }
 

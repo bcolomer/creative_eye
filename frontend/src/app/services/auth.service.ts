@@ -59,13 +59,14 @@ export class AuthService {
    * Añadimos el logout del usuario
    */
   logout(): void {
-    // Borramos el token de la memoria del navegador
+
     localStorage.removeItem('token');
-    // Borramos la memoria del carrito para que no lo vea el siguiente usuario a loguearse
+
+    localStorage.removeItem('user'); 
+
     this.cartService.clearCart();
     
-    // Redirigimos al usuario a la página de inicio
-    console.log('Sesión cerrada. ¡Hasta la próxima!');
+    console.log('Sesión cerrada. ¡Hasta la próxima!.');
     this.router.navigate(['/']); 
   }
 
@@ -83,7 +84,7 @@ export class AuthService {
       })
     };
 
-    // Enviamos a la ruta que Bárbara definió: /api/register
+    // Enviamos a la ruta /api/register
     return this.http.post(`${this.apiUrl}/register`, datos, httpOptions);
   }
 
@@ -102,6 +103,40 @@ export class AuthService {
     };
     
     return this.http.put(`${this.apiUrl}/profile`, datos, httpOptions);
+  }
+
+  /**
+   * Comprueba si hay un usuario con rol administrador
+   */
+  isAdmin(): boolean {
+    const userString = localStorage.getItem('user');
+    
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        return user && user.rol_id === 1;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
+  }
+
+  /**
+   * Comprueba si el usuario tiene rol de Almacén (rol_id === 2)
+   */
+  isAlmacen(): boolean {
+    const userString = localStorage.getItem('user');
+    
+    if (userString) {
+      try {
+        const user = JSON.parse(userString);
+        return user && user.rol_id === 2;
+      } catch (e) {
+        return false;
+      }
+    }
+    return false;
   }
 
 }
