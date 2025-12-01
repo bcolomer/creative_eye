@@ -20,6 +20,8 @@ export class AppComponent implements OnInit {
 
   public cartItemCount: number = 0;
 
+  public menuAbierto: boolean = false;
+
   constructor(
     private cartService: CartService,
     private authService: AuthService
@@ -37,5 +39,15 @@ export class AppComponent implements OnInit {
       console.log('Usuario ya logueado, cargando carrito...');
       this.cartService.loadCart().subscribe();
     }
+  }
+
+  // Método para cambiar el estado del menú
+  toggleMenu(): void {
+    this.menuAbierto = !this.menuAbierto;
+  }
+
+  // Método para cerrar el menú cuando pulsas en un enlace
+  closeMenu(): void {
+    this.menuAbierto = false;
   }
 }
