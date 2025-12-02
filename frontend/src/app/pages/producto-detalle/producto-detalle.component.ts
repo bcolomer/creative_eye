@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // Para usar *ngIf en el HTM
 
 
-import { ActivatedRoute } from '@angular/router'; // Lee la URL
+import { ActivatedRoute, Router } from '@angular/router'; // Lee la URL
+import { AuthService } from '../../services/auth.service';
 import { ProductService } from '../../services/product.service'; // Para PEDIR el producto
 import { CartService } from '../../services/cart.service';
 
@@ -23,10 +24,14 @@ export class ProductoDetalleComponent implements OnInit {
   errorMessage: string | null = null; // Para guardar el mensaje de error
   public cantidad: number = 1;
 
+  private audioObturador = new Audio('/assets/sounds/sonido-obturador.mp3');
+
   constructor(
     private route: ActivatedRoute, // Para leer la URL
+    private router: Router,
     private productService: ProductService, // Para pedir datos
-    private cartService: CartService
+    private cartService: CartService,
+    private authService: AuthService
   ) {}
 
   ngOnInit(): void {
@@ -66,20 +71,25 @@ export class ProductoDetalleComponent implements OnInit {
   }
 
   // Llamamos al CartService para añadir el producto actual al carrito.
-addToCart(): void { 
+  addToCart(): void { 
+    
+    // Comprobamos si NO está logueado
+    if (!this.authService.isLoggedIn()) {
+      alert('Debes ser un usuario registrado para realizar la compra');
+      this.router.navigate(['/login']);
+      return; 
+    }
+
+    // Si está logueado, continúa normal
     if (this.producto) {
-      
-      // 4. AHORA lee la cantidad de 'this.cantidad'
       this.cartService.addProduct(this.producto, this.cantidad).subscribe({
-        
         next: (respuesta) => {
-          console.log('Producto añadido con éxito', respuesta);
+          this.audioObturador.play().catch(error => console.warn('No se pudo reproducir el sonido:', error));
           alert('¡Producto añadido al carrito!'); 
-          // (Opcional) Resetea la cantidad a 1 después de añadir
           this.cantidad = 1; 
         },
         error: (err) => {
-          console.error('Error al añadir el producto:', err);
+          console.error(err);
           alert('No se pudo añadir el producto. Inténtalo de nuevo.');
         }
       });

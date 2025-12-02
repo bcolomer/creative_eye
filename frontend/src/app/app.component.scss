@@ -1,11 +1,10 @@
 @import '../styles/variables';
 @import '../styles/mixins';
 
-// Bloque Principal
 .encabezado {
-    background-color: $color-primario; 
+    background-color: $color-primario;
     width: 100%;
-    padding: ($unidad-espaciado * 2) 0; 
+    padding: ($unidad-espaciado * 2) 0;
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -15,83 +14,123 @@
         max-width: $ancho-maximo;
         margin: 0 auto;
         padding: 0 ($unidad-espaciado * 2);
-        
-        // Usamos Flexbox para separar logo y menú 
         display: flex;
         justify-content: space-between;
         align-items: center;
-
-        // En móvilse apilan si no caben
-        @include version('movil') {
-        flex-direction: column;
-        gap: $unidad-espaciado * 2;
-        }
+        position: relative; 
     }
 
-    // --- MARCA / LOGO ---
     &__marca {
         display: flex;
         align-items: center;
         text-decoration: none;
         color: $color-blanco;
-        gap: $unidad-espaciado;
+        cursor: pointer;
+        margin-right: $unidad-espaciado * 2;
     }
 
-    &__titulo {
-        font-family: $fuente-titulos; 
-        font-weight: $semibold;
-        font-size: 1.5rem;
-        letter-spacing: 0.5px;
-    }
+    // Estilo del logo
+    &__logo {
+        height: 60px;
+        width: auto;  // Mantiene la proporción
+        object-fit: contain;
+        transition: transform 0.3s ease;
+        
+        
+        @include version('tablet') {
+        height: 50px;
+        }
 
-    // --- NAV Y LISTA ---
-    &__lista {
-        display: flex;
-        gap: $unidad-espaciado * 4; 
-        list-style: none;
-        margin: 0;
-        padding: 0;
-
-        @include version('movil') {
-        gap: $unidad-espaciado * 2;
-        flex-wrap: wrap;
-        justify-content: center;
+        // Efecto zoom al pasar el ratón por el logo
+        &:hover {
+            transform: scale(1.05);
         }
     }
 
-    // --- ENLACES ---
+    // --- MENú HAMBURGUESA ---
+    &__hamburguesa {
+        display: none; 
+        background: none;
+        border: none;
+        color: $color-blanco;
+        cursor: pointer;
+        padding: 5px;
+
+        @include version('movil') {
+            display: block; 
+        }
+    }
+
+    // --- NAVEGACIÓN ---
+    &__nav {
+        // ESTILOS MÓVIL (Por defecto oculto o transformado)
+        @include version('movil') {
+            position: absolute;
+            top: 100%; 
+            left: 0;
+            width: 100%;
+            background-color: $color-primario; 
+            padding: $unidad-espaciado * 2;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            
+            // Ocultaremos por defecto
+            display: none; 
+            
+            // Cuando está activo 
+            &--activo {
+                display: block;
+                animation: deslizarAbajo 0.3s ease;
+            }
+        }
+    }
+
+    &__lista {
+        display: flex;
+        gap: $unidad-espaciado * 4;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        align-items: center;
+
+        @include version('movil') {
+            flex-direction: column; 
+            gap: $unidad-espaciado * 2;
+            width: 100%;
+        }
+    }
+
     &__enlace {
-        font-family: $fuente-titulos; 
+        font-family: $fuente-titulos;
         font-weight: $medium;
         color: $color-blanco;
         font-size: 1rem;
         padding-bottom: 4px;
-        border-bottom: 2px solid transparent; // Para el efecto hover
+        border-bottom: 2px solid transparent;
         transition: all 0.3s ease;
+        cursor: pointer;
 
         &:hover, &--activo {
-        color: $color-secundario; 
+        color: $color-secundario;
         border-bottom-color: $color-secundario;
         }
 
         &--boton {
-        background-color: rgba(255, 255, 255, 0.1);
-        padding: 8px 16px;
-        border-radius: $radio-borde;
-        border: 1px solid transparent;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 8px 16px;
+            border-radius: $radio-borde;
+            border: 1px solid transparent;
 
-        &:hover {
-            background-color: $color-secundario;
-            color: $color-blanco; 
-            border-color: $color-secundario;
-        }
+            &:hover {
+                background-color: $color-secundario;
+                color: $color-blanco;
+                border-color: $color-secundario;
+            }
         }
     }
 
-    // --- CONTADOR CARRITO ---
     &__contador {
         background-color: $color-blanco;
-        color: $color-gris-oscuro;
+        color: $color-primario;
         font-size: 0.8rem;
         padding: 2px 6px;
         border-radius: 10px;
@@ -101,10 +140,15 @@
     }
 }
 
-    // Ajuste para el contenido principal (que no se pegue al header)
-    .contenedor-principal {
-    max-width: $ancho-maximo;
-    margin: ($unidad-espaciado * 4) auto; // Margen arriba
-    padding: 0 ($unidad-espaciado * 2);
-    min-height: 80vh; // Para que el footer baje
+.contenedor-principal {
+        max-width: $ancho-maximo;
+        margin: ($unidad-espaciado * 4) auto;
+        padding: 0 ($unidad-espaciado * 2);
+        min-height: 80vh;
+    }
+
+    // Animación menú hamburguessa
+    @keyframes deslizarAbajo {
+        from { opacity: 0; transform: translateY(-10px); }
+        to { opacity: 1; transform: translateY(0); }
     }
