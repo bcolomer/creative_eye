@@ -42,9 +42,8 @@ class ProfileController extends Controller
             Log::debug('Ruta Antigua (leída de la BBDD): ' . $oldPhotoPath);
 
             // Guarda la foto NUEVA
-            $path = $request->file('foto')->store('profile-photos', 'public');
-            $request->user()->foto = '/storage/' . $path;
-
+            $path = $request->file('foto')->store('', 'profile_private');
+            $request->user()->foto = $path;
             Log::debug('Ruta Nueva (guardada en BBDD): ' . $request->user()->foto);
 
 
@@ -78,9 +77,8 @@ class ProfileController extends Controller
         $user = $request->user();
 
         // Si borra el perfil que se borre su foto
-        if ($user->foto && str_starts_with($user->foto, '/storage/')) {
-            $storagePath = str_replace('/storage/', '', $user->foto);
-            Storage::disk('public')->delete($storagePath);
+        if ($user->foto) {
+            Storage::disk('profile_private')->delete($user->foto);
         }
 
         Auth::logout();
@@ -91,5 +89,34 @@ class ProfileController extends Controller
         $request->session()->regenerateToken();
 
         return Redirect::to('/')->with('status', 'account-deleted');
+    }
+
+    /**
+     * Muestra la foto de perfil de un usuario, verificando la autorización.
+     */
+    public function showPhoto(string $fileName)
+    {
+        // Obtenemos el usuario que está intentando acceder a la foto
+        $user = Auth::user();
+
+        // Buscamos al usuario que posee este archivo (fileName es la ruta almacenada)
+        $photoOwner = \App\Models\User::where('foto', $fileName)->first();
+
+        // Si el archivo no corresponde a ningún usuario (o no existe)
+        if (!$photoOwner) {
+            return response()->json(['message' => __('api.photo_not_found')], 404);
+        }
+
+        // Comprobación de Autorización: Solo el dueño O el administrador pueden verla
+        $isAdmin = $user->rol_id == 1;
+        $isOwner = $user->usuario_id === $photoOwner->usuario_id;
+
+        // Si NO es Admin Y NO es el Dueño, acceso denegado.
+        if (!$isAdmin && !$isOwner) {
+            return response()->json(['message' => __('api.photo_access_denied')], 403);
+        }
+
+        // Transmitir el archivo desde el disco privado
+        return Storage::disk('profile_private')->response($fileName);
     }
 }

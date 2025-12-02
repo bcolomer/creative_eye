@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
 /**
@@ -80,21 +82,44 @@ class ProfileController extends Controller
     // PUT /api/profile → actualiza datos del usuario autenticado
     public function update(Request $request)
     {
-        $user = $request->user();
+        /*  $user = $request->user();*/
+        $user = Auth::user();
 
         // Validar campos que se pueden modificar
         $validated = $request->validate([
             'nombre' => 'sometimes|string|max:255',
-            'foto' => 'sometimes|nullable|string',
+            'foto' => 'sometimes|nullable|image|max:2048',
             'password' => 'sometimes|nullable|string|min:8|confirmed',
         ]);
 
-        // Actualizar campos permitidos
+        /*   // Actualizar campos permitidos
         if (isset($validated['password'])) {
             $validated['password'] = Hash::make($validated['password']);
         }
 
-        $user->update($validated);
+        $user->update($validated); */
+        // 2. Rellenar los datos básicos
+        $user->fill($validated);
+
+        // 3. Lógica de FOTO (Igual que en el Web Controller)
+        if ($request->hasFile('foto')) {
+            $oldPhotoPath = $user->getOriginal('foto'); // Obtenemos la ruta anterior
+
+            // Guardar la nueva foto en el disco PRIVADO
+            // create un nombre único o usa el hash automático
+            $path = $request->file('foto')->store('', 'profile_private');
+
+            // Asignar el nombre del archivo al usuario
+            $user->foto = $path;
+
+            // Borrar la foto antigua si existe y es diferente
+            if ($oldPhotoPath && Storage::disk('profile_private')->exists($oldPhotoPath)) {
+                Storage::disk('profile_private')->delete($oldPhotoPath);
+            }
+        }
+
+        // 4. Guardar cambios
+        $user->save();
 
         return response()->json([
             'message' => __('api.profile_updated'),
