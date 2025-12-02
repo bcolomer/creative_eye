@@ -66,11 +66,28 @@ export class AuthService {
 
     localStorage.removeItem('user'); 
     
-    // Redirigimos al usuario a la página de inicio
-    console.log('Sesión cerrada. ¡Hasta la próxima!');
-    this.router.navigate(['/']); 
-  }
+        console.log('Cerrando sesión global...');
 
+    window.location.href = 'http://127.0.0.1:8000/logout-sso'; 
+
+    // Redirigimos al usuario a la página de inicio
+ /*    console.log('Sesión cerrada. ¡Hasta la próxima!');
+    this.router.navigate(['/']);  */
+  }
+/* logout(): void {
+    // 1. Borramos el token y el carrito (Lo que ya hacías)
+    localStorage.removeItem('token');
+    this.cartService.clearCart();
+    
+    // 2. Comprobar rol para decidir cómo salir
+    // (Opcional: Si quieres que solo pase para admins, puedes poner un if aquí)
+    
+    console.log('Cerrando sesión global...');
+
+    // 3. EN LUGAR DE router.navigate, REDIRIGIMOS AL BACKEND
+    // Esto hace que el navegador vaya a Laravel, Laravel mata la cookie, y te devuelve al Login
+    window.location.href = 'http://127.0.0.1:8000/logout-sso'; 
+  } */
   /**
    * 
    * @param datos 
