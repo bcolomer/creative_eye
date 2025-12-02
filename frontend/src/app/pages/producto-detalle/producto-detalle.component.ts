@@ -24,6 +24,8 @@ export class ProductoDetalleComponent implements OnInit {
   errorMessage: string | null = null; // Para guardar el mensaje de error
   public cantidad: number = 1;
 
+  private audioObturador = new Audio('/assets/sounds/sonido-obturador.mp3');
+
   constructor(
     private route: ActivatedRoute, // Para leer la URL
     private router: Router,
@@ -82,6 +84,7 @@ export class ProductoDetalleComponent implements OnInit {
     if (this.producto) {
       this.cartService.addProduct(this.producto, this.cantidad).subscribe({
         next: (respuesta) => {
+          this.audioObturador.play().catch(error => console.warn('No se pudo reproducir el sonido:', error));
           alert('¡Producto añadido al carrito!'); 
           this.cantidad = 1; 
         },
