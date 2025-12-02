@@ -6,6 +6,8 @@
     min-height: calc(100vh - 200px);
     padding: $unidad-espaciado * 2;
 
+    padding-bottom: 15vh;
+
     &__contenedor {
         @include tarjeta-estilo; 
         padding: $unidad-espaciado * 4;

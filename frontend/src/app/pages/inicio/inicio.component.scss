@@ -1,0 +1,93 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.hero {
+position: relative;
+
+    width: 100vw; 
+    margin-left: calc(50% - 50vw);
+    margin-right: calc(50% - 50vw);
+    
+    height: 90vh; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden; 
+    
+    // Compensamos el margen superior del main para pegar el video al header
+    margin-top: -($unidad-espaciado * 4); 
+
+    // Compensamos abajo para pegar el footer
+    margin-bottom: -($unidad-espaciado * 4);
+
+    padding-bottom: 15vh;
+
+    &__video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 1;
+    }
+
+    // Fondo
+    &__overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.4); 
+        z-index: 2;
+    }
+
+
+    &__contenido {
+        position: relative;
+        z-index: 3;
+        text-align: center;
+        color: $color-blanco;
+        padding: $unidad-espaciado * 2;
+        animation: aparecerSuave 1s ease-out;
+    }
+
+    &__titulo {
+        font-family: $fuente-titulos;
+        font-size: 5rem; 
+        font-weight: $semibold;
+        margin-bottom: $unidad-espaciado * 3;
+        text-shadow: 0 4px 20px rgba(0,0,0,0.5);
+
+        @include version('tablet') {
+            font-size: 3rem;
+        }
+    }
+
+    &__boton {
+        display: inline-block;
+        background-color: $color-primario;
+        color: $color-blanco;
+        padding: 14px 40px;
+        border-radius: $radio-borde;
+        font-family: $fuente-titulos;
+        font-weight: $medium;
+        font-size: 1.2rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        border: 2px solid transparent;
+        text-decoration: none;
+
+        &:hover {
+            background-color: $color-secundario;
+            transform: translateY(-3px);
+        }
+    }
+}
+
+// Animación de entrada
+@keyframes aparecerSuave {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
