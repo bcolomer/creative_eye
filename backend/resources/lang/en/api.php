@@ -53,6 +53,8 @@ return [
 
     // --- PROFILE (ProfileController) ---
     'profile_updated'        => 'Profile updated successfully',
+    'photo_not_found'        => 'Profile photo not found',
+    'photo_access_denied'    => 'Access denied. Not authorized.',
 
     // --- API HEALTH ---
     'api_status'             => 'API operational. System is working correctly.',

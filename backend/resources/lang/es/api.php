@@ -53,6 +53,8 @@ return [
 
     // --- PERFIL (ProfileController) ---
     'profile_updated'        => 'Perfil actualizado correctamente',
+    'photo_not_found'        => 'Foto de perfil no encontrada',
+    'photo_access_denied'    => 'Acceso denegado. No autorizado.',
 
     // --- API HEALTH ---
     'api_status'             => 'API operativa. El sistema funciona correctamente.',
