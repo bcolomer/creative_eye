@@ -48,7 +48,7 @@
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg
                     hover:shadow-lg transition-shadow duration-200">
                     {{--  la Imagen --}}
-                    <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="w-full h-48 object-cover">
+                    <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}" class="w-full h-48 object-cover" onerror="this.onerror=null; this.src='/images/creativelogo.png';">
                     {{-- el Nombre --}}
                     <div class="p-4 text-center">
                         <h3 class="font-semibold text-lg text-gray-900 dark:text-gray-100 truncate">

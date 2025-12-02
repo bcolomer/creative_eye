@@ -21,7 +21,7 @@
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 dark:text-gray-400 bg-white dark:bg-gray-800 hover:text-gray-700 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
                             {{-- Foto y Nombre en el Botón --}}
                             <div class="me-2">
-                                <img class="h-10 w-10 rounded-full object-cover" src="{{ route('profile.photo', ['fileName' => Auth::user()->foto]) }}" alt="foto usuario {{ Auth::user()->nombre }}">
+                                <img class="h-10 w-10 rounded-full object-cover" src="{{ route('profile.photo', ['fileName' => Auth::user()->foto]) }}" alt="foto usuario {{ Auth::user()->nombre }}" onerror="this.onerror=null; this.src='/images/creativelogo.png';">
                             </div>
                             <div>{{ Auth::user()->nombre }}</div>
 

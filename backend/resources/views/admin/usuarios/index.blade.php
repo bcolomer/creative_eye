@@ -53,7 +53,8 @@
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">{{ $user->usuario_id }}</td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm">
                                         @if($user->foto)
-                                            <img src="{{ $user->foto }}" class="h-14 w-14 rounded-m-2 object-cover">
+                                            <img src="{{ route('profile.photo', ['fileName' => $user->foto]) }}" class="h-14 w-14 rounded-m-2 object-cover" alt="{{ $user->nombre }}"
+                                                 onerror="this.onerror=null; this.src='/images/creativelogo.png';">
                                         @else
                                             <span class="text-gray-400">{{ __('usuario.no_photo') }}</span>
                                         @endif
