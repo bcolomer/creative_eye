@@ -45,6 +45,19 @@
     </div> 
 
     <p class="producto-detalle__descripcion">{{ producto.descripcion }}</p>
+
+    <div class="producto-detalle__grafica" *ngIf="mostrarGrafica">
+        <h3 class="producto-detalle__grafica-titulo">Rendimiento Técnico</h3>
+        
+        <div class="producto-detalle__canvas-contenedor">
+            <canvas baseChart
+                [datasets]="radarChartDatasets"
+                [options]="radarChartOptions"
+                [labels]="radarChartLabels"
+                type="radar">
+            </canvas>
+        </div>
+    </div>
 </div>
 
 

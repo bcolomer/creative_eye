@@ -154,4 +154,31 @@
     &__error {
         color: $color-error;
     }
+
+    // --- SECCIÓN GRÁFICA ---
+    &__grafica {
+        margin-top: $unidad-espaciado * 4;
+        padding: $unidad-espaciado * 3;
+        background-color: $color-blanco;
+        border-radius: $radio-borde;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        border: 1px solid $color-gris-claro;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    &__grafica-titulo {
+        font-family: $fuente-decorativa; // Playfair Display
+        color: $color-primario;
+        font-size: 1.5rem;
+        margin-bottom: $unidad-espaciado * 2;
+    }
+
+    &__canvas-contenedor {
+        width: 100%;
+        max-width: 500px; // Tamaño controlado
+        height: 350px;
+        position: relative;
+    }
 }
