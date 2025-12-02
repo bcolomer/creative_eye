@@ -5,6 +5,8 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\LanguageController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Session;
 
 Route::get('/', function () {
     return view('welcome');
@@ -69,6 +71,20 @@ Route::middleware(['auth', 'verified', 'role:1'])->group(function () {
     // Borrar Usuario
     Route::delete('/usuarios/{user}', [UserController::class, 'destroy'])->name('admin.usuarios.destroy');
 });
+
+// Esta ruta se llama desde Angular para matar la sesión de Blade
+Route::get('/logout-sso', function () {
+    // Cerrar la sesión Web (Blade)
+    Auth::guard('web')->logout();
+
+    // Invalidar la sesión de PHP
+    Session::invalidate();
+    Session::regenerateToken();
+
+    // Redirigir de vuelta al Frontend (Angular)
+    // Cambia esta URL por la de tu proyecto Angular si es diferente (ej. localhost:4200)
+    return redirect('http://localhost:4200/login'); 
+})->name('logout.sso');
 
 
 // Ruta para cambiar el idioma con arrays por medio de botón como prueba para dashboard y welcome de Laravel
