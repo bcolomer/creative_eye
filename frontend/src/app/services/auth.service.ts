@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http'; 
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 //Con esto manejamos las respuestas
 import { Observable } from 'rxjs';
 
@@ -13,10 +13,10 @@ import { CartService } from './cart.service';
 
 export class AuthService {
 
-  
-  private apiUrl = '/api'; 
 
-  
+  private apiUrl = 'http://127.0.0.1:8000/api';
+
+
   constructor(
     private http: HttpClient,
     private router: Router,
@@ -24,19 +24,19 @@ export class AuthService {
   ) { }
 
   /**
-   * 
-   * @param datos 
-   * @returns 
+   *
+   * @param datos
+   * @returns
    */
   login(datos: any): Observable<any> {
-    
+
     // Enviamos los datos (username y password) a la ruta /api/login
     return this.http.post(`${this.apiUrl}/login`, datos);
   }
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   getProfile(): Observable<any> {
     // Esta llamada irá automáticamente con el token gracias al Interceptor
@@ -44,13 +44,13 @@ export class AuthService {
   }
 
   /**
-   * 
-   * @returns 
+   *
+   * @returns
    */
   isLoggedIn(): boolean {
     // (!!) Convierte el resultado (un string o null) en un booleano (true/false)
     const token = localStorage.getItem('token');
-    
+
     // Comprobamos que el token NO sea null Y que NO sea un string vacío.
     return (token !== null) && (token.length > 0);
   }
@@ -64,21 +64,21 @@ export class AuthService {
     // Borramos la memoria del carrito para que no lo vea el siguiente usuario a loguearse
     this.cartService.clearCart();
 
-    localStorage.removeItem('user'); 
-    
+    localStorage.removeItem('user');
+
         console.log('Cerrando sesión global...');
 
-    window.location.href = 'http://127.0.0.1:8000/logout-sso'; 
+    window.location.href = 'http://127.0.0.1:8000/logout-sso';
 
     }
 
   /**
-   * 
-   * @param datos 
-   * @returns 
+   *
+   * @param datos
+   * @returns
    */
   register(datos: any): Observable<any> {
-    
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
@@ -108,7 +108,7 @@ export class AuthService {
         formData.append('foto', fotoFile);
     }
 
-    
+
     // Laravel no procesa archivos en PUT directo, así que enviamos POST + _method=PUT
     formData.append('_method', 'PUT');
 
@@ -121,7 +121,7 @@ export class AuthService {
    */
   isAdmin(): boolean {
     const userString = localStorage.getItem('user');
-    
+
     if (userString) {
       try {
         const user = JSON.parse(userString);
@@ -138,7 +138,7 @@ export class AuthService {
    */
   isAlmacen(): boolean {
     const userString = localStorage.getItem('user');
-    
+
     if (userString) {
       try {
         const user = JSON.parse(userString);
