@@ -1,5 +1,5 @@
 <div class="carrito">
-    <h2 class="carrito__titulo">Carrito de Compras</h2>
+    <h2 class="carrito__titulo">Carrito de compra</h2>
 
     <div *ngIf="productosDelCarrito.length === 0" class="carrito__mensaje-vacio">
         <p>Tu carrito está vacío.</p>
@@ -9,17 +9,48 @@
     
         <ul class="carrito__lista">
             <li *ngFor="let item of productosDelCarrito" class="carrito__item">
-            
-                <span class="carrito__item-nombre">{{ item.producto.nombre }}</span>
                 
-                <span class="carrito__item-cantidad">(Cantidad: {{ item.cantidad }})</span>
+                <div class="carrito__item-info">
+                    <span class="carrito__item-nombre">{{ item.producto.nombre }}</span>
+                    
+                    <small class="carrito__item-stock" *ngIf="item.producto.cantidad < 50">
+                        ¡Solo quedan {{ item.producto.cantidad }}!
+                    </small>
+                </div>
+                
+                <div class="carrito__stepper">
+                    <button 
+                        class="carrito__stepper-btn" 
+                        type="button"
+                        (click)="actualizarCantidad(item, -1)"
+                        [disabled]="item.cantidad <= 1"
+                        aria-label="Disminuir cantidad">
+                        -
+                    </button>
+                    
+                    <span class="carrito__stepper-valor">{{ item.cantidad }}</span>
+                    
+                    <button 
+                        class="carrito__stepper-btn" 
+                        type="button"
+                        (click)="actualizarCantidad(item, 1)"
+                        [disabled]="item.cantidad >= item.producto.cantidad"
+                        aria-label="Aumentar cantidad">
+                        +
+                    </button>
+                </div>
 
-                <span class="carrito__item-precio">{{ item.precio_unitario | number:'1.0-2'}} €</span>
+                <div class="carrito__item-precios">
+                    <span class="carrito__item-precio-uni">{{ item.precio_unitario | number:'1.0-2'}} €/ud </span>
+                    <span class="carrito__item-precio-total">Total: {{ item.precio_total | number:'1.0-2'}} €</span>
+                </div>
 
                 <button 
                     class="carrito__item-eliminar" 
                     type="button"
-                    (click)="eliminarProducto(item.id)">&times; 
+                    (click)="eliminarProducto(item.id)"
+                    aria-label="Eliminar producto">
+                    &times; 
                 </button>
             </li>
         </ul>

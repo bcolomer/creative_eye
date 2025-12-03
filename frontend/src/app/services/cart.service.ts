@@ -39,7 +39,7 @@ export class CartService {
     return peticion.pipe(
       tap(datos => {
         console.log('Carrito cargado de la BBDD:', datos);
-        this.cartItems.next(datos); // ¡Actualizamos la memoria!
+        this.cartItems.next(datos); // Actualizamos
       }),
       catchError((err) => {
         // Si la API falla (403, 404, 500...)
@@ -115,5 +115,34 @@ addProduct(producto: any, cantidad: number): Observable<any> {
         this.loadCart().subscribe();
       })
     );
+  }
+
+  /**
+   * Actualiza la cantidad de un producto en el carrito.
+   * Backend: PUT /api/order-products/{id}
+   */
+  updateQuantity(itemId: number, quantity: number): Observable<any> {
+    const payload = { cantidad: quantity };
+
+    console.log(`CartService: Actualizando item ${itemId} a cantidad ${quantity}...`);
+
+    return this.http.put(`${this.apiUrl}/order-products/${itemId}`, payload).pipe(
+      tap(respuesta => {
+        console.log('Cantidad actualizada:', respuesta);
+        // Recargamos el carrito para que se recalcule el total y se vea reflejado
+        this.loadCart().subscribe();
+      }),
+      catchError((err) => {
+        console.error('Error al actualizar cantidad', err);
+        return throwError(() => err);
+      })
+    );
+  }
+
+  /**
+   * Devuelve el valor actual del carrito sin necesidad de suscribirse.
+   */
+  getCurrentCartItems(): any[] {
+    return this.cartItems.value;
   }
 }
