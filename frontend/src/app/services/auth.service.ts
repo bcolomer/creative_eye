@@ -116,7 +116,7 @@ export class AuthService {
     return this.http.post(`${this.apiUrl}/profile`, formData);
   }
 
-    /**
+  /**
    * Comprueba si hay un usuario con rol administrador
    */
   isAdmin(): boolean {
@@ -149,6 +149,23 @@ export class AuthService {
     }
     return false;
   }
+
+  /**
+   * Devuelve el objeto del usuario actual almacenado en localStorage
+   * (Incluye: nombre, foto, rol_id...)
+   */
+  getCurrentUser(): any {
+    const userString = localStorage.getItem('user');
+    if (userString) {
+      try {
+        return JSON.parse(userString);
+      } catch (e) {
+        return null;
+      }
+    }
+    return null;
+  }
+
   // Pide la imagen al servidor enviando el Token automáticamente
   getProfileImage(fileName: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/profile/photo/${fileName}`, { responseType: 'blob' });

@@ -138,9 +138,40 @@
         margin-left: 4px;
         vertical-align: middle;
     }
+
+    // Estilo específico para el enlace de perfil (la foto)
+    &__enlace--perfil {
+        display: flex;
+        align-items: center;
+        padding: 0;         
+        border: none;       
+        opacity: 0.9;
+        transition: opacity 0.3s ease;
+
+        &:hover {
+            opacity: 1;
+            transform: scale(1.05); // Pequeño zoom al pasar el ratón
+            border-bottom: none;    
+        }
+    }
+
+    // --- NUEVO: ESTILO DEL AVATAR ---
+    &__avatar {
+        width: 40px;        
+        height: 40px;
+        border-radius: 50%; 
+        object-fit: cover;  // Para que la foto no se deforme
+        border: 2px solid $color-blanco; 
+        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+
+        @include version('tablet') {
+            width: 35px;
+            height: 35px;
+        }
+    }
 }
 
-.contenedor-principal {
+    .contenedor-principal {
         max-width: $ancho-maximo;
         margin: ($unidad-espaciado * 4) auto;
         padding: 0 ($unidad-espaciado * 2);
