@@ -108,6 +108,9 @@ this.fotoUrl = e.target.result;
       next: (respuesta) => {
         console.log('Perfil actualizado:', respuesta);
 
+        // Esto fuerza al navegador a refrescarse, actualizando el Header y la foto al instante.
+        window.location.reload();
+
         alert("Perfil cambiado correctamente");
         // this.successMessage = 'Datos actualizados correctamente.';
 
