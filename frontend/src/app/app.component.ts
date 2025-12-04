@@ -21,7 +21,7 @@ export class AppComponent implements OnInit {
   public currentUser: any = null;
 
   // Imagen por defecto (Logo)
-  public fotoUrl: any = 'assets/images/creativelogoheader.png';
+  public fotoUrl: any = '/assets/images/creativelogo.png';
 
   constructor(
     private cartService: CartService,
@@ -50,20 +50,20 @@ cargarDatosUsuario(): void {
 
           // CASO 1: URL externa (Jose)
           if (foto.toString().startsWith('http') || foto.toString().startsWith('data:')) {
-             this.fotoUrl = foto;
+              this.fotoUrl = foto;
           }
           // CASO 2: Archivo interno (Laura)
           else {
-             this.authService.getProfileImage(foto).subscribe({
-                next: (blob) => {
-                   let objectURL = URL.createObjectURL(blob);
-                   this.fotoUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-                },
-                error: (err) => {
-                   console.error('Error cargando foto navbar:', err);
-                   this.fotoUrl = 'assets/images/creativelogoheader.png';
-                }
-             });
+            this.authService.getProfileImage(foto).subscribe({
+              next: (blob) => {
+                  let objectURL = URL.createObjectURL(blob);
+                  this.fotoUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+              },
+              error: (err) => {
+                  console.error('Error cargando foto navbar:', err);
+                  this.fotoUrl = '/assets/images/creativelogo.png';
+              }
+            });
           }
         }
       },

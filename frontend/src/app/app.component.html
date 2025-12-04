@@ -57,7 +57,8 @@
 
             <li class="encabezado__item" *ngIf="authService.isLoggedIn()">
             <a [routerLink]="['/perfil']" (click)="closeMenu()" class="encabezado__enlace encabezado__enlace--perfil">
-                <img [src]="fotoUrl" alt="Mi Perfil" class="encabezado__avatar">
+                <img [src]="fotoUrl" alt="Mi Perfil" class="encabezado__avatar" onerror="this.onerror=null; this.src='/assets/images/creativelogo.png';">
+                
             </a>
             </li>
         </ul>
