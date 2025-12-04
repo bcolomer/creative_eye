@@ -21,7 +21,7 @@ return [
     'delete_title' => 'Borrar Producto',
     'confirm_delete_title' => '¿Estás seguro de que quieres eliminar este producto?',
     'confirm_delete_info' => 'Esta acción es permanente. Una vez eliminado, todos sus datos serán borrados.',
-
+    'current_photo' => 'Foto Actual:',
 
     // --- Etiquetas de Campos (Labels) ---
     'field_name' => 'Nombre',
@@ -31,9 +31,15 @@ return [
     'field_code' => 'Código',
     'field_photo' => 'Foto de Producto',
     'field_photo_edit' => 'Foto de Producto (Opcional: Subir una nueva)',
+    'category' => 'Categoría',
+    'choose-category' => '-- Selecciona una categoría --',
 
     // --- Botones y Acciones ---
     'button_create' => 'Crear Producto',
     'button_update' => 'Guardar Cambios',
     'button_delete' => 'Borrar Producto',
+
+
+
+
 ];

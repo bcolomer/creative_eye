@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
@@ -16,27 +17,25 @@ class ProductController extends Controller
 
     public function index(Request $request)
     {
-        // 1. Obtener el término de búsqueda de la URL
         $search = $request->input('search');
 
-        // 2. Inicializar la consulta al modelo Product
         $query = Product::query();
 
-        // 3. Aplicar el filtro si existe un término de búsqueda
+        // Aplicar el filtro si existe un término de búsqueda
         if ($search) {
-            // Buscamos coincidencia en: nombre, código o precio (usando LIKE)
+            // Buscamos coincidencia en: nombre, código o precio
             $query->where('nombre', 'like', '%' . $search . '%')
                 ->orWhere('codigo', 'like', '%' . $search . '%')
                 ->orWhere('descripcion', 'like', '%' . $search . '%')
-                ->orWhere('precio', 'like', '%' . $search . '%');
+                ->orWhere('precio', 'like', '%' . $search . '%')
+                ->orWhereHas('categoria', function ($queryCategoria) use ($search) {
+                    $queryCategoria->where('nombre', 'like', '%' . $search . '%');
+                });
         }
 
-        // 4. Obtener los productos (filtrados o todos) con paginación
-        // NOTA: Usamos ->appends(['search' => $search]) para que la paginación
-        // mantenga el término de búsqueda al cambiar de página.
+
         $productos = $query->paginate(5)->appends(['search' => $search]);
 
-        // 5. Devolver la vista
         return view('admin.productos.index', [
             'productos' => $productos
         ]);
@@ -47,7 +46,9 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('admin.productos.create');
+        $categorias = Category::all();
+
+        return view('admin.productos.create', compact('categorias'));
     }
 
     /**
@@ -63,6 +64,7 @@ class ProductController extends Controller
             'cantidad' => 'required|integer|min:0',
             'codigo' => 'required|string|max:255|unique:productos,codigo',
             'foto' => 'nullable|image|max:1024',
+            'categoria_id' => 'nullable|exists:categorias,categoria_id',
         ]);
 
         // Comprobar si se ha subido una foto
@@ -94,8 +96,10 @@ class ProductController extends Controller
      */
     public function edit(Product $producto)
     {
+        $categorias = Category::all();
         return view('admin.productos.edit', [
-            'producto' => $producto
+            'producto' => $producto,
+            'categorias' => $categorias
         ]);
     }
 
@@ -112,8 +116,9 @@ class ProductController extends Controller
             'descripcion' => 'nullable|string',
             'precio' => 'required|numeric|min:0',
             'cantidad' => 'required|integer|min:0',
-            'codigo' => 'required|string|max:255',
+            'codigo' => 'required|string|max:255|unique:productos,codigo,' . $producto->producto_id . ',producto_id',
             'foto' => 'nullable|image|max:1024',
+            'categoria_id' => 'nullable|exists:categorias,categoria_id',
         ]);
 
         // Comprobar foto nueva
