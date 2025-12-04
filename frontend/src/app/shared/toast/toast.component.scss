@@ -1,0 +1,77 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.toast {
+    position: fixed;
+    top: 100px; // Un poco bajado para no tapar el header
+    right: 20px;
+    z-index: 9999;
+    
+    min-width: 300px;
+    max-width: 400px;
+    padding: 16px;
+    border-radius: $radio-borde;
+    background-color: $color-blanco;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    
+    // Animación de entrada/salida
+    transform: translateX(120%); // Oculto a la derecha
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.27, 1.55);
+    border-left: 6px solid transparent;
+
+    &--visible {
+        transform: translateX(0);
+    }
+
+    // Variantes
+    &--exito {
+        border-left-color: $color-exito;
+        .toast__icono { color: $color-exito; background-color: rgba($color-exito, 0.1); }
+    }
+
+    &--error {
+        border-left-color: $color-error;
+        .toast__icono { color: $color-error; background-color: rgba($color-error, 0.1); }
+    }
+
+    &--info {
+        border-left-color: $color-secundario;
+        .toast__icono { color: $color-secundario; background-color: rgba($color-secundario, 0.1); }
+    }
+
+    &__icono {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+        font-family: $fuente-titulos;
+    }
+
+    &__mensaje {
+        flex: 1;
+        font-family: $fuente-cuerpo;
+        font-size: 0.95rem;
+        color: $color-gris-oscuro;
+        margin: 0;
+    }
+
+    &__cerrar {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        cursor: pointer;
+        color: $color-gris-medio;
+        transition: color 0.3s;
+
+        &:hover {
+            color: $color-gris-oscuro;
+        }
+    }
+}

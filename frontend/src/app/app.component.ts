@@ -5,11 +5,12 @@ import { CartService } from './services/cart.service';
 import { AuthService } from './services/auth.service';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DomSanitizer } from '@angular/platform-browser';
+import { ToastComponent } from './shared/toast/toast.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, FooterComponent],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive, FooterComponent, ToastComponent],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })

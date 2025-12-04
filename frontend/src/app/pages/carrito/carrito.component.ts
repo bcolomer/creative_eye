@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; 
+import { ToastService } from '../../services/toast.service';
 import { CartService } from '../../services/cart.service'; 
 
 @Component({
@@ -14,7 +15,10 @@ export class CarritoComponent implements OnInit {
   public productosDelCarrito: any[] = [];
   public totalCarrito: number = 0;
 
-  constructor(private cartService: CartService) {}
+  constructor(
+    private cartService: CartService, 
+    private toastService: ToastService
+  ) {}
 
   ngOnInit(): void {
     // Nos suscribimos a los cambios del carrito
@@ -53,7 +57,8 @@ export class CarritoComponent implements OnInit {
 
     // 2. CONTROL DE STOCK AL AUMENTAR
     if (cambio > 0 && item.cantidad >= item.producto.cantidad) {
-      alert(`¡Lo sentimos! Solo quedan ${item.producto.cantidad} unidades disponibles.`);
+      // alert(`¡Lo sentimos! Solo quedan ${item.producto.cantidad} unidades disponibles.`);
+      this.toastService.show(`Solo quedan ${item.producto.cantidad} unidades disponibles.`, 'error');
       return; 
     }
 
@@ -66,12 +71,18 @@ export class CarritoComponent implements OnInit {
   }
 
   eliminarProducto(itemId: number): void {
+    // Mantenemos confirm nativo por seguridad (requiere acción del usuario)
     if(!confirm('¿Seguro que quieres eliminar este producto?')) return;
 
     this.cartService.removeProduct(itemId).subscribe({
+      next: () => {
+        // ÉXITO
+        this.toastService.show('Producto eliminado correctamente', 'exito');
+      },
       error: (err) => {
         console.error('Error al eliminar:', err);
-        alert('No se pudo eliminar el producto.');
+        // ERROR
+        this.toastService.show('No se pudo eliminar el producto', 'error');
       }
     });
   }
