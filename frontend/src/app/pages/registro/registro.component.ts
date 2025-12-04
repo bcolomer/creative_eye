@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // [(ngModel)]
 import { Router, RouterLink } from '@angular/router'; 
 import { AuthService } from '../../services/auth.service';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-registro',
@@ -22,7 +23,8 @@ export class RegistroComponent {
 
   constructor(
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private toastService: ToastService
   ) {}
 
   registro(): void {
@@ -43,12 +45,14 @@ export class RegistroComponent {
     this.authService.register(datosRegistro).subscribe({
       next: (respuesta) => {
         console.log('Registro con éxito:', respuesta);
-        alert('Cuenta creada con éxito. Por favor, inicia sesión.');
+        // alert('Cuenta creada con éxito. Por favor, inicia sesión.');
+        this.toastService.show('¡Cuenta creada con éxito! Bienvenido a Creative Eye.', 'exito', 4000);
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error('Error en el registro:', err);
         this.errorMessage = 'Error al registrarse. Comprueba que el email no esté ya en uso.';
+        this.toastService.show('Error en el registro', 'error');
       }
     });
   }

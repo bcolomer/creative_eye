@@ -6,6 +6,7 @@ import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
 import { BaseChartDirective } from 'ng2-charts';
 import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-producto-detalle',
@@ -52,7 +53,8 @@ export class ProductoDetalleComponent implements OnInit {
     private router: Router,
     private productService: ProductService,
     private cartService: CartService, 
-    private authService: AuthService
+    private authService: AuthService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
@@ -127,16 +129,16 @@ export class ProductoDetalleComponent implements OnInit {
     const stockDisponibleReal = this.producto.cantidad - this.cantidadEnCarrito;
 
     if (nuevaCantidad > stockDisponibleReal) {
-      // Opcional: alert(`Solo quedan ${stockDisponibleReal} unidades disponibles.`);
+      this.toastService.show(`Máximo stock disponible alcanzado`, 'info');
       return;
     }
     
     this.cantidad = nuevaCantidad;
   }
 
-  addToCart(): void { 
+addToCart(): void { 
     if (!this.authService.isLoggedIn()) {
-      alert('Debes iniciar sesión para comprar.');
+      this.toastService.show('Debes iniciar sesión para comprar', 'info'); 
       this.router.navigate(['/login']);
       return; 
     }
@@ -145,7 +147,7 @@ export class ProductoDetalleComponent implements OnInit {
     const stockDisponibleReal = this.producto.cantidad - this.cantidadEnCarrito;
     
     if (this.cantidad > stockDisponibleReal) {
-      alert('No hay suficiente stock para añadir esa cantidad.');
+      this.toastService.show('No hay suficiente stock disponible', 'error');
       return;
     }
 
@@ -153,12 +155,12 @@ export class ProductoDetalleComponent implements OnInit {
       this.cartService.addProduct(this.producto, this.cantidad).subscribe({
         next: () => {
           this.audioObturador.play().catch(e => console.warn(e));
-          alert('¡Producto añadido al carrito!'); 
+          this.toastService.show(`¡${this.cantidad}x ${this.producto.nombre} añadido al carrito!`, 'exito')
           this.cantidad = 1; // Reseteamos el selector a 1
         },
         error: (err) => {
           console.error(err);
-          alert('Error al añadir el producto.');
+          this.toastService.show('Error al añadir el producto', 'error');
         }
       });
     }
