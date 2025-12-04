@@ -15,36 +15,45 @@ use App\Models\Product;
 class ProductController extends Controller
 {
     /**
-     * Muestra todos los productos.
+     * Muestra la lista de productos.
      *
      * @OA\Get(
-     *     path="/api/products",
-     *     summary="Listar todos los productos",
-     *     description="Devuelve un listado de todos los productos disponibles. Endpoint público (sin autenticación).",
-     *     tags={"Productos"},
-     *     @OA\Response(
-     *         response=200,
-     *         description="Lista de productos",
-     *         @OA\JsonContent(
-     *             type="array",
-     *             @OA\Items(
-     *                 @OA\Property(property="producto_id", type="integer", example=1),
-     *                 @OA\Property(property="nombre", type="string", example="Lámpara de escritorio"),
-     *                 @OA\Property(property="precio", type="number", example=39.99),
-     *                 @OA\Property(property="cantidad", type="integer", example=25),
-     *                 @OA\Property(property="codigo", type="string", example="LPD-001"),
-     *                 @OA\Property(property="categoria_id", type="integer", example=3),
-     *                 @OA\Property(property="foto", type="string", example="https://example.com/lampara.jpg"),
-     *                 @OA\Property(property="descripcion", type="string", example="Lámpara de escritorio LED con brazo flexible.")
-     *             )
-     *         )
-     *     )
+     * path="/api/products",
+     * summary="Listar todos los productos",
+     * description="Devuelve un array con todos los productos y sus categorías asociadas. Endpoint público.",
+     * tags={"Productos"},
+     * @OA\Response(
+     * response=200,
+     * description="Lista de productos recuperada correctamente",
+     * @OA\JsonContent(
+     * type="array",
+     * @OA\Items(
+     * @OA\Property(property="producto_id", type="integer", example=1),
+     * @OA\Property(property="nombre", type="string", example="Fujifilm X-T5"),
+     * @OA\Property(property="precio", type="number", format="float", example=1899.99),
+     * @OA\Property(property="cantidad", type="integer", example=10),
+     * @OA\Property(property="foto", type="string", example="http://.../foto.jpg"),
+     * @OA\Property(property="categoria_id", type="integer", example=5),
+     * @OA\Property(
+     * property="categoria",
+     * type="object",
+     * nullable=true,
+     * description="Datos de la categoría asociada",
+     * @OA\Property(property="categoria_id", type="integer", example=5),
+     * @OA\Property(property="nombre", type="string", example="Cámaras")
+     * )
+     * )
+     * )
+     * )
      * )
      */
     // GET /api/products
     public function index()
     {
-        return Product::all();
+        // Traemos todos los productos con su categoría cargada
+        $products = Product::with('categoria')->get();
+
+        return response()->json($products);
     }
 
     /**
@@ -60,13 +69,13 @@ class ProductController extends Controller
      *         required=true,
      *         @OA\JsonContent(
      *             required={"nombre","precio","cantidad","codigo"},
-     *             @OA\Property(property="nombre", type="string", example="Lámpara de pie moderna"),
+     *             @OA\Property(property="nombre", type="string", example="Tarjeta Sd"),
      *             @OA\Property(property="precio", type="number", example=89.90),
      *             @OA\Property(property="cantidad", type="integer", example=15),
      *             @OA\Property(property="codigo", type="string", example="LPM-002"),
      *             @OA\Property(property="categoria_id", type="integer", example=2),
-     *             @OA\Property(property="foto", type="string", example="https://example.com/lampara-pie.jpg"),
-     *             @OA\Property(property="descripcion", type="string", example="Lámpara moderna con base metálica y luz cálida.")
+     *             @OA\Property(property="foto", type="string", example="https://example.com/tarjeta.jpg"),
+     *             @OA\Property(property="descripcion", type="string", example="tarjeta sd 4tb")
      *         )
      *     ),
      *     @OA\Response(response=201, description="Producto creado correctamente"),
@@ -95,31 +104,50 @@ class ProductController extends Controller
      * Muestra un producto específico.
      *
      * @OA\Get(
-     *     path="/api/products/{producto_id}",
-     *     summary="Mostrar un producto específico",
-     *     description="Devuelve la información detallada de un producto en función de su ID. Endpoint público.",
-     *     tags={"Productos"},
-     *     @OA\Parameter(
-     *         name="producto_id",
-     *         in="path",
-     *         required=true,
-     *         description="ID del producto a consultar",
-     *         @OA\Schema(type="integer", example=1)
-     *     ),
-     *     @OA\Response(response=200, description="Producto encontrado"),
-     *     @OA\Response(response=404, description="Producto no encontrado")
+     * path="/api/products/{producto_id}",
+     * summary="Mostrar un producto específico",
+     * description="Devuelve la información detallada de un producto y su categoría asociada.",
+     * tags={"Productos"},
+     * @OA\Parameter(
+     * name="producto_id",
+     * in="path",
+     * required=true,
+     * description="ID del producto a consultar",
+     * @OA\Schema(type="integer", example=1)
+     * ),
+     * @OA\Response(
+     * response=200,
+     * description="Producto encontrado",
+     * @OA\JsonContent(
+     * @OA\Property(property="producto_id", type="integer", example=1),
+     * @OA\Property(property="nombre", type="string", example="Fujifilm X-T5"),
+     * @OA\Property(property="precio", type="number", format="float", example=1899.99),
+     * @OA\Property(property="foto", type="string", example="http://.../foto.jpg"),
+     * @OA\Property(property="categoria_id", type="integer", example=5),
+     * @OA\Property(
+     * property="categoria",
+     * type="object",
+     * description="Objeto con la información de la categoría",
+     * nullable=true,
+     * @OA\Property(property="categoria_id", type="integer", example=5),
+     * @OA\Property(property="nombre", type="string", example="Cámaras")
+     * )
+     * )
+     * ),
+     * @OA\Response(response=404, description="Producto no encontrado")
      * )
      */
     // GET /api/products/{producto_id}
-    public function show($producto_id)
+    public function show($id)
     {
-        $product = Product::where('producto_id', $producto_id)->first();
+        // Cargamos el producto CON la categoría
+        $product = Product::with('categoria')->find($id);
 
         if (!$product) {
-            return response()->json(['message' => __('api.product_not_found')], 404);
+            return response()->json(['message' => 'Producto no encontrado'], 404);
         }
 
-        return $product;
+        return response()->json($product);
     }
 
     /**

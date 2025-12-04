@@ -1108,11 +1108,11 @@
                     "Productos"
                 ],
                 "summary": "Listar todos los productos",
-                "description": "Devuelve un listado de todos los productos disponibles. Endpoint público (sin autenticación).",
+                "description": "Devuelve un array con todos los productos y sus categorías asociadas. Endpoint público.",
                 "operationId": "d97d1c3727cbac49708b85f7d11f7d58",
                 "responses": {
                     "200": {
-                        "description": "Lista de productos",
+                        "description": "Lista de productos recuperada correctamente",
                         "content": {
                             "application/json": {
                                 "schema": {
@@ -1125,31 +1125,39 @@
                                             },
                                             "nombre": {
                                                 "type": "string",
-                                                "example": "Lámpara de escritorio"
+                                                "example": "Fujifilm X-T5"
                                             },
                                             "precio": {
                                                 "type": "number",
-                                                "example": 39.99
+                                                "format": "float",
+                                                "example": 1899.99
                                             },
                                             "cantidad": {
                                                 "type": "integer",
-                                                "example": 25
-                                            },
-                                            "codigo": {
-                                                "type": "string",
-                                                "example": "LPD-001"
-                                            },
-                                            "categoria_id": {
-                                                "type": "integer",
-                                                "example": 3
+                                                "example": 10
                                             },
                                             "foto": {
                                                 "type": "string",
-                                                "example": "https://example.com/lampara.jpg"
+                                                "example": "http://.../foto.jpg"
                                             },
-                                            "descripcion": {
-                                                "type": "string",
-                                                "example": "Lámpara de escritorio LED con brazo flexible."
+                                            "categoria_id": {
+                                                "type": "integer",
+                                                "example": 5
+                                            },
+                                            "categoria": {
+                                                "description": "Datos de la categoría asociada",
+                                                "properties": {
+                                                    "categoria_id": {
+                                                        "type": "integer",
+                                                        "example": 5
+                                                    },
+                                                    "nombre": {
+                                                        "type": "string",
+                                                        "example": "Cámaras"
+                                                    }
+                                                },
+                                                "type": "object",
+                                                "nullable": true
                                             }
                                         },
                                         "type": "object"
@@ -1181,7 +1189,7 @@
                                 "properties": {
                                     "nombre": {
                                         "type": "string",
-                                        "example": "Lámpara de pie moderna"
+                                        "example": "Tarjeta Sd"
                                     },
                                     "precio": {
                                         "type": "number",
@@ -1201,11 +1209,11 @@
                                     },
                                     "foto": {
                                         "type": "string",
-                                        "example": "https://example.com/lampara-pie.jpg"
+                                        "example": "https://example.com/tarjeta.jpg"
                                     },
                                     "descripcion": {
                                         "type": "string",
-                                        "example": "Lámpara moderna con base metálica y luz cálida."
+                                        "example": "tarjeta sd 4tb"
                                     }
                                 },
                                 "type": "object"
@@ -1237,7 +1245,7 @@
                     "Productos"
                 ],
                 "summary": "Mostrar un producto específico",
-                "description": "Devuelve la información detallada de un producto en función de su ID. Endpoint público.",
+                "description": "Devuelve la información detallada de un producto y su categoría asociada.",
                 "operationId": "8aa1ea210d4fa1e20a5872734e4fdc8c",
                 "parameters": [
                     {
@@ -1253,7 +1261,52 @@
                 ],
                 "responses": {
                     "200": {
-                        "description": "Producto encontrado"
+                        "description": "Producto encontrado",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "producto_id": {
+                                            "type": "integer",
+                                            "example": 1
+                                        },
+                                        "nombre": {
+                                            "type": "string",
+                                            "example": "Fujifilm X-T5"
+                                        },
+                                        "precio": {
+                                            "type": "number",
+                                            "format": "float",
+                                            "example": 1899.99
+                                        },
+                                        "foto": {
+                                            "type": "string",
+                                            "example": "http://.../foto.jpg"
+                                        },
+                                        "categoria_id": {
+                                            "type": "integer",
+                                            "example": 5
+                                        },
+                                        "categoria": {
+                                            "description": "Objeto con la información de la categoría",
+                                            "properties": {
+                                                "categoria_id": {
+                                                    "type": "integer",
+                                                    "example": 5
+                                                },
+                                                "nombre": {
+                                                    "type": "string",
+                                                    "example": "Cámaras"
+                                                }
+                                            },
+                                            "type": "object",
+                                            "nullable": true
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
                     },
                     "404": {
                         "description": "Producto no encontrado"

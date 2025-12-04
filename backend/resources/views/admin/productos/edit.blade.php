@@ -6,7 +6,6 @@
         </h2>
     </x-slot>
 
-    {{-- Contenido Principal --}}
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
@@ -35,6 +34,27 @@
                             <x-input-label for="descripcion" :value="__('producto.field_description')" />
                             <textarea id="descripcion" name="descripcion" class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">{{ old('descripcion', $producto->descripcion) }}</textarea>
                             <x-input-error class="mt-2" :messages="$errors->get('descripcion')" />
+                        </div>
+
+                        {{-- CAMPO CATEGORIA--}}
+                        <div class="mt-4">
+                            <x-input-label for="categoria_id" :value="__('producto.category')" />
+
+                            <select name="categoria_id" id="categoria_id" class="w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm mt-1">
+                                <option value="">{{ __('producto.choose-category') }}</option>
+
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria->categoria_id }}"
+                                        {{-- Si el ID coincide con el del producto  pon 'selected' --}}
+                                        {{ old('categoria_id', $producto->categoria_id) == $categoria->categoria_id ? 'selected' : '' }}>
+                                        {{ $categoria->nombre }}
+                                    </option>
+                                @endforeach
+                            </select>
+
+                            @error('categoria_id')
+                                <small class="text-red-500">{{ $message }}</small>
+                            @enderror
                         </div>
 
                         {{-- Grid para Precio, Stock y Código --}}

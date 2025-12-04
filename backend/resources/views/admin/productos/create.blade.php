@@ -30,6 +30,26 @@
                             <x-input-error class="mt-2" :messages="$errors->get('descripcion')" />
                         </div>
 
+                        {{-- CAMPO CATEGORIA --}}
+                        <div class="mb-4">
+                            <label for="categoria_id" class="block text-gray-700 font-bold mb-2">{{  __('producto.category')}}</label>
+                            <select name="categoria_id" id="categoria_id" class="w-full border rounded px-3 py-2 text-gray-700 focus:outline-none focus:border-brand-teal">
+
+                                <option value="">{{  __('producto.choose-category')}}</option>
+
+                                @foreach($categorias as $categoria)
+                                    <option value="{{ $categoria->categoria_id }}" {{ old('categoria_id') == $categoria->categoria_id ? 'selected' : '' }}>
+                                        {{ $categoria->nombre }}
+                                    </option>
+                                @endforeach
+
+                            </select>
+
+                            @error('categoria_id')
+                                <small class="text-red-500">{{ $message }}</small>
+                            @enderror
+                        </div>
+
                         {{-- Grid para Precio, Stock y Código --}}
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
 

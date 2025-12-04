@@ -22,6 +22,7 @@ return [
     'delete_title' => 'Delete Product',
     'confirm_delete_title' => 'Are you sure you want to delete this product?',
     'confirm_delete_info' => 'This action is permanent. Once deleted, all its data will be erased.',
+    'current_photo' => 'Current Photo:',
 
     // --- Field Labels ---
     'field_name' => 'Name',
@@ -31,6 +32,8 @@ return [
     'field_code' => 'Code',
     'field_photo' => 'Product Photo',
     'field_photo_edit' => 'Product Photo (Optional: Upload a new one)',
+    'category' => 'Category',
+    'choose-category' => '-- Select a category --',
 
     // --- Buttons and Actions ---
     'button_create' => 'Create Product',
