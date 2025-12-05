@@ -6,7 +6,7 @@
 
       <div class="perfil__columna-foto">
         <div class="perfil__avatar-wrapper">
-          <img class="perfil__foto-imagen" [src]="fotoUrl" alt="Foto de perfil">
+          <img class="perfil__foto-imagen" [src]="fotoUrl" alt="Foto de perfil" onerror="this.onerror=null; this.src='/assets/images/creativelogo.png';">
         </div>
         <!-- <input class="perfil__foto-input" type="file" name="image" accept="image/*"> -->
         <input class="perfil__foto-input" type="file" name="image" accept="image/*" (change)="onFileSelected($event)">
