@@ -18,7 +18,7 @@
             <div class="min-h-screen flex flex-col justify-start items-center pt-10 sm:pt-12 bg-brand-teal">
             <div>
                 <a href="/">
-                    <x-application-logo class="w-60 h-60 fill-current text-gray-500" />
+                    <x-application-logo class="w-60 h-30 fill-current text-gray-500" />
                 </a>
             </div>
 
