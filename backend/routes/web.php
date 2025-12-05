@@ -83,7 +83,7 @@ Route::get('/logout-sso', function () {
 
     // Redirigir de vuelta al Frontend (Angular)
     // Cambia esta URL por la de tu proyecto Angular si es diferente (ej. localhost:4200)
-    return redirect('http://localhost:4200/login'); 
+    return redirect('http://localhost:4200/login');
 })->name('logout.sso');
 
 
@@ -93,6 +93,13 @@ Route::get('language/{locale}', [LanguageController::class, 'setLanguage'])->nam
 // Ruta para cambiar el idioma con json
 
 Route::get('lang/{locale}', [LanguageController::class, 'setLocale'])->name('locale.set');
-
+// --- SOLUCIÓN ERROR 419 ---
+// Si alguien entra por la URL /logout, cerramos sesión limpiamente y redirigimos
+Route::get('/logout', function () {
+    Auth::guard('web')->logout();
+    Session::invalidate();
+    Session::regenerateToken();
+    return redirect('/login');
+});
 
 require __DIR__ . '/auth.php';

@@ -9,5 +9,6 @@
         'my-panel' => 'Mi Panel',
         'login' => 'Iniciar Sesión',
         'no-video' => 'Tu navegador no soporta videos HTML5 .',
+        'go-store' => 'Ir a la tienda',
 
     ];

@@ -51,11 +51,11 @@
                         @else
                             <a href="{{ route('login') }}" class="bg-white text-brand-teal px-4 py-2 rounded-md font-bold hover:bg-brand-graylight transition shadow-sm">{{ __('welcome.login') }}</a>
 
-                            @if (Route::has('register'))
+{{--                             @if (Route::has('register'))
                                 <a href="{{ route('register') }}" class="font-semibold hover:text-brand-light transition">
                                     {{ __('welcome.register') }}
                                 </a>
-                            @endif
+                            @endif --}}
                         @endauth
                     @endif
                 </div>
@@ -75,10 +75,9 @@
                 <p class="text-brand-graylight text-xl md:text-2xl mb-8 max-w-2xl drop-shadow-md font-normal">
                      {{ __('welcome.admin-panel') }}
                 </p>
-
                 @auth
                     <a href="{{ url('/dashboard') }}" class="bg-brand-teal hover:bg-brand-light text-white font-semibold py-3 px-8 rounded shadow-lg transition transform hover:scale-105 border border-transparent">
-                        {{ __('welcome.storage') }}
+                        {{ __('welcome.store') }}
                     </a>
                 @else
                     <a href="{{ route('login') }}" class="bg-brand-teal hover:bg-brand-light text-white font-semibold py-3 px-8 rounded shadow-lg transition transform hover:scale-105 border border-transparent">
