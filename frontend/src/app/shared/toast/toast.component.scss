@@ -29,8 +29,8 @@
 
     // Variantes
     &--exito {
-        border-left-color: $color-exito;
-        .toast__icono { color: $color-exito; background-color: rgba($color-exito, 0.1); }
+        border-left-color: $color-primario;
+        .toast__icono { color: $color-primario; background-color: rgba($color-primario, 0.1); }
     }
 
     &--error {
