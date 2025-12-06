@@ -17,16 +17,22 @@
         [(ngModel)]="username">
       
       <div class="login__grupo-pass">
-        <label class="login__etiqueta" id="l-rpass1" for="rpass1"></label>
-        <input 
-          class="login__entrada"
-          type="password" 
-          name="password" 
-          placeholder="Contraseña" 
-          id="rpass1" 
-          required 
-          autocomplete="current-password"
-          [(ngModel)]="password">
+        <div class="login__input-wrapper"> <input 
+              class="login__entrada login__entrada--con-icono" 
+              [type]="mostrarPass ? 'text' : 'password'" 
+              name="password" 
+              placeholder="Contraseña" 
+              id="rpass1" 
+              required 
+              autocomplete="current-password"
+              [(ngModel)]="password">
+            
+            <img 
+              [src]="mostrarPass ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
+              class="login__icono-pass"
+              (click)="mostrarPass = !mostrarPass"
+              alt="Mostrar/Ocultar contraseña">
+        </div>
       </div>
 
       <input type="submit" class="login__boton" value="Enviar">

@@ -22,6 +22,7 @@ export class LoginComponent {
 
   username: string = '';
   password: string = '';
+  mostrarPass: boolean = false;
 
   constructor(
     private authService: AuthService,
