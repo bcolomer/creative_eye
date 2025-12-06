@@ -34,7 +34,7 @@ class ProductController extends Controller
         }
 
 
-        $productos = $query->paginate(5)->appends(['search' => $search]);
+        $productos = $query->paginate(8)->appends(['search' => $search]);
 
         return view('admin.productos.index', [
             'productos' => $productos

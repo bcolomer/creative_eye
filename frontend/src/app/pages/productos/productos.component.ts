@@ -32,7 +32,7 @@ export class ProductosComponent implements OnInit {
   constructor(private productService: ProductService) {}
 
   /**
-   * 8. ngOnInit() es una función especial de Angular
+   * ngOnInit() es una función especial de Angular
    * que se ejecuta automáticamente UNA VEZ, justo cuando
    * el componente está listo.
    */
