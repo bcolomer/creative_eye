@@ -21,7 +21,7 @@
             <div class="relative">
                 <x-text-input id="update_password_current_password" name="current_password"
                             x-bind:type="show ? 'text' : 'password'"
-                            class="mt-1 block w-full pr-10" autocomplete="current-password" />
+                            class="mt-1 block w-full pr-10"  autocomplete="new-password" />
 
                 <button type="button" @click="show = !show" class="absolute inset-y-0 right-0 pr-3 flex items-center text-sm leading-5 text-gray-500 hover:text-brand-teal focus:outline-none">
                         <img x-show="show"

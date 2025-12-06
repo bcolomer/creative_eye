@@ -34,6 +34,8 @@ return [
     'field_password_optional' => 'Password (Optional)',
     'field_password_confirm' => 'Confirm Password',
     'field_photo_url' => 'Profile Photo URL (Optional)',
+    'field_photo' => 'Select Profile Photo (Optional)',
+    'field_photo_placeholder' => '/images/creativelogo.png or select file',
     'button_create' => 'Create User',
     'button_delete_account' => 'Delete Account',
     'edit_title_prefix' => 'Edit User:',
