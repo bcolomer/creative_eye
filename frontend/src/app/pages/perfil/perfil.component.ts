@@ -84,17 +84,26 @@ export class PerfilComponent implements OnInit {
     }
   }
 
-  actualizarPerfil(): void {
-    // VALIDACIÓN: La contraseña actual es obligatoria para cualquier cambio
+actualizarPerfil(): void {
+    // 1. VALIDACIÓN: La contraseña actual es obligatoria
     if (!this.passActual) {
       this.toastService.show("Por seguridad, introduce tu contraseña actual", 'info');
       return;
     }
 
-    // VALIDACIÓN: Si cambia contraseña, las nuevas deben coincidir
-    if (this.passNueva && (this.passNueva !== this.passConfirm)) {
-      this.toastService.show('Las nuevas contraseñas no coinciden', 'error');
-      return;
+    // 🆕 2. VALIDACIÓN DE NUEVA CONTRASEÑA (Si el usuario escribió algo en passNueva)
+    if (this.passNueva) {
+        // Validar longitud mínima
+        if (this.passNueva.length < 8) {
+            this.toastService.show('La nueva contraseña debe tener al menos 8 caracteres', 'error');
+            return;
+        }
+
+        // Validar coincidencia
+        if (this.passNueva !== this.passConfirm) {
+            this.toastService.show('Las nuevas contraseñas no coinciden', 'error');
+            return;
+        }
     }
 
     const datosAEnviar: any = {
@@ -104,28 +113,31 @@ export class PerfilComponent implements OnInit {
 
     if (this.passNueva) {
       datosAEnviar.password = this.passNueva;
+      // 🆕 IMPORTANTE: Enviamos la confirmación también para que el Backend (Laravel) no se queje si usa 'confirmed' validation
+      datosAEnviar.password_confirmation = this.passConfirm; 
     }
 
-    // Enviamos al backend
     this.authService.updateProfile(datosAEnviar, this.selectedFile || undefined).subscribe({
       next: (respuesta) => {
-        
         this.toastService.show("Perfil actualizado correctamente", 'exito');
 
-        // Limpiamos los campos sensibles
         this.passActual = '';
         this.passNueva = '';
         this.passConfirm = '';
         this.selectedFile = null;
         this.nombreArchivo = 'Ningún archivo seleccionado';
         
-        // Recargamos los datos para asegurar que todo está sincronizado
         this.cargarDatosPerfil();
       },
       error: (err) => {
         console.error('Error actualizando perfil:', err);
         
-        this.toastService.show("No se pudo actualizar. Verifica tu contraseña actual.", 'error');
+        
+        if (err.status === 422) {
+            this.toastService.show("Datos inválidos. Revisa la contraseña actual.", 'error');
+        } else {
+            this.toastService.show("No se pudo actualizar. Verifica tu contraseña actual.", 'error');
+        }
       }
     });
   }
