@@ -1,8 +1,8 @@
-<div class="login">
+  <div class="login">
   
   <div class="login__contenedor">
 
-    <h2 class="login__titulo">Inicio de Sesión</h2>
+    <h2 class="login__titulo">Inicio de sesión</h2>
     
     <form class="login__formulario" (ngSubmit)="login()">
 
@@ -17,20 +17,22 @@
         [(ngModel)]="username">
       
       <div class="login__grupo-pass">
-        <label class="login__etiqueta" id="l-rpass1" for="rpass1"></label>
-        <input 
-          class="login__entrada"
-          type="password" 
-          name="password" 
-          placeholder="Contraseña" 
-          id="rpass1" 
-          required 
-          autocomplete="current-password"
-          [(ngModel)]="password">
-      </div>
-
-      <div *ngIf="errorMessage" class="login__mensaje-error">
-        {{ errorMessage }}
+        <div class="login__input-wrapper"> <input 
+              class="login__entrada login__entrada--con-icono" 
+              [type]="mostrarPass ? 'text' : 'password'" 
+              name="password" 
+              placeholder="Contraseña" 
+              id="rpass1" 
+              required 
+              autocomplete="current-password"
+              [(ngModel)]="password">
+            
+            <img 
+              [src]="mostrarPass ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
+              class="login__icono-pass"
+              (click)="mostrarPass = !mostrarPass"
+              alt="Mostrar/Ocultar contraseña">
+        </div>
       </div>
 
       <input type="submit" class="login__boton" value="Enviar">
@@ -41,4 +43,5 @@
       ¿Eres nuevo? <a class="login__enlace-registro" routerLink="/registro">Regístrate</a>
     </p>
 
-  </div> </div>
+  </div> 
+</div>

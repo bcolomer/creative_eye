@@ -29,29 +29,43 @@
 
         <div class="registro__grupo">
             <div class="registro__grupo-pass">
-                <input 
-                class="registro__entrada"
-                type="password" 
-                name="password" 
-                placeholder="Contraseña" 
-                id="pass1"
-                required 
-                autocomplete="new-password"
-                [(ngModel)]="password">
+                <div class="registro__input-wrapper"> <input 
+                    class="registro__entrada registro__entrada--con-icono"
+                    [type]="mostrarPass ? 'text' : 'password'" 
+                    name="password" 
+                    placeholder="Contraseña" 
+                    id="pass1"
+                    required 
+                    autocomplete="new-password"
+                    [(ngModel)]="password">
+
+                    <img 
+                    [src]="mostrarPass ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
+                    class="registro__icono-pass"
+                    (click)="mostrarPass = !mostrarPass"
+                    alt="Mostrar/Ocultar">
+                </div>
             </div>
         </div>
 
         <div class="registro__grupo">
             <div class="registro__grupo-pass">
-                <input 
-                class="registro__entrada"
-                type="password" 
-                name="passwordConfirm" 
-                placeholder="Repite tu contraseña" 
-                id="pass2"
-                required 
-                autocomplete="new-password"
-                [(ngModel)]="passwordConfirm">
+                <div class="registro__input-wrapper"> <input 
+                    class="registro__entrada registro__entrada--con-icono"
+                    [type]="mostrarPassConfirm ? 'text' : 'password'" 
+                    name="passwordConfirm" 
+                    placeholder="Repite tu contraseña" 
+                    id="pass2"
+                    required 
+                    autocomplete="new-password"
+                    [(ngModel)]="passwordConfirm">
+
+                    <img 
+                    [src]="mostrarPassConfirm ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
+                    class="registro__icono-pass"
+                    (click)="mostrarPassConfirm = !mostrarPassConfirm"
+                    alt="Mostrar/Ocultar">
+                </div>
             </div>
         </div>
 
@@ -63,7 +77,7 @@
         
         </form>
         
-        <p class="registro__texto-login">¿Tienes ya cuenta?<a class="registro__enlace-login" routerLink="/login">Inicia Sesión</a></p>
+        <p class="registro__texto-login">¿Tienes ya cuenta?<a class="registro__enlace-login" routerLink="/login">Inicia sesión</a></p>
     </div>
 
 </div>
