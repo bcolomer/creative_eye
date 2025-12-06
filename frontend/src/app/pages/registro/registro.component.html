@@ -3,7 +3,7 @@
     <div class="registro__contenedor">
         <h2 class="registro__titulo">Registro</h2>
     
-        <form class="registro__formulario" (ngSubmit)="registro()">
+        <form class="registro__formulario" (ngSubmit)="registro()" #registroForm="ngForm">
 
         <div class="registro__grupo">
             <input 
@@ -12,8 +12,14 @@
                 name="nombre" 
                 placeholder="Nombre completo" 
                 required 
+                minlength="3"
                 autocomplete="name"
-                [(ngModel)]="nombre">
+                [(ngModel)]="nombre"
+                #nombreCtrl="ngModel">
+            
+            <span class="registro__error-texto" *ngIf="nombreCtrl.invalid && nombreCtrl.touched">
+                Escribe tu nombre completo (mínimo 3 letras).
+            </span>
         </div>
 
         <div class="registro__grupo">
@@ -23,21 +29,30 @@
                 name="email" 
                 placeholder="E-mail" 
                 required 
+                email
                 autocomplete="username"
-                [(ngModel)]="email">
+                [(ngModel)]="email"
+                #emailCtrl="ngModel">
+            
+            <span class="registro__error-texto" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+                Introduce un email válido.
+            </span>
         </div>
 
         <div class="registro__grupo">
             <div class="registro__grupo-pass">
-                <div class="registro__input-wrapper"> <input 
+                <div class="registro__input-wrapper">
+                    <input 
                     class="registro__entrada registro__entrada--con-icono"
                     [type]="mostrarPass ? 'text' : 'password'" 
                     name="password" 
-                    placeholder="Contraseña" 
+                    placeholder="Contraseña (mín. 8 caracteres)" 
                     id="pass1"
                     required 
+                    minlength="8"
                     autocomplete="new-password"
-                    [(ngModel)]="password">
+                    [(ngModel)]="password"
+                    #passCtrl="ngModel">
 
                     <img 
                     [src]="mostrarPass ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
@@ -46,11 +61,17 @@
                     alt="Mostrar/Ocultar">
                 </div>
             </div>
+
+            <span class="registro__error-texto" *ngIf="passCtrl.invalid && passCtrl.touched">
+                <span *ngIf="passCtrl.errors?.['required']">Contraseña obligatoria.</span>
+                <span *ngIf="passCtrl.errors?.['minlength']">Mínimo 8 caracteres.</span>
+            </span>
         </div>
 
         <div class="registro__grupo">
             <div class="registro__grupo-pass">
-                <div class="registro__input-wrapper"> <input 
+                <div class="registro__input-wrapper">
+                    <input 
                     class="registro__entrada registro__entrada--con-icono"
                     [type]="mostrarPassConfirm ? 'text' : 'password'" 
                     name="passwordConfirm" 
@@ -58,7 +79,8 @@
                     id="pass2"
                     required 
                     autocomplete="new-password"
-                    [(ngModel)]="passwordConfirm">
+                    [(ngModel)]="passwordConfirm"
+                    #passConfCtrl="ngModel">
 
                     <img 
                     [src]="mostrarPassConfirm ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
@@ -67,17 +89,22 @@
                     alt="Mostrar/Ocultar">
                 </div>
             </div>
+            
+            <span class="registro__error-texto" *ngIf="passConfCtrl.touched && password !== passwordConfirm">
+                Las contraseñas no coinciden.
+            </span>
         </div>
 
         <div *ngIf="errorMessage" class="registro__mensaje-error">
             {{ errorMessage }}
         </div>
 
-        <input type="submit" class="registro__boton" value="Registrarse">
+        <input type="submit" class="registro__boton" value="Registrarse" 
+            [disabled]="registroForm.invalid || password !== passwordConfirm">
         
         </form>
         
-        <p class="registro__texto-login">¿Tienes ya cuenta?<a class="registro__enlace-login" routerLink="/login">Inicia sesión</a></p>
+        <p class="registro__texto-login">¿Tienes ya cuenta?<a class="registro__enlace-login" routerLink="/login">Inicia Sesión</a></p>
     </div>
 
 </div>

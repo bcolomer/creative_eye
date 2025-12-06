@@ -1,41 +1,52 @@
-  <div class="login">
+<div class="login">
   
   <div class="login__contenedor">
 
-    <h2 class="login__titulo">Inicio de sesión</h2>
+    <h2 class="login__titulo">Inicio de Sesión</h2>
     
     <form class="login__formulario" (ngSubmit)="login()">
 
-      <input 
-        class="login__entrada"
-        type="email" 
-        name="username" 
-        placeholder="E-mail" 
-        id="ruser" 
-        required 
-        autocomplete="username"
-        [(ngModel)]="username">
+      <div class="login__grupo">
+          <input 
+            class="login__entrada"
+            type="email" 
+            name="username" 
+            placeholder="E-mail" 
+            id="ruser" 
+            required 
+            email
+            autocomplete="username"
+            [(ngModel)]="username"
+            #emailCtrl="ngModel"> <span class="login__error-texto" *ngIf="emailCtrl.invalid && emailCtrl.touched">
+              <span *ngIf="emailCtrl.errors?.['required']">El email es obligatorio.</span>
+              <span *ngIf="emailCtrl.errors?.['email']">Introduce un email válido.</span>
+          </span>
+      </div>
       
       <div class="login__grupo-pass">
-        <div class="login__input-wrapper"> <input 
-              class="login__entrada login__entrada--con-icono" 
+        <div class="login__input-wrapper">
+            <input 
+              class="login__entrada login__entrada--con-icono"
               [type]="mostrarPass ? 'text' : 'password'" 
               name="password" 
               placeholder="Contraseña" 
               id="rpass1" 
               required 
               autocomplete="current-password"
-              [(ngModel)]="password">
-            
-            <img 
+              [(ngModel)]="password"
+              #passCtrl="ngModel"> <img 
               [src]="mostrarPass ? '/assets/images/ver.svg' : '/assets/images/no-ver.svg'" 
               class="login__icono-pass"
               (click)="mostrarPass = !mostrarPass"
               alt="Mostrar/Ocultar contraseña">
         </div>
+
+        <span class="login__error-texto" *ngIf="passCtrl.invalid && passCtrl.touched">
+            La contraseña es obligatoria.
+        </span>
       </div>
 
-      <input type="submit" class="login__boton" value="Enviar">
+      <input type="submit" class="login__boton" value="Enviar" [disabled]="emailCtrl.invalid || passCtrl.invalid">
     
     </form>
     
