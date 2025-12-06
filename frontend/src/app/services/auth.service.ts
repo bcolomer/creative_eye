@@ -124,6 +124,10 @@ export class AuthService {
         formData.append('password', datos.password);
     }
 
+    if (datos.password_confirmation) {
+      formData.append('password_confirmation', datos.password_confirmation);
+    }
+
     // Foto
     if (fotoFile) {
         formData.append('foto', fotoFile);
