@@ -1,4 +1,4 @@
-<div class="carrito">
+<!-- <div class="carrito">
     <h2 class="carrito__titulo">Carrito de compra</h2>
 
     <div *ngIf="productosDelCarrito.length === 0" class="carrito__mensaje-vacio">
@@ -57,5 +57,85 @@
 
         <p class="carrito__total">Total: <span class="carrito__total-cantidad">{{ totalCarrito | number:'1.0-2' }} €</span></p>
 
+    </div>
+</div> -->
+
+<div class="carrito">
+    <h2 class="carrito__titulo">Carrito de compra</h2>
+
+    <div *ngIf="productosDelCarrito.length === 0" class="carrito__mensaje-vacio">
+        <p>Tu carrito está vacío.</p>
+    </div>
+
+    <div *ngIf="productosDelCarrito.length > 0">
+    
+        <ul class="carrito__lista">
+            <li *ngFor="let item of productosDelCarrito" class="carrito__item">
+                
+                <div class="carrito__item-info">
+                    <span class="carrito__item-nombre">{{ item.producto.nombre }}</span>
+                    
+                    <small class="carrito__item-stock">
+                        Stock disponible en tienda: {{ item.producto.cantidad }}
+                    </small>
+                </div>
+                
+                <div class="carrito__stepper">
+                    <button 
+                        class="carrito__stepper-btn" 
+                        type="button"
+                        (click)="actualizarCantidad(item, -1)"
+                        [disabled]="item.cantidad <= 1"
+                        aria-label="Disminuir cantidad">
+                        -
+                    </button>
+                    
+                    <span class="carrito__stepper-valor">{{ item.cantidad }}</span>
+                    
+                    <button 
+                        class="carrito__stepper-btn" 
+                        type="button"
+                        (click)="actualizarCantidad(item, 1)"
+                        [disabled]="item.cantidad >= item.producto.cantidad"
+                        aria-label="Aumentar cantidad">
+                        +
+                    </button>
+                </div>
+
+                <div class="carrito__item-precios">
+                    <span class="carrito__item-precio-uni">{{ item.precio_unitario | number:'1.0-2'}} €/ud </span>
+                    <span class="carrito__item-precio-total">Total: {{ item.precio_total | number:'1.0-2'}} €</span>
+                </div>
+
+                <button 
+                    class="carrito__item-eliminar" 
+                    type="button"
+                    (click)="abrirModalEliminar(item.id)"
+                    aria-label="Eliminar producto">
+                    &times; 
+                </button>
+            </li>
+        </ul>
+
+        <p class="carrito__total">Total: <span class="carrito__total-cantidad">{{ totalCarrito | number:'1.0-2' }} €</span></p>
+
+    </div>
+</div>
+
+<div class="modal" *ngIf="mostrarModal">
+    <div class="modal__fondo" (click)="cerrarModal()"></div>
+    
+    <div class="modal__caja">
+        <h3 class="modal__titulo">¿Eliminar producto?</h3>
+        <p class="modal__texto">¿Estás seguro de que quieres quitar este artículo de tu carrito?</p>
+        
+        <div class="modal__acciones">
+            <button class="modal__btn modal__btn--cancelar" (click)="cerrarModal()">
+                Cancelar
+            </button>
+            <button class="modal__btn modal__btn--confirmar" (click)="confirmarEliminar()">
+                Eliminar
+            </button>
+        </div>
     </div>
 </div>

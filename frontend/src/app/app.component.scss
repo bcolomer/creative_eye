@@ -164,6 +164,7 @@
         border: 2px solid $color-blanco; 
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 
+        background-color: $color-blanco;
         @include version('tablet') {
             width: 35px;
             height: 35px;

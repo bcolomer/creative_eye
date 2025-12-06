@@ -18,6 +18,8 @@ export class RegistroComponent {
   email: string = '';
   password: string = '';
   passwordConfirm: string = '';
+  mostrarPass: boolean = false;       
+  mostrarPassConfirm: boolean = false; 
 
   errorMessage: string | null = null;
 

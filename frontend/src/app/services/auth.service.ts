@@ -1,21 +1,21 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-//Con esto manejamos las respuestas
-import { Observable } from 'rxjs';
-
+import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from './cart.service';
-
 
 @Injectable({
   providedIn: 'root'
 })
-
 export class AuthService {
-
 
   private apiUrl = 'http://127.0.0.1:8000/api';
 
+  // Inicializamos leyendo del localStorage para no perder el estado al recargar
+  private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
+  
+  // Observable público al que se suscriben los componentes (Header, etc.)
+  public user$ = this.userSubject.asObservable();
 
   constructor(
     private http: HttpClient,
@@ -24,149 +24,148 @@ export class AuthService {
   ) { }
 
   /**
-   *
-   * @param datos
-   * @returns
+   * Helper para recuperar usuario del storage de forma segura
+   */
+  private getUserFromStorage(): any {
+    const userStr = localStorage.getItem('user');
+    try {
+      return userStr ? JSON.parse(userStr) : null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  /**
+   * Iniciar sesión
    */
   login(datos: any): Observable<any> {
-
-    // Enviamos los datos (username y password) a la ruta /api/login
-    return this.http.post(`${this.apiUrl}/login`, datos);
+    return this.http.post(`${this.apiUrl}/login`, datos).pipe(
+      tap((res: any) => {
+        // GUARDAMOS EL TOKEN PRIMERO (para que la foto cargue)
+        if (res.token) {
+            localStorage.setItem('token', res.token);
+        }
+        
+        // Guardamos el usuario y avisamos a la app
+        if (res.user) {
+          localStorage.setItem('user', JSON.stringify(res.user));
+          this.userSubject.next(res.user);
+        }
+      })
+    );
   }
 
   /**
-   *
-   * @returns
+   * Obtener perfil actualizado
    */
   getProfile(): Observable<any> {
-    // Esta llamada irá automáticamente con el token gracias al Interceptor
-    return this.http.get(`${this.apiUrl}/profile`);
+    return this.http.get(`${this.apiUrl}/profile`).pipe(
+      tap((user: any) => {
+        // Actualizamos localStorage y avisamos a la app
+        localStorage.setItem('user', JSON.stringify(user));
+        this.userSubject.next(user);
+      })
+    );
   }
 
   /**
-   *
-   * @returns
+   * Verifica si hay sesión activa
    */
   isLoggedIn(): boolean {
-    // (!!) Convierte el resultado (un string o null) en un booleano (true/false)
     const token = localStorage.getItem('token');
-
-    // Comprobamos que el token NO sea null Y que NO sea un string vacío.
     return (token !== null) && (token.length > 0);
   }
 
   /**
-   * Añadimos el logout del usuario
+   * Cerrar sesión
    */
   logout(): void {
-    // Borramos el token de la memoria del navegador
     localStorage.removeItem('token');
-    // Borramos la memoria del carrito para que no lo vea el siguiente usuario a loguearse
-    this.cartService.clearCart();
-
     localStorage.removeItem('user');
+    
+    // Limpiamos carrito y estado de usuario
+    this.cartService.clearCart();
+    this.userSubject.next(null);
 
-        console.log('Cerrando sesión global...');
-
+    console.log('Cerrando sesión global...');
     window.location.href = 'http://127.0.0.1:8000/logout-sso';
-
-    }
+  }
 
   /**
-   *
-   * @param datos
-   * @returns
+   * Registro de usuario
    */
   register(datos: any): Observable<any> {
-
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json',
         'Accept': 'application/json'
       })
     };
-
-    // Enviamos a la ruta que Bárbara definió: /api/register
     return this.http.post(`${this.apiUrl}/register`, datos, httpOptions);
   }
 
   /**
-   * Permite subir foto usando FormData
-   * @param datos Objeto con los campos de texto (nombre, nombre_usuario)
-   * @param fotoFile (Opcional) El archivo de la foto seleccionada
-   * @returns
+   * Actualizar perfil (Nombre, Email, Foto, Contraseña)
    */
   updateProfile(datos: any, fotoFile?: File): Observable<any> {
     const formData = new FormData();
 
-    // Añadimos campos de texto
+    // Campos básicos
     formData.append('nombre', datos.nombre);
-    formData.append('nombre_usuario', datos.nombre_usuario);
+    if (datos.nombre_usuario) {
+        formData.append('nombre_usuario', datos.nombre_usuario);
+    }
 
-    // Si hay foto, la adjuntamos
+    // Contraseñas (si vienen)
+    if (datos.current_password) {
+        formData.append('current_password', datos.current_password);
+    }
+    if (datos.password) {
+        formData.append('password', datos.password);
+    }
+
+    if (datos.password_confirmation) {
+        formData.append('password_confirmation', datos.password_confirmation);
+    }
+    // Foto
     if (fotoFile) {
         formData.append('foto', fotoFile);
     }
 
-
-    // Laravel no procesa archivos en PUT directo, así que enviamos POST + _method=PUT
+    // Laravel requiere esto para PUT con FormData
     formData.append('_method', 'PUT');
 
-    // Enviamos como POST sin headers manuales
-    return this.http.post(`${this.apiUrl}/profile`, formData);
+    return this.http.post(`${this.apiUrl}/profile`, formData).pipe(
+        tap((res: any) => {
+            // Si la API devuelve el usuario actualizado, notificamos
+            if (res.user) {
+                localStorage.setItem('user', JSON.stringify(res.user));
+                this.userSubject.next(res.user);
+            }
+        })
+    );
   }
 
   /**
-   * Comprueba si hay un usuario con rol administrador
+   * Roles
    */
   isAdmin(): boolean {
-    const userString = localStorage.getItem('user');
-
-    if (userString) {
-      try {
-        const user = JSON.parse(userString);
-        return user && user.rol_id === 1;
-      } catch (e) {
-        return false;
-      }
-    }
-    return false;
+    const user = this.getUserFromStorage();
+    return user && user.rol_id === 1;
   }
 
-  /**
-   * Comprueba si el usuario tiene rol de Almacén (rol_id === 2)
-   */
   isAlmacen(): boolean {
-    const userString = localStorage.getItem('user');
+    const user = this.getUserFromStorage();
+    return user && user.rol_id === 2;
+  }
 
-    if (userString) {
-      try {
-        const user = JSON.parse(userString);
-        return user && user.rol_id === 2;
-      } catch (e) {
-        return false;
-      }
-    }
-    return false;
+  getCurrentUser(): any {
+    return this.getUserFromStorage();
   }
 
   /**
-   * Devuelve el objeto del usuario actual almacenado en localStorage
-   * (Incluye: nombre, foto, rol_id...)
+   * Obtener imagen protegida
    */
-  getCurrentUser(): any {
-    const userString = localStorage.getItem('user');
-    if (userString) {
-      try {
-        return JSON.parse(userString);
-      } catch (e) {
-        return null;
-      }
-    }
-    return null;
-  }
-
-  // Pide la imagen al servidor enviando el Token automáticamente
   getProfileImage(fileName: string): Observable<Blob> {
     return this.http.get(`${this.apiUrl}/profile/photo/${fileName}`, { responseType: 'blob' });
   }

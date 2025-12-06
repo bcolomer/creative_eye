@@ -19,67 +19,69 @@ export class AppComponent implements OnInit {
   public cartItemCount: number = 0;
   public menuAbierto: boolean = false;
   public currentUser: any = null;
-
-  // Imagen por defecto (Logo)
   public fotoUrl: any = '/assets/images/creativelogo.png';
 
   constructor(
-    private cartService: CartService,
-    public authService: AuthService,
+    public cartService: CartService, 
+    public authService: AuthService, 
     private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
+    // Suscripción reactiva al Carrito
     this.cartService.cartItems$.subscribe(items => {
       this.cartItemCount = items.length;
     });
 
+    // Suscripción reactiva al Usuario (Header se actualiza solo)
+    this.authService.user$.subscribe(user => {
+        this.currentUser = user;
+        
+        if (user) {
+            this.procesarFotoUsuario(user.foto);
+        } else {
+            this.fotoUrl = '/assets/images/creativelogo.png';
+        }
+    });
+
+    // CARGA INICIAL 
     if (this.authService.isLoggedIn()) {
+      // Forzamos la carga del perfil y del carrito al iniciar la app
+      this.authService.getProfile().subscribe({
+        error: () => {
+            // Si el token caducó o es inválido, cerramos sesión
+            this.authService.logout();
+        }
+      });
       this.cartService.loadCart().subscribe();
-      this.cargarDatosUsuario();
     }
   }
 
-cargarDatosUsuario(): void {
-    this.authService.getProfile().subscribe({
-      next: (datos) => {
-        this.currentUser = datos;
+  procesarFotoUsuario(foto: string | null): void {
+      if (!foto) {
+          this.fotoUrl = '/assets/images/creativelogo.png';
+          return;
+      }
 
-        if (this.currentUser && this.currentUser.foto) {
-          const foto = this.currentUser.foto;
-
-          // CASO 1: URL externa (Jose)
-          if (foto.toString().startsWith('http') || foto.toString().startsWith('data:')) {
-              this.fotoUrl = foto;
-          }
-          // CASO 2: Archivo interno (Laura)
-          else {
-            this.authService.getProfileImage(foto).subscribe({
-              next: (blob) => {
-                  let objectURL = URL.createObjectURL(blob);
-                  this.fotoUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
-              },
-              error: (err) => {
-                  console.error('Error cargando foto navbar:', err);
-                  this.fotoUrl = '/assets/images/creativelogo.png';
-              }
-            });
-          }
-        }
-      },
-      error: (err) => console.log('Error al cargar usuario en navbar', err)
-    });
+      // Si es URL externa o base64 (previsualización)
+      if (foto.toString().startsWith('http') || foto.toString().startsWith('data:')) {
+          this.fotoUrl = foto;
+      } 
+      // Si es archivo interno de Laravel (protegido)
+      else {
+          this.authService.getProfileImage(foto).subscribe({
+            next: (blob) => {
+                let objectURL = URL.createObjectURL(blob);
+                this.fotoUrl = this.sanitizer.bypassSecurityTrustUrl(objectURL);
+            },
+            error: () => {
+                this.fotoUrl = '/assets/images/creativelogo.png';
+            }
+          });
+      }
   }
 
-  toggleMenu(): void {
-    this.menuAbierto = !this.menuAbierto;
-  }
-
-  closeMenu(): void {
-    this.menuAbierto = false;
-  }
-
-  logout(): void {
-      this.authService.logout();
-  }
+  toggleMenu(): void { this.menuAbierto = !this.menuAbierto; }
+  closeMenu(): void { this.menuAbierto = false; }
+  logout(): void { this.authService.logout(); }
 }

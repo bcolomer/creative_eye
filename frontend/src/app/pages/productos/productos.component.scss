@@ -76,4 +76,52 @@
         font-size: 1.2rem;
         color: $color-gris-medio;
     }
+
+    // PAGINACIÓN
+    &__paginacion {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: $unidad-espaciado;
+        margin-top: $unidad-espaciado * 6;
+        flex-wrap: wrap;
+
+        &-btn, &-numero {
+            background-color: $color-blanco;
+            border: 1px solid $color-gris-claro;
+            color: $color-gris-oscuro;
+            padding: 8px 16px;
+            border-radius: $radio-borde;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: $fuente-cuerpo;
+            font-size: 1rem;
+
+            &:hover:not(:disabled) {
+                border-color: $color-primario;
+                color: $color-primario;
+                background-color: #f9f9f9;
+            }
+
+            &:disabled {
+                opacity: 0.5;
+                cursor: not-allowed;
+                background-color: #f5f5f5;
+            }
+        }
+
+        // Estado activo del número de página
+        &-numero {
+            &--activo {
+                background-color: $color-primario;
+                color: $color-blanco;
+                border-color: $color-primario;
+
+                &:hover {
+                    background-color: $color-primario; 
+                    color: $color-blanco;
+                }
+            }
+        }
+    }
 }

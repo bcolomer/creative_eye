@@ -12,8 +12,13 @@ import { CartService } from '../../services/cart.service';
 })
 export class CarritoComponent implements OnInit {
 
+  // Productos en el carrito
   public productosDelCarrito: any[] = [];
   public totalCarrito: number = 0;
+
+  // Modal eliminar producto
+  public mostrarModal: boolean = false;
+  public idItemAEliminar: number | null = null;
 
   constructor(
     private cartService: CartService, 
@@ -50,19 +55,19 @@ export class CarritoComponent implements OnInit {
   actualizarCantidad(item: any, cambio: number): void {
     const nuevaCantidad = item.cantidad + cambio;
 
-    // 1. BLOQUEO AL BAJAR (MÍNIMO 1)
+    // BLOQUEO AL BAJAR (MÍNIMO 1)
     if (nuevaCantidad < 1) {
       return; 
     }
 
-    // 2. CONTROL DE STOCK AL AUMENTAR
+    // CONTROL DE STOCK AL AUMENTAR
     if (cambio > 0 && item.cantidad >= item.producto.cantidad) {
       // alert(`¡Lo sentimos! Solo quedan ${item.producto.cantidad} unidades disponibles.`);
       this.toastService.show(`Solo quedan ${item.producto.cantidad} unidades disponibles.`, 'error');
       return; 
     }
 
-    // 3. LLAMADA A LA API
+    // LLAMADA A LA API
     this.cartService.updateQuantity(item.id, nuevaCantidad).subscribe({
       error: (err) => {
         console.error('Error al actualizar cantidad:', err);
@@ -70,19 +75,28 @@ export class CarritoComponent implements OnInit {
     });
   }
 
-  eliminarProducto(itemId: number): void {
-    // Mantenemos confirm nativo por seguridad (requiere acción del usuario)
-    if(!confirm('¿Seguro que quieres eliminar este producto?')) return;
+  abrirModalEliminar(itemId: number): void {
+    this.idItemAEliminar = itemId;
+    this.mostrarModal = true;
+  }
 
-    this.cartService.removeProduct(itemId).subscribe({
+  cerrarModal(): void {
+    this.mostrarModal = false;
+    this.idItemAEliminar = null;
+  }
+
+  confirmarEliminar(): void {
+    if (this.idItemAEliminar === null) return;
+
+    this.cartService.removeProduct(this.idItemAEliminar).subscribe({
       next: () => {
-        // ÉXITO
         this.toastService.show('Producto eliminado correctamente', 'exito');
+        this.cerrarModal();
       },
       error: (err) => {
         console.error('Error al eliminar:', err);
-        // ERROR
         this.toastService.show('No se pudo eliminar el producto', 'error');
+        this.cerrarModal();
       }
     });
   }

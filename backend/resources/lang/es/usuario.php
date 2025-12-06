@@ -33,6 +33,8 @@ return [
     'field_password_optional' => 'Contraseña (Opcional)',
     'field_password_confirm' => 'Confirmar Contraseña',
     'field_photo_url' => 'URL de Foto de Perfil (Opcional)',
+    'field_photo' => 'Selecciona Foto de Perfil (Opcional)',
+    'field_photo_placeholder' => '/images/creativelogo.png o selecciona archivo',
     'button_create' => 'Crear Usuario',
     'button_delete_account' => 'Eliminar Cuenta', // Para el botón de borrado en edit.blade.php
     'edit_title_prefix' => 'Editar Usuario:',
