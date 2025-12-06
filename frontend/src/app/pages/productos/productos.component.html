@@ -1,9 +1,9 @@
 <div class="productos">
-    <h1 class="productos__titulo">Catálogo de Productos</h1>
+    <h1 class="productos__titulo">Catálogo de productos</h1>
 
-    <div *ngIf="productos.length > 0" class="productos__contenedor">
+    <div *ngIf="paginatedProductos.length > 0" class="productos__contenedor">
     
-        <div *ngFor="let producto of productos" class="productos__tarjeta" [routerLink]="['/producto', producto.producto_id]">
+        <div *ngFor="let producto of paginatedProductos" class="productos__tarjeta" [routerLink]="['/producto', producto.producto_id]">
     
             <img 
                 class="productos__tarjeta-imagen" 
@@ -17,8 +17,34 @@
         </div>
     </div>
 
-    <div *ngIf="productos.length === 0" class="productos__mensaje-vacio">
+    <div *ngIf="allProductos.length === 0" class="productos__mensaje-vacio">
         <p>Cargando productos...</p>
+    </div>
+
+    <div class="productos__paginacion" *ngIf="totalPages > 1">
+        
+        <button 
+            class="productos__paginacion-btn" 
+            (click)="prevPage()" 
+            [disabled]="currentPage === 1">
+            &laquo; Anterior
+        </button>
+
+        <button 
+            *ngFor="let page of pagesArray"
+            class="productos__paginacion-numero"
+            [class.productos__paginacion-numero--activo]="page === currentPage"
+            (click)="goToPage(page)">
+            {{ page }}
+        </button>
+
+        <button 
+            class="productos__paginacion-btn" 
+            (click)="nextPage()" 
+            [disabled]="currentPage === totalPages">
+            Siguiente &raquo;
+        </button>
+
     </div>
 
 </div>
