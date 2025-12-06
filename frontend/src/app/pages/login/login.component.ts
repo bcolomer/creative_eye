@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Router, RouterLink } from '@angular/router';
+
 import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
-
-// Añadimos la ruta a la que se redirigirá cuando se inicie sesión
-import { Router, RouterLink } from '@angular/router';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -23,62 +23,33 @@ export class LoginComponent {
   username: string = '';
   password: string = '';
 
-  public errorMessage: string | null = null;
-
-
   constructor(
     private authService: AuthService,
     private router: Router,
-    private cartService: CartService
+    private cartService: CartService,
+    private toastService: ToastService
   ) {}
 
   login(): void {
-    
     const loginData = {
       nombre_usuario: this.username, 
       password: this.password
     };
 
-    console.log('Enviando datos al backend:', loginData);
-
-    this.errorMessage = null;
-    
     this.authService.login(loginData).subscribe({
       next: (respuesta) => {
         
-        console.log('Logueado con éxito', respuesta);
+        this.toastService.show(`¡Bienvenido de nuevo, ${respuesta.user.nombre}!`, 'exito');
 
-        // Guardamos el token en el localStorage del navegador
-        localStorage.setItem('token', respuesta.token);
-        console.log('Token recibido:', respuesta.token);
-        
-        // Convertimos el objeto a texto para guardarlo en localStorage
-        localStorage.setItem('user', JSON.stringify(respuesta.user));
+        // Cargamos el carrito
+        this.cartService.loadCart().subscribe();
 
-        // Redirigimos a inicio
+        // Redirigimos al inicio
         this.router.navigate(['/']); 
-        
-        console.log('Pidiendo perfil del usuario');
-
-        this.authService.getProfile().subscribe({
-            
-            next: (perfil) => {
-              console.log('¡Perfil recibido!', perfil);
-
-              console.log('Cargando carrito...');
-              this.cartService.loadCart().subscribe();
-              this.router.navigate(['/']);
-            },
-
-            error: (errPerfil) => {
-                console.warn('getProfile() falló (404). El login fue OK, pero el perfil no se cargó.');
-            }
-          });
       },
       error: (error) => {
-        console.error('¡No se ha podido iniciar sesión!', error);
-
-        this.errorMessage = 'Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.';
+        console.error('Error login:', error);
+        this.toastService.show('Usuario o contraseña incorrectos', 'error');
       }
     });
   }

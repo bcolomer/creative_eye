@@ -23,7 +23,14 @@ export class PerfilComponent implements OnInit{
   selectedFile: File | null = null;
   errorMessage: string | null = null;
   successMessage: string | null = null;
-  fotoUrl: any = 'assets/img/avatar-placeholder.png';
+  fotoUrl: any = '/assets/images/creativelogo.png';
+
+  // VARIABLES PARA VISIBILIDAD DE CONTRASEÑAS
+  mostrarPassActual: boolean = false;
+  mostrarPassNueva: boolean = false;
+  mostrarPassConfirm: boolean = false;
+
+  public nombreArchivo: string = 'Ningún archivo seleccionado';
 
   // Inyectamos el servicio de Auth para poder usarlo
   constructor(private authService: AuthService) {}
@@ -47,7 +54,7 @@ export class PerfilComponent implements OnInit{
             },
             error: (e) => {
               console.error('No se pudo cargar la imagen protegida', e);
-              this.fotoUrl = 'assets/img/avatar-placeholder.png';
+              this.fotoUrl = '/assets/images/creativelogo.png';
             }
           });
         }
@@ -59,20 +66,26 @@ export class PerfilComponent implements OnInit{
       }
     });
   }
-onFileSelected(event: any): void {
-  const file: File = event.target.files[0];
-  if (file) {
-    this.selectedFile = file;
 
-    // Opcional: Previsualizar la imagen inmediatamente
-    const reader = new FileReader();
-    reader.onload = (e: any) => {
-/*       this.usuario.foto = e.target.result; */
-this.fotoUrl = e.target.result;
-};
-    reader.readAsDataURL(file);
+  onFileSelected(event: any): void {
+    const file: File = event.target.files[0];
+    
+    if (file) {
+      this.selectedFile = file;
+      this.nombreArchivo = file.name; 
+
+      // Previsualización
+      const reader = new FileReader();
+
+      reader.onload = (e: any) => {
+        this.fotoUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    } else {
+      
+      this.nombreArchivo = 'Ningún archivo seleccionado';
+    }
   }
-}
 
   actualizarPerfil(): void {
 
@@ -129,7 +142,7 @@ this.fotoUrl = e.target.result;
       }
     });
   }
-// Función para construir la URL de la imagen correctamente
+  // Función para construir la URL de la imagen correctamente
   getFotoUrl(foto: string): string {
     //  Si no hay foto, mostramos el placeholder
     if (!foto) {

@@ -1,4 +1,4 @@
-<div class="login">
+  <div class="login">
   
   <div class="login__contenedor">
 
@@ -29,10 +29,6 @@
           [(ngModel)]="password">
       </div>
 
-      <div *ngIf="errorMessage" class="login__mensaje-error">
-        {{ errorMessage }}
-      </div>
-
       <input type="submit" class="login__boton" value="Enviar">
     
     </form>
@@ -41,4 +37,5 @@
       ¿Eres nuevo? <a class="login__enlace-registro" routerLink="/registro">Regístrate</a>
     </p>
 
-  </div> </div>
+  </div> 
+</div>
