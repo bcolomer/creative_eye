@@ -1,0 +1,79 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.productos {
+  padding: $unidad-espaciado * 4 0; 
+
+    &__titulo {
+        text-align: center;
+        color: $color-primario;
+        margin-bottom: $unidad-espaciado * 4;
+        font-family: $fuente-titulos;
+        font-weight: $semibold;
+        font-size: 2rem;
+    }
+
+    // Rejilla Responsive automática
+    &__contenedor {
+        display: grid;
+        // Columnas que se ajustan solas. Mínimo 280px de ancho por tarjeta.
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: $unidad-espaciado * 4; 
+        padding: $unidad-espaciado; 
+    }
+
+    // Estilo de la Tarjeta
+    &__tarjeta {
+        @include tarjeta-estilo;
+        padding: $unidad-espaciado * 2;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        cursor: pointer;
+        height: 100%; 
+        background-color: $color-blanco;
+
+        // Imagen del producto
+        &-imagen {
+        width: 100%;
+        height: 200px; 
+        object-fit: contain; // La imagen se ajusta sin recortarse
+        margin-bottom: $unidad-espaciado * 2;
+        transition: transform 0.3s ease;
+        }
+
+        // Efecto zoom suave en la imagen al hacer hover en la tarjeta
+        &:hover &-imagen {
+        transform: scale(1.05);
+        }
+
+        &-titulo {
+        font-family: $fuente-titulos;
+        font-size: 1.1rem;
+        font-weight: $medium;
+        color: $color-gris-oscuro;
+        margin-bottom: $unidad-espaciado;
+        // Limitamos a 2 líneas para que no rompa el diseño
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        }
+
+        &-precio {
+        font-family: $fuente-titulos;
+        font-size: 1.2rem;
+        font-weight: $semibold;
+        color: $color-primario; 
+        margin-top: auto; // Empuja el precio al fondo de la tarjeta
+        }
+    }
+
+    &__mensaje-vacio {
+        text-align: center;
+        padding: $unidad-espaciado * 4;
+        font-size: 1.2rem;
+        color: $color-gris-medio;
+    }
+}

@@ -8,45 +8,74 @@
 
         <div class="producto-detalle__info">
             <p class="producto-detalle__info-item">Precio: 
-                <span class="producto-detalle__info-dato">{{ producto.precio | number:'1.0-2'}} €</span>
+                <span class="producto-detalle__info-dato--precio">{{ producto.precio | number:'1.0-2'}} €</span>
             </p>
+            
             <p class="producto-detalle__info-item">Categoría: 
-                <span class="producto-detalle__info-dato">{{ producto.categoria?.nombre }}</span>
+                <span class="producto-detalle__info-dato">{{ producto.categoria?.nombre || 'Cargando...' }}</span>
             </p>
-            <p class="producto-detalle__info-item">Unidades disponibles: 
-                <span class="producto-detalle__info-dato">{{ producto.cantidad }}</span>
+            
+            <p class="producto-detalle__info-item">Stock total: 
+                <span class="producto-detalle__info-dato">{{ producto.cantidad }} unidades</span>
+            </p>
+
+            <p *ngIf="cantidadEnCarrito > 0" style="color: #00747C; font-size: 0.9rem; margin-top: 5px;">
+                (Ya tienes <strong>{{ cantidadEnCarrito }}</strong> en tu carrito)
             </p>
 
             <div class="producto-detalle__compra">
             
-            <div class="producto-detalle__stepper">
-                <button 
-                class="producto-detalle__stepper-boton" 
-                type="button" 
-                (click)="actualizarCantidad(-1)">-</button>
+                <div class="producto-detalle__stepper">
+                    <button 
+                        class="producto-detalle__stepper-boton" 
+                        type="button" 
+                        (click)="actualizarCantidad(-1)"
+                        [disabled]="cantidad <= 1">
+                        -
+                    </button>
+                    
+                    <span class="producto-detalle__stepper-valor">{{ cantidad }}</span>
+                    
+                    <button 
+                        class="producto-detalle__stepper-boton" 
+                        type="button" 
+                        (click)="actualizarCantidad(1)"
+                        [disabled]="(cantidad + cantidadEnCarrito) >= producto.cantidad">
+                        +
+                    </button>
+                </div>
                 
-                <span class="producto-detalle__stepper-valor">{{ cantidad }}</span>
-                
                 <button 
-                class="producto-detalle__stepper-boton" 
-                type="button" 
-                (click)="actualizarCantidad(1)">+</button>
-            </div>
-            
-            <button 
-                class="producto-detalle__boton-comprar" 
-                type="button" 
-                (click)="addToCart()">
-                Añadir al Carrito
-            </button>
+                    class="producto-detalle__boton-comprar" 
+                    type="button" 
+                    (click)="addToCart()"
+                    [disabled]="(cantidad + cantidadEnCarrito) > producto.cantidad || producto.cantidad === 0">
+                    
+                    <span *ngIf="producto.cantidad > 0; else sinStock">
+                        {{ (cantidad + cantidadEnCarrito) > producto.cantidad ? 'Sin Stock Suficiente' : 'Añadir al Carrito' }}
+                    </span>
+                    <ng-template #sinStock>Agotado</ng-template>
+                </button>
             </div>
 
         </div>
     </div> 
 
     <p class="producto-detalle__descripcion">{{ producto.descripcion }}</p>
-</div>
 
+    <div class="producto-detalle__grafica" *ngIf="mostrarGrafica">
+        <h3 class="producto-detalle__grafica-titulo">Rendimiento Técnico</h3>
+        
+        <div class="producto-detalle__canvas-contenedor">
+            <canvas baseChart
+                [datasets]="radarChartDatasets"
+                [options]="radarChartOptions"
+                [labels]="radarChartLabels"
+                type="radar">
+            </canvas>
+        </div>
+    </div>
+</div>
 
 <div *ngIf="!producto && !errorMessage" class="producto-detalle__cargando">
     <p>Cargando producto...</p>
@@ -55,4 +84,5 @@
 <div *ngIf="errorMessage" class="producto-detalle__error">
     <h1>Producto no encontrado</h1>
     <p>{{ errorMessage }}</p>
+    <a routerLink="/productos" style="text-decoration: underline; color: inherit;">Volver al catálogo</a>
 </div>

@@ -1,0 +1,153 @@
+@import '../../../styles/variables';
+@import '../../../styles/mixins';
+
+.carrito {
+    max-width: 900px; // Un poco más ancho para que quepan los botones
+    margin: 0 auto;
+    padding: $unidad-espaciado * 4 $unidad-espaciado * 2;
+    min-height: 60vh;
+
+    &__titulo {
+        font-family: $fuente-titulos;
+        color: $color-primario;
+        text-align: center;
+        margin-bottom: $unidad-espaciado * 4;
+        font-size: 2rem;
+    }
+
+    &__lista {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        gap: $unidad-espaciado * 2;
+    }
+
+    &__item {
+        @include tarjeta-estilo;
+        padding: $unidad-espaciado * 2;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: $unidad-espaciado * 2; 
+
+        @include version('movil') {
+            flex-direction: column;
+            align-items: center; 
+            text-align: center;
+        }
+    }
+
+    &__item-info {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        
+        @include version('movil') {
+            align-items: center;
+        }
+    }
+
+    &__item-nombre {
+        font-family: $fuente-titulos;
+        font-weight: $medium;
+        color: $color-gris-oscuro;
+        font-size: 1.1rem;
+    }
+
+    &__item-codigo {
+        font-size: 0.8rem;
+        color: $color-gris-medio;
+    }
+
+    // --- Estilos del Stepper ---
+    &__stepper {
+        display: flex;
+        align-items: center;
+        border: 1px solid $color-gris-claro;
+        border-radius: $radio-borde;
+        overflow: hidden; // Para que los bordes de los botones no sobresalgan
+        
+        &-btn {
+            background-color: $color-blanco;
+            border: none;
+            padding: 5px 12px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: background 0.2s;
+            color: $color-primario;
+
+            &:hover {
+                background-color: rgba($color-primario, 0.1);
+            }
+        }
+
+        &-valor {
+            padding: 0 10px;
+            font-weight: $semibold;
+            min-width: 30px;
+            text-align: center;
+            font-size: 1rem;
+        }
+    }
+
+    &__item-precios {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        min-width: 100px;
+
+        @include version('movil') {
+            align-items: center;
+        }
+    }
+
+    &__item-precio-uni {
+        font-size: 0.8rem;
+        color: $color-gris-medio;
+    }
+
+    &__item-precio-total {
+        font-weight: $semibold;
+        color: $color-primario;
+        font-size: 1.1rem;
+    }
+
+    &__item-eliminar {
+        background-color: transparent;
+        color: $color-error;
+        font-size: 1.8rem;
+        padding: 0 8px;
+        line-height: 1;
+        transition: transform 0.2s;
+
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+
+    &__total {
+        margin-top: $unidad-espaciado * 4;
+        text-align: right;
+        font-family: $fuente-titulos;
+        font-size: 1.5rem;
+        color: $color-gris-oscuro;
+        padding-top: $unidad-espaciado * 2;
+        border-top: 2px solid $color-primario;
+
+        &-cantidad {
+            font-weight: $semibold;
+            color: $color-primario;
+            font-size: 2rem;
+            margin-left: $unidad-espaciado;
+        }
+    }
+    
+    &__mensaje-vacio {
+        text-align: center;
+        padding: $unidad-espaciado * 4;
+        color: $color-gris-medio;
+    }
+}

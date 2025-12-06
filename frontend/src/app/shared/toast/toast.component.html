@@ -1,0 +1,16 @@
+<div class="toast" 
+     [class.toast--visible]="datos.mostrar" 
+     [class.toast--exito]="datos.tipo === 'exito'"
+     [class.toast--error]="datos.tipo === 'error'"
+     [class.toast--info]="datos.tipo === 'info'">
+    
+    <div class="toast__icono">
+        <span *ngIf="datos.tipo === 'exito'">✓</span>
+        <span *ngIf="datos.tipo === 'error'">!</span>
+        <span *ngIf="datos.tipo === 'info'">i</span>
+    </div>
+
+    <p class="toast__mensaje">{{ datos.mensaje }}</p>
+
+    <button class="toast__cerrar" (click)="cerrar()">&times;</button>
+</div>

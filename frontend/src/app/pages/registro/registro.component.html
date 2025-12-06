@@ -1,0 +1,69 @@
+<div class="registro">
+
+    <div class="registro__contenedor">
+        <h2 class="registro__titulo">Registro</h2>
+    
+        <form class="registro__formulario" (ngSubmit)="registro()">
+
+        <div class="registro__grupo">
+            <input 
+                class="registro__entrada"
+                type="text" 
+                name="nombre" 
+                placeholder="Nombre completo" 
+                required 
+                autocomplete="name"
+                [(ngModel)]="nombre">
+        </div>
+
+        <div class="registro__grupo">
+            <input 
+                class="registro__entrada"
+                type="email" 
+                name="email" 
+                placeholder="E-mail" 
+                required 
+                autocomplete="username"
+                [(ngModel)]="email">
+        </div>
+
+        <div class="registro__grupo">
+            <div class="registro__grupo-pass">
+                <input 
+                class="registro__entrada"
+                type="password" 
+                name="password" 
+                placeholder="Contraseña" 
+                id="pass1"
+                required 
+                autocomplete="new-password"
+                [(ngModel)]="password">
+            </div>
+        </div>
+
+        <div class="registro__grupo">
+            <div class="registro__grupo-pass">
+                <input 
+                class="registro__entrada"
+                type="password" 
+                name="passwordConfirm" 
+                placeholder="Repite tu contraseña" 
+                id="pass2"
+                required 
+                autocomplete="new-password"
+                [(ngModel)]="passwordConfirm">
+            </div>
+        </div>
+
+        <div *ngIf="errorMessage" class="registro__mensaje-error">
+            {{ errorMessage }}
+        </div>
+
+        <input type="submit" class="registro__boton" value="Registrarse">
+        
+        </form>
+        
+        <p class="registro__texto-login">¿Tienes ya cuenta?<a class="registro__enlace-login" routerLink="/login">Inicia Sesión</a></p>
+    </div>
+
+</div>

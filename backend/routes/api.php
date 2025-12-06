@@ -86,7 +86,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     });
 
-
+    // RUTA PARA OBTENER LA FOTO DE PERFIL PRIVADA
+    Route::get('/profile/photo/{fileName}', [App\Http\Controllers\ProfileController::class, 'showPhoto'])
+        ->middleware(['auth:sanctum', 'role:1,2,3'])
+        ->name('api.profile.photo');
 
 
 

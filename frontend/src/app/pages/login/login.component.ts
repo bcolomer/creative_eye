@@ -5,14 +5,15 @@ import { AuthService } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 
 // Añadimos la ruta a la que se redirigirá cuando se inicie sesión
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    RouterLink
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss'
@@ -51,8 +52,10 @@ export class LoginComponent {
         localStorage.setItem('token', respuesta.token);
         console.log('Token recibido:', respuesta.token);
         
+        // Convertimos el objeto a texto para guardarlo en localStorage
+        localStorage.setItem('user', JSON.stringify(respuesta.user));
 
-        // 1. Redirigimos al usuario a Inicio.
+        // Redirigimos a inicio
         this.router.navigate(['/']); 
         
         console.log('Pidiendo perfil del usuario');
@@ -68,13 +71,11 @@ export class LoginComponent {
             },
 
             error: (errPerfil) => {
-                // Si falla se verá en consola
                 console.warn('getProfile() falló (404). El login fue OK, pero el perfil no se cargó.');
             }
           });
       },
       error: (error) => {
-        // En caso de credenciales incorrectas
         console.error('¡No se ha podido iniciar sesión!', error);
 
         this.errorMessage = 'Usuario o contraseña incorrectos. Por favor, inténtalo de nuevo.';

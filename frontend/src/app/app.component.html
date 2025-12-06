@@ -1,21 +1,75 @@
-<nav class="navegacion-principal">
-    <ul>
-        <li>
-            <a [routerLink]="['/']">Inicio</a>  
-        </li>
-        <li>
-            <a [routerLink]="['/productos']">Productos</a>
-        </li>
-        <li>
-            <a [routerLink]="['/carrito']">Carrito</a>
-        </li>
-        <li>
-            <a [routerLink]="['/login']">Login</a>
-        </li>
-        <li>
-            <a [routerLink]="['/perfil']">Mi Perfil</a>
-        </li>
-    </ul>
-</nav>
+<header class="encabezado">
+    <div class="encabezado__contenedor">
 
-<router-outlet></router-outlet>
+        <a [routerLink]="['/']" class="encabezado__marca" (click)="closeMenu()">
+            <img src="/assets/images/creativelogoheader.svg" alt="Logo Creative Eye" class="encabezado__logo">
+        </a>
+
+        <button class="encabezado__hamburguesa" (click)="toggleMenu()" aria-label="Menú">
+
+        <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="3" y1="12" x2="21" y2="12"></line>
+            <line x1="3" y1="6" x2="21" y2="6"></line>
+            <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+
+        </button>
+
+        <nav class="encabezado__nav" [class.encabezado__nav--activo]="menuAbierto">
+
+        <ul class="encabezado__lista">
+
+            <li class="encabezado__item">
+            <a [routerLink]="['/']" (click)="closeMenu()" routerLinkActive="encabezado__enlace--activo"
+                [routerLinkActiveOptions]="{exact: true}" class="encabezado__enlace">Inicio</a>
+            </li>
+
+            <li class="encabezado__item">
+            <a [routerLink]="['/productos']" (click)="closeMenu()" routerLinkActive="encabezado__enlace--activo"
+                class="encabezado__enlace">Tienda</a>
+            </li>
+
+            <li class="encabezado__item" *ngIf="authService.isLoggedIn() && !authService.isAlmacen()">
+            <a [routerLink]="['/carrito']" (click)="closeMenu()" routerLinkActive="encabezado__enlace--activo"
+                class="encabezado__enlace">
+                Carrito <span *ngIf="cartItemCount > 0" class="encabezado__contador">{{ cartItemCount }}</span>
+            </a>
+            </li>
+
+            <li class="encabezado__item" *ngIf="authService.isAdmin()">
+            <a href="http://127.0.0.1:8000/usuarios" target="_blank" class="encabezado__enlace encabezado__enlace--boton">
+                Admin
+            </a>
+            </li>
+
+            <li class="encabezado__item" *ngIf="authService.isAlmacen()">
+            <a href="http://127.0.0.1:8000/productos" target="_blank"
+                class="encabezado__enlace encabezado__enlace--boton">
+                Almacén
+            </a>
+            </li>
+
+            <li class="encabezado__item" *ngIf="!authService.isLoggedIn()">
+            <a [routerLink]="['/login']" (click)="closeMenu()" routerLinkActive="encabezado__enlace--activo"
+                class="encabezado__enlace">Login</a>
+            </li>
+
+            <li class="encabezado__item" *ngIf="authService.isLoggedIn()">
+            <a [routerLink]="['/perfil']" (click)="closeMenu()" class="encabezado__enlace encabezado__enlace--perfil">
+                <img [src]="fotoUrl" alt="Mi Perfil" class="encabezado__avatar" onerror="this.onerror=null; this.src='/assets/images/creativelogo.png';">
+                
+            </a>
+            </li>
+        </ul>
+        </nav>
+
+    </div>
+</header>
+
+<main class="contenedor-principal">
+  <router-outlet></router-outlet>
+</main>
+
+<app-footer></app-footer>
+<app-toast></app-toast>

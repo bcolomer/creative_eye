@@ -83,7 +83,7 @@ class CategoryController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Categoría creada correctamente',
+            'message' => __('api.category_created'),
             'data' => $category
         ], 201);
     }
@@ -119,7 +119,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
+            return response()->json(['message' => __('api.category_not_found')], 404);
         }
 
         return response()->json($category);
@@ -168,7 +168,7 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
+            return response()->json(['message' => __('api.category_not_found')], 404);
         }
 
         $request->validate([
@@ -180,7 +180,7 @@ class CategoryController extends Controller
         ]);
 
         return response()->json([
-            'message' => 'Categoría actualizada correctamente',
+            'message' => __('api.category_updated'),
             'data' => $category
         ]);
     }
@@ -217,11 +217,11 @@ class CategoryController extends Controller
         $category = Category::find($id);
 
         if (!$category) {
-            return response()->json(['message' => 'Categoría no encontrada'], 404);
+            return response()->json(['message' => __('api.category_not_found')], 404);
         }
 
         $category->delete();
 
-        return response()->json(['message' => 'Categoría eliminada correctamente']);
+        return response()->json(['message' => __('api.category_deleted')]);
     }
 }

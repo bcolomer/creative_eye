@@ -1,42 +1,44 @@
 <div class="login">
   
-  <h2 class="login__titulo">Inicio de Sesión</h2>
-  
-  <form class="login__formulario" (ngSubmit)="login()">
+  <div class="login__contenedor">
 
-    <input 
-      class="login__entrada"
-      type="email" 
-      name="username" 
-      placeholder="E-mail" 
-      id="ruser" 
-      required 
-      autocomplete="username"
-      [(ngModel)]="username">
+    <h2 class="login__titulo">Inicio de Sesión</h2>
     
-    <div class="login__grupo-pass">
-      <label class="login__etiqueta" id="l-rpass1" for="rpass1"></label>
+    <form class="login__formulario" (ngSubmit)="login()">
+
       <input 
         class="login__entrada"
-        type="password" 
-        name="password" 
-        placeholder="password" 
-        id="rpass1" 
+        type="email" 
+        name="username" 
+        placeholder="E-mail" 
+        id="ruser" 
         required 
-        autocomplete="new-password"
-        [(ngModel)]="password">
-    </div>
+        autocomplete="username"
+        [(ngModel)]="username">
+      
+      <div class="login__grupo-pass">
+        <label class="login__etiqueta" id="l-rpass1" for="rpass1"></label>
+        <input 
+          class="login__entrada"
+          type="password" 
+          name="password" 
+          placeholder="Contraseña" 
+          id="rpass1" 
+          required 
+          autocomplete="current-password"
+          [(ngModel)]="password">
+      </div>
 
-    <div *ngIf="errorMessage" class="login__mensaje-error">
-      {{ errorMessage }}
-    </div>
+      <div *ngIf="errorMessage" class="login__mensaje-error">
+        {{ errorMessage }}
+      </div>
 
-    <input type="submit" class="login__boton" value="Enviar">
-  
-  </form>
-  
-  <p class="login__texto-registro">
-    ¿Eres nuevo? <a class="login__enlace-registro" href="#">Regístrate</a>
-  </p>
-  
-</div>
+      <input type="submit" class="login__boton" value="Enviar">
+    
+    </form>
+    
+    <p class="login__texto-registro">
+      ¿Eres nuevo? <a class="login__enlace-registro" routerLink="/registro">Regístrate</a>
+    </p>
+
+  </div> </div>

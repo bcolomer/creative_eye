@@ -1,86 +1,166 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common'; // Para usar *ngIf en el HTM
-
-
-import { ActivatedRoute } from '@angular/router'; // Lee la URL
-import { ProductService } from '../../services/product.service'; // Para PEDIR el producto
+import { CommonModule } from '@angular/common';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthService } from '../../services/auth.service';
+import { ProductService } from '../../services/product.service';
 import { CartService } from '../../services/cart.service';
+import { BaseChartDirective } from 'ng2-charts';
+import { ChartConfiguration, ChartOptions } from 'chart.js';
+import { ToastService } from '../../services/toast.service';
 
 @Component({
   selector: 'app-producto-detalle',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, BaseChartDirective],
   templateUrl: './producto-detalle.component.html',
   styleUrl: './producto-detalle.component.scss'
 })
-
 export class ProductoDetalleComponent implements OnInit {
 
-  //Variable que guardará el producto
   producto: any = null;
+  errorMessage: string | null = null;
+  
+  // Cantidad que el usuario quiere añadir AHORA
+  public cantidad: number = 1; 
+  
+  // Cantidad que el usuario YA TIENE en el carrito de este producto
+  public cantidadEnCarrito: number = 0; 
 
-  // *** Controlar en caso de no encontrar un producto ****
-  errorMessage: string | null = null; // Para guardar el mensaje de error
-  public cantidad: number = 1;
+  private audioObturador = new Audio('/assets/sounds/sonido-obturador.mp3');
+  
+  // --- GRÁFICA ---
+  public mostrarGrafica: boolean = false;
+  public radarChartOptions: ChartOptions<'radar'> = {
+    responsive: true,
+    maintainAspectRatio: false,
+    elements: { line: { borderWidth: 3 } },
+    scales: {
+      r: {
+        angleLines: { color: 'rgba(0,0,0,0.1)' },
+        grid: { color: 'rgba(0,0,0,0.1)' },
+        pointLabels: { font: { size: 12, family: 'Poppins' }, color: '#202022' },
+        ticks: { display: false, stepSize: 20 }
+      }
+    }
+  };
+  public radarChartLabels: string[] = ['Foto', 'Batería', 'Versatilidad', 'Construcción', 'Vídeo'];
+  public radarChartDatasets: ChartConfiguration<'radar'>['data']['datasets'] = [
+    { data: [0, 0, 0, 0, 0], label: 'Análisis Técnico' }
+  ];
 
   constructor(
-    private route: ActivatedRoute, // Para leer la URL
-    private productService: ProductService, // Para pedir datos
-    private cartService: CartService
+    private route: ActivatedRoute,
+    private router: Router,
+    private productService: ProductService,
+    private cartService: CartService, 
+    private authService: AuthService,
+    private toastService: ToastService
   ) {}
 
   ngOnInit(): void {
-    
     const productoId = this.route.snapshot.paramMap.get('id');
     
-    // Comprobamos que el ID no esté vacío
+    // 1. Pedimos el producto
     if (productoId) {
-      console.log('Pidiendo producto... producto con ID:', productoId);
-      
-      
       this.productService.getProductById(productoId).subscribe({
-        
         next: (respuesta) => {
-
-          // Producto encontrado
           this.producto = respuesta;
-          console.log('Producto recibido:', this.producto);
+          
+          if (this.producto.categoria_id === 1 || this.producto.categoria_id === 2) {
+            this.mostrarGrafica = true;
+            this.generarGrafica();
+          }
+          
+          // Calculamos stock inicial una vez cargado el producto
+          this.calcularHuecoEnCarrito(this.cartService.getCurrentCartItems());
         },
-        
-        error: (err) => {
-          console.error('Error al pedir el producto:', err);
-
-          // Cuando no encontramos el producto porque no existe o pedimos alguno que no está en la bbdd
-          this.errorMessage = 'El producto no existe o no se ha podido cargar.';
-        }
+        error: (err) => this.errorMessage = 'Producto no encontrado'
       });
     }
+
+    // 2. Nos suscribimos al carrito (por si cambia mientras estamos viendo el producto)
+    this.cartService.cartItems$.subscribe(items => {
+      this.calcularHuecoEnCarrito(items);
+    });
+  }
+
+  // Función auxiliar para calcular cuánto tenemos ya
+  calcularHuecoEnCarrito(items: any[]): void {
+    if (!this.producto || !items) return;
+
+    // Buscamos si el producto actual (this.producto.producto_id) está en el array de items
+    const coincidencia = items.find(item => item.producto.producto_id === this.producto.producto_id);
+
+    // Si existe, guardamos la cantidad. Si no, es 0.
+    this.cantidadEnCarrito = coincidencia ? coincidencia.cantidad : 0;
+    
+    console.log(`Stock Total: ${this.producto.cantidad} | En Carrito: ${this.cantidadEnCarrito}`);
+  }
+
+  // Busca este producto en el carrito y guarda cuántos tenemos
+  verificarStockEnCarrito(): void {
+    if (!this.producto) return;
+
+    // Obtenemos el valor actual del carrito (si tu servicio expone el BehaviorSubject o mediante la suscripción anterior)
+    // Como estamos dentro de un subscribe o ngOnInit, asumimos que cartService tiene los datos cargados.
+    // Nota: Para acceder al valor actual sin suscribirse de nuevo, podemos usar un truco si el servicio no expone getValue(),
+    // pero lo ideal es usar la suscripción de ngOnInit.
+  }
+
+  generarGrafica(): void {
+    const datos = Array.from({length: 5}, () => Math.floor(Math.random() * 40) + 60);
+    this.radarChartDatasets = [{
+      data: datos,
+      label: `Análisis: ${this.producto.nombre}`,
+      borderColor: '#00747C', 
+      backgroundColor: 'rgba(0, 187, 201, 0.2)', 
+      pointBackgroundColor: '#00747C',
+      pointBorderColor: '#fff'
+    }];
   }
 
   actualizarCantidad(valor: number): void {
     const nuevaCantidad = this.cantidad + valor;
     
-    if (nuevaCantidad >= 1) {
-      this.cantidad = nuevaCantidad;
+    // 1. Bloqueo Mínimo
+    if (nuevaCantidad < 1) return;
+
+    // 2. Bloqueo Máximo (Stock Real - Lo que ya tengo en el carrito)
+    const stockDisponibleReal = this.producto.cantidad - this.cantidadEnCarrito;
+
+    if (nuevaCantidad > stockDisponibleReal) {
+      this.toastService.show(`Máximo stock disponible alcanzado`, 'info');
+      return;
     }
+    
+    this.cantidad = nuevaCantidad;
   }
 
-  // Llamamos al CartService para añadir el producto actual al carrito.
 addToCart(): void { 
+    if (!this.authService.isLoggedIn()) {
+      this.toastService.show('Debes iniciar sesión para comprar', 'info'); 
+      this.router.navigate(['/login']);
+      return; 
+    }
+
+    // Validación final antes de enviar
+    const stockDisponibleReal = this.producto.cantidad - this.cantidadEnCarrito;
+    
+    if (this.cantidad > stockDisponibleReal) {
+      this.toastService.show('No hay suficiente stock disponible', 'error');
+      return;
+    }
+
     if (this.producto) {
-      
-      // 4. AHORA lee la cantidad de 'this.cantidad'
       this.cartService.addProduct(this.producto, this.cantidad).subscribe({
-        
-        next: (respuesta) => {
-          console.log('Producto añadido con éxito', respuesta);
-          alert('¡Producto añadido al carrito!'); 
-          // (Opcional) Resetea la cantidad a 1 después de añadir
-          this.cantidad = 1; 
+        next: () => {
+          this.audioObturador.play().catch(e => console.warn(e));
+          this.toastService.show(`¡${this.cantidad}x ${this.producto.nombre} añadido al carrito!`, 'exito')
+          this.cantidad = 1; // Reseteamos el selector a 1
         },
         error: (err) => {
-          console.error('Error al añadir el producto:', err);
-          alert('No se pudo añadir el producto. Inténtalo de nuevo.');
+          console.error(err);
+          this.toastService.show('Error al añadir el producto', 'error');
         }
       });
     }

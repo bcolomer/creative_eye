@@ -7,6 +7,7 @@ import { PerfilComponent } from './pages/perfil/perfil.component';
 import { ProductosComponent } from './pages/productos/productos.component';
 import { ProductoDetalleComponent } from './pages/producto-detalle/producto-detalle.component';
 import { CarritoComponent } from './pages/carrito/carrito.component';
+import { RegistroComponent } from './pages/registro/registro.component';
 
 import { authGuard } from './auth.guard'; 
 
@@ -43,6 +44,11 @@ export const routes: Routes = [
   {
     path: 'carrito', // Ruta carrito http://localhost:4200/carrito)
     component: CarritoComponent
-  }
+  },
+
+  {
+    path: 'registro', // http://localhost:4200/registro
+    component: RegistroComponent
+  },
 
 ];
