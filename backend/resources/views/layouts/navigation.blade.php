@@ -7,7 +7,19 @@
                             <img src="{{ asset('images/creativelogo.png') }}" alt="Creative Eye" class="block h-16 md:h-24 w-auto">
                         </a>
                     </div>
+
             </div>
+            <div class="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" class="text-white hover:text-[#CACACA]">
+                        {{ __('messages.dashboard') }}
+                    </x-nav-link>
+
+                    {{-- Opcional: Enlace a la Tienda --}}
+                    <x-nav-link href="http://localhost:4200" :active="false" target="_blank" class="text-white hover:text-[#CACACA]">
+                        {{ __('welcome.go-store') }}
+                        <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>
+                    </x-nav-link>
+                </div>
             <div class="hidden sm:flex sm:items-center sm:ms-6">
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
@@ -26,7 +38,7 @@
                     </x-slot>
 
                     <x-slot name="content">
-                        {{-- ENLACES DENTRO DEL DROPDOWN (PC) --}}
+                        {{-- ENLACES DENTRO DEL DROPDOWN --}}
                         <x-dropdown-link :href="route('profile.edit')">
                             {{ __('nav.link_profile') }}
                         </x-dropdown-link>

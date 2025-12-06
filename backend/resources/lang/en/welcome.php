@@ -9,4 +9,6 @@ return [
     'my-panel' => 'My Dashboard',
     'login' => 'Log In',
     'no-video' => 'Your browser does not support HTML5 video.',
+    'go-store' => 'Go to Store',
+
 ];

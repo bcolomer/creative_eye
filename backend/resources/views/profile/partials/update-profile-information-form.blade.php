@@ -52,7 +52,7 @@
         </div>
         <div class="mt-4">
             <x-input-label for="foto" :value="__('profile.field_photo_optional')" />
-            <img  class="{{--h-16 w-16--}} rounded-md object-cover my-2"  src="{{ route('profile.photo', ['fileName' => $user->foto]) }} "
+            <img  class="h-32 w-32 rounded-md object-cover my-2"  src="{{ route('profile.photo', ['fileName' => $user->foto]) }} "
      alt="{{ $user->nombre }}" onerror="this.onerror=null; this.src='/images/creativelogo.png';">
             <x-text-input id="foto" name="foto" type="file" class="mt-1 block w-full" />
             <x-input-error class="mt-2" :messages="$errors->get('foto')" />

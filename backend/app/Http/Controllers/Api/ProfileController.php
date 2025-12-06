@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use Illuminate\Validation\ValidationException;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -90,18 +91,27 @@ class ProfileController extends Controller
             'nombre' => 'sometimes|string|max:255',
             'foto' => 'sometimes|nullable|image|max:2048',
             'password' => 'sometimes|nullable|string|min:8|confirmed',
+            'current_password' => 'required' //
         ]);
-
-        /*   // Actualizar campos permitidos
-        if (isset($validated['password'])) {
-            $validated['password'] = Hash::make($validated['password']);
+        // Verificamos que la contraseña enviada coincida con la del usuario
+        if (!Hash::check($request->current_password, $user->password)) {
+            throw ValidationException::withMessages([
+                'current_password' => [__('validation.current_password')],
+            ]);
+        }
+        //  ACTUALIZAR DATOS BÁSICOS (Nombre)
+        if ($request->has('nombre')) {
+            $user->nombre = $validated['nombre'];
         }
 
-        $user->update($validated); */
-        // 2. Rellenar los datos básicos
-        $user->fill($validated);
+        // SEGURIDAD: CAMBIO DE CONTRASEÑA
+        if ($request->filled('password')) {
+            $user->password = Hash::make($validated['password']);
+        }
 
-        // 3. Lógica de FOTO (Igual que en el Web Controller)
+
+
+        // Lógica de FOTO (Igual que en el Web Controller)
         if ($request->hasFile('foto')) {
             $oldPhotoPath = $user->getOriginal('foto'); // Obtenemos la ruta anterior
 
