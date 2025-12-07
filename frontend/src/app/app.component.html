@@ -38,16 +38,16 @@
             </li>
 
             <li class="encabezado__item" *ngIf="authService.isAdmin()">
-            <a href="http://127.0.0.1:8000/usuarios" target="_blank" class="encabezado__enlace encabezado__enlace--boton">
-                Admin
-            </a>
+                <a [href]="backendUrl + '/usuarios'" target="_blank" class="encabezado__enlace encabezado__enlace--boton">
+                    Admin
+                </a>
             </li>
 
             <li class="encabezado__item" *ngIf="authService.isAlmacen()">
-            <a href="http://127.0.0.1:8000/productos" target="_blank"
-                class="encabezado__enlace encabezado__enlace--boton">
-                Almacén
-            </a>
+                <a [href]="backendUrl + '/productos'" target="_blank"
+                    class="encabezado__enlace encabezado__enlace--boton">
+                    Almacén
+                </a>
             </li>
 
             <li class="encabezado__item" *ngIf="!authService.isLoggedIn()">
@@ -68,7 +68,7 @@
 </header>
 
 <main class="contenedor-principal">
-  <router-outlet></router-outlet>
+    <router-outlet></router-outlet>
 </main>
 
 <app-footer></app-footer>

@@ -3,13 +3,16 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, BehaviorSubject, tap } from 'rxjs';
 import { Router } from '@angular/router';
 import { CartService } from './cart.service';
+// Importamos el entorno
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  // Usamos la URL dinámica según el entorno (Local o Prod)
+  private apiUrl = environment.apiUrl;
 
   // Inicializamos leyendo del localStorage para no perder el estado al recargar
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
@@ -88,7 +91,10 @@ export class AuthService {
     this.userSubject.next(null);
 
     console.log('Cerrando sesión global...');
-    window.location.href = 'http://127.0.0.1:8000/logout-sso';
+    
+    // 🆕 CORRECCIÓN CRÍTICA: Usamos la URL del entorno para redirigir al logout del backend
+    const backend = environment.backendUrl; 
+    window.location.href = `${backend}/logout-sso`;
   }
 
   /**
