@@ -1,0 +1,56 @@
+name: Despliegue Continuo (CD)
+
+on:
+  push:
+    branches: [ "main" ]
+
+jobs:
+  deploy:
+    name: 🚀 Desplegar a AWS
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: 🔌 Conectar y Desplegar Backend (Laravel)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_BACKEND }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- Iniciando Despliegue Backend ---"
+            cd /var/www/creative-eye/backend
+            # Asegurar que estamos en la rama main
+            git fetch origin
+            git checkout main
+            git pull origin main
+            # Instalar dependencias y optimizar
+            composer install --no-dev --optimize-autoloader
+            # Migraciones y Caché
+            php artisan migrate --force
+            php artisan config:cache
+            php artisan route:cache
+            php artisan view:cache
+            # Reiniciar servicio
+            sudo systemctl restart php8.3-fpm
+            echo "--- Backend Desplegado ---"
+
+      - name: 🔌 Conectar y Desplegar Frontend (Angular)
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST_FRONTEND }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            echo "--- Iniciando Despliegue Frontend ---"
+            cd /var/www/creative-eye/repo-front/frontend
+            # Asegurar rama main
+            git fetch origin
+            git checkout main
+            git pull origin main
+            # Instalar dependencias
+            npm install
+            # Compilar (Usando la memoria Swap que configuramos)
+            npm run build -- --output-path=../../dist-front
+            # Recargar Nginx
+            sudo systemctl reload nginx
+            echo "--- Frontend Desplegado ---"
