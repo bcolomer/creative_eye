@@ -48,7 +48,7 @@ jobs:
             git checkout main
             git pull origin main
             # Instalar dependencias
-            npm install
+            npm install --legacy-peer-deps
             # Compilar (Usando la memoria Swap que configuramos)
             npm run build -- --output-path=../../dist-front
             # Recargar Nginx
