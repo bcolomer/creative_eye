@@ -62,8 +62,8 @@
             </div>
         </nav>
 
-        <div class="relative w-full mt-[112px] h-[calc(100vh-112px)] overflow-hidden">
-                <img src="{{ asset('hero-pic.png') }}" alt="Fondo" class="absolute top-0 left-0 w-full h-full object-cover object-top z-0">
+        <div class="relative w-full mt-[80px] md:mt-[112px] h-[calc(100vh-80px)] md:h-[calc(100vh-112px)] overflow-hidden">
+            <img src="{{ asset('hero-pic.png') }}" alt="Fondo" class="absolute top-0 left-0 w-full h-full object-cover object-top z-0">
             <div class="absolute inset-0 bg-brand-graydark bg-opacity-60"></div>
 
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
