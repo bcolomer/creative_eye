@@ -13,12 +13,13 @@
     <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
 
-        <div class="flex justify-between items-center mb-4">
+{{--        <div class="flex justify-between items-center mb-4"> --}}
+            <div class="flex justify-between items-center mb-4 gap-2 pr-4">
 
             {{-- Formulario de Búsqueda --}}
 
-           <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-lg">
-                <x-text-input type="text" name="search" placeholder="{{__('producto.search_placeholder')  }}" class="w-full mr-2" value="{{ request('search') }}" />
+           <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-sm">
+                <x-text-input type="text" name="search" :placeholder="__('producto.search_placeholder')" class="w-full mr-2" value="{{ request('search') }}" />
                 <x-primary-button type="submit">
                    {{ __('producto.button_search')}}
                 </x-primary-button>
@@ -26,8 +27,16 @@
 
             {{-- Botón de Creación --}}
             <a href="{{ route('productos.create') }}">
-                <x-primary-button>
-                   {{ __('producto.button_create_new') }}
+                <x-primary-button class="flex items-center justify-center h-10">
+                     {{-- Versión MÓVIL: Icono (+) --}}
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:hidden">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
+                    </svg>
+
+                                {{-- Versión PC: Texto completo --}}
+                     <span class="hidden md:block">
+                        {{ __('producto.button_create_new') }}
+                    </span>
                 </x-primary-button>
             </a>
         </div>
