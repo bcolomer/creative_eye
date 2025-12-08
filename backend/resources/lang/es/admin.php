@@ -8,6 +8,4 @@ return [
     'delete_account_info' => 'Al borrar esta cuenta se eliminarán todos los pedidos y datos asociados (incluyendo la foto de perfil).',
     'confirm_delete_user' => '¿Estás seguro de que deseas eliminar la cuenta de :nombre? Es permanente.',
     'usuario.button_delete_account' => 'Eliminar cuenta',
-    'delete_product_info' => 'Una vez que se elimina este producto, todos sus datos asociados también se eliminarán de forma permanente. Por favor, confirme que desea eliminar este producto.',
-
 ];

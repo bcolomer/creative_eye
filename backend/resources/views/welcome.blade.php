@@ -9,9 +9,29 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
+        <script src="https://cdn.tailwindcss.com"></script>
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
-
+        <script>
+            tailwind.config = {
+                theme: {
+                    extend: {
+                        colors: {
+                            brand: {
+                                teal: '#00747C',       /* Teal Principal */
+                                light: '#00BBC9',      /* Teal Claro (Acentos) */
+                                graylight: '#CACACA',  /* Gris Claro */
+                                graymed: '#878787',    /* Gris Medio */
+                                graydark: '#202022',   /* Gris Oscuro (Base neutra) */
+                            }
+                        },
+                        fontFamily: {
+                            // Aquí definimos Poppins para toda la web
+                            sans: ['Poppins', 'sans-serif'],
+                        }
+                    }
+                }
+            }
+        </script>
     </head>
     <body class="antialiased font-sans">
 
@@ -42,8 +62,8 @@
             </div>
         </nav>
 
-        <div class="relative w-full mt-[80px] md:mt-[112px] h-[calc(100vh-80px)] md:h-[calc(100vh-112px)] overflow-hidden">
-            <img src="{{ asset('hero-pic.png') }}" alt="Fondo" class="absolute top-0 left-0 w-full h-full object-cover object-top z-0">
+        <div class="relative w-full mt-[112px] h-[calc(100vh-112px)] overflow-hidden">
+                <img src="{{ asset('hero-pic.png') }}" alt="Fondo" class="absolute top-0 left-0 w-full h-full object-cover object-top z-0">
             <div class="absolute inset-0 bg-brand-graydark bg-opacity-60"></div>
 
             <div class="relative z-10 flex flex-col items-center justify-center h-full text-center px-4">
