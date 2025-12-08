@@ -11,7 +11,7 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
 
                     {{-- Formulario para crear un nuevo usuario --}}
-                    <form method="POST" action="{{ route('admin.usuarios.store') }}">
+                    <form method="POST" action="{{ route('admin.usuarios.store') }}" enctype="multipart/form-data">
                         @csrf
 
                         {{-- Mensaje de Éxito y Errores --}}

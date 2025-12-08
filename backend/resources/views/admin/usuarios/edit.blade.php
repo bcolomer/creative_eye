@@ -23,7 +23,7 @@
                     @endif
 
                     {{-- FORMULARIO DE EDICIÓN --}}
-                    <form method="POST" action="{{ route('admin.usuarios.update', $user->usuario_id) }}">
+                    <form method="POST" action="{{ route('admin.usuarios.update', $user->usuario_id) }}" enctype="multipart/form-data">
                         @csrf
                         @method('PUT') {{-- Método para actualizar --}}
 

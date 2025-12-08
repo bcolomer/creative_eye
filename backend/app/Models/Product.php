@@ -55,7 +55,7 @@ class Product extends Model
         if (str_starts_with($value, '/storage/')) {
             $storagePath = str_replace('/storage/', '', $value);
             if (\Illuminate\Support\Facades\Storage::disk('public')->exists($storagePath)) {
-                return $value;
+                return asset($value);
             }
         }
 
