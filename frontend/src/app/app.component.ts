@@ -6,6 +6,7 @@ import { AuthService } from './services/auth.service';
 import { FooterComponent } from './shared/footer/footer.component';
 import { DomSanitizer } from '@angular/platform-browser';
 import { ToastComponent } from './shared/toast/toast.component';
+import { environment } from '../environments/environment';
 
 @Component({
   selector: 'app-root',
@@ -21,6 +22,7 @@ export class AppComponent implements OnInit {
   public currentUser: any = null;
   public fotoUrl: any = '/assets/images/creativelogo.png';
 
+  public backendUrl = environment.backendUrl;
   constructor(
     public cartService: CartService, 
     public authService: AuthService, 

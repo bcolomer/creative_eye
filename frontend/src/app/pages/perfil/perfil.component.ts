@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
-import { ToastService } from '../../services/toast.service'; // <--- IMPORTANTE
+import { ToastService } from '../../services/toast.service'; 
+
 
 @Component({
   selector: 'app-perfil',
@@ -31,7 +32,7 @@ export class PerfilComponent implements OnInit {
   mostrarPassConfirm: boolean = false;
 
   constructor(
-    private authService: AuthService,
+    public authService: AuthService,
     private toastService: ToastService 
   ) {}
 
@@ -85,13 +86,13 @@ export class PerfilComponent implements OnInit {
   }
 
 actualizarPerfil(): void {
-    // 1. VALIDACIÓN: La contraseña actual es obligatoria
+    // VALIDACIÓN: La contraseña actual es obligatoria
     if (!this.passActual) {
       this.toastService.show("Por seguridad, introduce tu contraseña actual", 'info');
       return;
     }
 
-    // 🆕 2. VALIDACIÓN DE NUEVA CONTRASEÑA (Si el usuario escribió algo en passNueva)
+    // VALIDACIÓN DE NUEVA CONTRASEÑA (Si el usuario escribió algo en passNueva)
     if (this.passNueva) {
         // Validar longitud mínima
         if (this.passNueva.length < 8) {
@@ -113,7 +114,7 @@ actualizarPerfil(): void {
 
     if (this.passNueva) {
       datosAEnviar.password = this.passNueva;
-      // 🆕 IMPORTANTE: Enviamos la confirmación también para que el Backend (Laravel) no se queje si usa 'confirmed' validation
+      // Enviamos la confirmación también para que el Backend (Laravel) no se queje si usa 'confirmed' validation
       datosAEnviar.password_confirmation = this.passConfirm; 
     }
 
