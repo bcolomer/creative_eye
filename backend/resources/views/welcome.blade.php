@@ -9,29 +9,9 @@
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
         <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link rel="shortcut icon" href="{{ asset('favicon.ico') }}" type="image/x-icon">
-        <script src="https://cdn.tailwindcss.com"></script>
 
-        <script>
-            tailwind.config = {
-                theme: {
-                    extend: {
-                        colors: {
-                            brand: {
-                                teal: '#00747C',       /* Teal Principal */
-                                light: '#00BBC9',      /* Teal Claro (Acentos) */
-                                graylight: '#CACACA',  /* Gris Claro */
-                                graymed: '#878787',    /* Gris Medio */
-                                graydark: '#202022',   /* Gris Oscuro (Base neutra) */
-                            }
-                        },
-                        fontFamily: {
-                            // Aquí definimos Poppins para toda la web
-                            sans: ['Poppins', 'sans-serif'],
-                        }
-                    }
-                }
-            }
-        </script>
+        @vite(['resources/css/app.css', 'resources/js/app.js'])
+
     </head>
     <body class="antialiased font-sans">
 
