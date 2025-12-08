@@ -81,14 +81,9 @@ Route::get('/logout-sso', function () {
     Session::invalidate();
     Session::regenerateToken();
 
-    // Si estamos en local, usará localhost:4200 por defecto
-    $frontendUrl = env('FRONTEND_URL', 'http://localhost:4200');
-    
-    return redirect($frontendUrl . '/login');
-    
     // Redirigir de vuelta al Frontend (Angular)
     // Cambia esta URL por la de tu proyecto Angular si es diferente (ej. localhost:4200)
-    // return redirect('http://localhost:4200/login');
+    return redirect('http://localhost:4200/login');
 })->name('logout.sso');
 
 

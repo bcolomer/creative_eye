@@ -4,7 +4,6 @@ import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, tap, catchError, throwError } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from '../../environments/environment';
 
 
 @Injectable({
@@ -15,8 +14,7 @@ import { environment } from '../../environments/environment';
 export class CartService {
 
   // URL de la api que llamará al backend
-  // private apiUrl = '/api';
-  private apiUrl = environment.apiUrl;
+  private apiUrl = '/api';
 
   // Es un 'BehaviorSubject' guarda una lista de productos (tipo any[]).
   private cartItems = new BehaviorSubject<any[]>([]); // Inicializamos con la lista vacía
