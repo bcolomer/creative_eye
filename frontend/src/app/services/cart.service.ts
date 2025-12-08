@@ -14,7 +14,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class CartService {
 
   // URL de la api que llamará al backend
-  private apiUrl = '/api';
+  private apiUrl = 'https://creative-eye-admin-panel.duckdns.org/api';
 
   // Es un 'BehaviorSubject' guarda una lista de productos (tipo any[]).
   private cartItems = new BehaviorSubject<any[]>([]); // Inicializamos con la lista vacía

@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 export class ProductService {
 
   
-  private apiUrl = '/api'; 
+  private apiUrl = 'https://creative-eye-admin-panel.duckdns.org/api'; 
 
   // HttpClient para poder hacer peticiones
   constructor(private http: HttpClient) { }

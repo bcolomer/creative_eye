@@ -9,7 +9,7 @@ import { CartService } from './cart.service';
 })
 export class AuthService {
 
-  private apiUrl = 'http://127.0.0.1:8000/api';
+  private apiUrl = 'https://creative-eye-admin-panel.duckdns.org/api';
 
   // Inicializamos leyendo del localStorage para no perder el estado al recargar
   private userSubject = new BehaviorSubject<any>(this.getUserFromStorage());
@@ -88,7 +88,7 @@ export class AuthService {
     this.userSubject.next(null);
 
     console.log('Cerrando sesión global...');
-    window.location.href = 'http://127.0.0.1:8000/logout-sso';
+    window.location.href = 'https://creative-eye-admin-panel.duckdns.org/logout-sso';
   }
 
   /**

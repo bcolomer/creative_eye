@@ -8,6 +8,6 @@ export class HealthService {
 
   constructor(private http: HttpClient) {}
   ping() {
-    return this.http.get<{ ok: boolean; laravel: string; time: string }>('/api/health');
+    return this.http.get<{...}>('https://creative-eye-admin-panel.duckdns.org/api/health');
   }
 }
