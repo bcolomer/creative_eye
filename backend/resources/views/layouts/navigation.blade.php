@@ -90,7 +90,6 @@
             </div>
 
             <div class="mt-3 space-y-1">
-
                 {{-- ENLACES RESPONSIVE --}}
                 <x-responsive-nav-link :href="route('profile.edit')">
                     {{ __('nav.link_profile') }}

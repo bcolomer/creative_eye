@@ -73,12 +73,12 @@
                                 <x-input-error class="mt-2" :messages="$errors->get('password_confirmation')" />
                             </div>
 
-                            {{-- CAMPO FOTO (Opcional, es un file upload para el admin)
-                            <div class="md:col-span-2">
+                            {{-- CAMPO FOTO (Opcional, es un file upload para el admin) --}}
+{{--                             <div class="md:col-span-2">
                                 <x-input-label for="foto" :value="__('usuario.field_photo')" />
                                 <x-text-input id="foto" name="foto" type="file" class="mt-1 block w-full" :value="old('foto')" placeholder="{{  __('usuario.field_photo_placeholder')}}" />
                                 <x-input-error class="mt-2" :messages="$errors->get('foto')" />
-                            </div>--}}
+                            </div> --}}
                         </div>
 
                         {{-- BOTÓN DE GUARDAR --}}

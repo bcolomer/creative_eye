@@ -18,6 +18,7 @@
 
             {{-- Formulario de Búsqueda --}}
 
+
                     <form method="GET" action="{{ route('productos.index') }}" class="flex items-center w-full max-w-sm">
                         <x-text-input type="text" name="search" :placeholder="__('producto.search_placeholder')" class="w-full mr-2" value="{{ request('search') }}" />
                         <x-primary-button type="submit">
@@ -27,7 +28,6 @@
 
             {{-- Botón de Creación --}}
             <a href="{{ route('productos.create') }}">
-
                 <x-primary-button class="flex items-center justify-center h-10">
                      {{-- Versión MÓVIL: Icono (+) --}}
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 md:hidden">
@@ -58,7 +58,7 @@
                     class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg
                     hover:shadow-lg transition-shadow duration-200">
                     {{--  la Imagen --}}
-                {{-- INICIO BLOQUE IMAGEN RESPONSIVE --}}
+                 {{-- INICIO BLOQUE IMAGEN RESPONSIVE --}}
                 <div class="aspect-w-3 aspect-h-2 w-full overflow-hidden">
                     <img src="{{ $producto->foto }}" alt="{{ $producto->nombre }}"
                         class="w-full h-full object-cover"
