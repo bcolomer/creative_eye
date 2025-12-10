@@ -1,0 +1,36 @@
+name: Despliegue Frontend
+
+on:
+  push:
+    branches: [ main ]
+    # Si tu repositorio incluye backend y frontend juntos, descomenta las siguientes líneas
+    # para que este despliegue solo salte si cambias cosas en la carpeta frontend:
+    # paths:
+    #   - 'frontend/**'
+
+jobs:
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Conectando y Desplegando Frontend
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.FRONTEND_HOST }}
+        username: ${{ secrets.SERVER_USER }}
+        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        script: |
+          # 1. Ir a la carpeta del proyecto frontend
+          cd /var/www/proyectosintegrados-bcolomer/frontend
+
+          # 2. Descargar cambios (con sudo por si acaso)
+          sudo git pull origin main
+
+          # 3. Instalar librerías de JavaScript
+          sudo npm install
+
+          # 4. Construir la aplicación para producción
+          # (Esto genera la carpeta dist/ con los archivos optimizados)
+          sudo npm run build
+
+          # 5. Asignar permisos al servidor web (Nginx)
+          sudo chown -R www-data:www-data .
