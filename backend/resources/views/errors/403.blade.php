@@ -18,24 +18,29 @@
                         {{ __('error.403_info') }}
                     </p>
 
+
                     <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
-                   <div>
-                    <p class="mb-3">{{ __('error.403_prompt') }}</p>
-                   </div>
+                        <div>
+                            <p class="mb-3">{{ __('error.403_prompt') }}</p>
+                        </div>
 
-                   <a href="/" class="mr-4">
-                        <x-primary-button type="button">
-                           {{ __('error.button_home') }}
-                        </x-primary-button>
-                   </a>
+                        <div class="flex flex-col sm:flex-row gap-4">
 
-                        {{-- Formulario de Logout  --}}
-                        <form method="POST" action="{{ route('logout') }}" class="inline-block">
-                            @csrf
-                            <x-danger-button type="submit">
-                                {{ __('auth.button_logout') }}
-                            </x-danger-button>
-                        </form>
+                            <a href="/">
+                                <x-primary-button type="button" class="w-full sm:w-auto justify-center">
+                                    {{ __('error.button_home') }}
+                                </x-primary-button>
+                            </a>
+
+                            {{-- Formulario de Logout --}}
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+                                <x-danger-button type="submit" class="w-full sm:w-auto justify-center">
+                                    {{ __('auth.button_logout') }}
+                                </x-danger-button>
+                            </form>
+
+                        </div>
                     </div>
 
                 </div>

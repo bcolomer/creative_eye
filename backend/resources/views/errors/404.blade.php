@@ -21,19 +21,23 @@
                     <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
                         <p class="mb-3">{{ __('error.go_back_prompt') }}</p>
 
-                        @auth
-                            <a href="{{ route('dashboard') }}" class="mr-4">
-                                <x-primary-button type="button">
-                                    {{ __('error.button_dashboard') }}
-                                </x-primary-button>
-                            </a>
-                        @else
-                            <a href="/" class="mr-4">
-                                <x-primary-button type="button">
-                                    {{ __('error.button_home') }}
-                                </x-primary-button>
-                            </a>
-                        @endauth
+                        <div class="flex flex-col sm:flex-row gap-4">
+
+                            @auth
+                                <a href="{{ route('dashboard') }}">
+                                    <x-primary-button type="button" class="w-full sm:w-auto justify-center">
+                                        {{ __('error.button_dashboard') }}
+                                    </x-primary-button>
+                                </a>
+                            @else
+                                <a href="/">
+                                    <x-primary-button type="button" class="w-full sm:w-auto justify-center">
+                                        {{ __('error.button_home') }}
+                                    </x-primary-button>
+                                </a>
+                            @endauth
+
+                        </div>
                     </div>
 
                 </div>

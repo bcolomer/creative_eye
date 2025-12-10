@@ -21,17 +21,21 @@
                     <div class="mt-6 border-t border-gray-200 dark:border-gray-700 pt-6">
                         <p class="mb-3">{{ __('error.401_prompt') }}</p>
 
-                        <a href="{{ route('login') }}" class="mr-4">
-                            <x-primary-button type="button">
-                                {{ __('error.button_login') }}
-                            </x-primary-button>
-                        </a>
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            
+                            <a href="{{ route('login') }}">
+                                <x-primary-button type="button" class="w-full sm:w-auto justify-center">
+                                    {{ __('error.button_login') }}
+                                </x-primary-button>
+                            </a>
 
-                        <a href="/" class="mr-4">
-                            <x-secondary-button type="button">
-                                {{ __('error.button_home') }}
-                            </x-secondary-button>
-                        </a>
+                            <a href="/">
+                                <x-secondary-button type="button" class="w-full sm:w-auto justify-center">
+                                    {{ __('error.button_home') }}
+                                </x-secondary-button>
+                            </a>
+
+                        </div>
                     </div>
 
                 </div>
