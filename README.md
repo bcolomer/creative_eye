@@ -42,8 +42,8 @@ El proyecto se encuentra **completamente desplegado** en una instancia EC2 de Am
 
 | Entorno | URL | Descripción |
 | :--- | :--- | :--- |
-| **Tienda (Frontend)** | [https://creative-eye.duckdns.org](https://creative-eye.duckdns.org) | Aplicación Cliente (Angular 18) |
-| **Panel Admin (Back)** | [https://creative-eye-admin.duckdns.org](https://creative-eye-admin.duckdns.org) | API REST & Dashboard Gestión (Laravel 11) |
+| **Tienda (Frontend)** | [https://creative-eye.duckdns.org](https://creative-eye.duckdns.org) | Aplicación Cliente (Angular 18+) |
+| **Panel Admin (Back)** | [https://creative-eye-admin.duckdns.org](https://creative-eye-admin.duckdns.org) | API REST & Dashboard Gestión (Laravel 12+) |
 
 > **Nota:** Para acceder al panel de administración se requiere un usuario con rol `Admin` o `Almacén`.
 
@@ -229,7 +229,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - ⬆️ **Diseño User-Flow (FigJam):** [Ver Diagrama](https://www.figma.com/board/7Qe10sug08n89GTVjrrzBJ/UserFlow?node-id=0-1&t=mJzCm8YDNegGWkGT-1)
 - 🖼️ **Diseño UI (Figma):** [Ver Prototipo](https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1)
 - 📝 **Presentación PDF (Entrega Final):** [Descargar PDF](https://1drv.ms/b/c/154c4a205c4d6e44/EXH8U7NGRNBCpPtqlgRNIWkBjT1raq8gwEglBAijzGbKrw?e=rHgaYw)
-- 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** *[Inserte enlace aquí]*
+- 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** *https://youtu.be/0gy30073u1Y*
 ---
 
 ## ℹ️ Meta
@@ -239,6 +239,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
