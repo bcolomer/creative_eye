@@ -241,13 +241,15 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - Música: [Free Sound Community (Pixabay)](https://pixabay.com/es/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=39929)
   
 ### ℹ️ Meta
-📅 **Fecha de Entrega:** 10 de Diciembre de 2025
-💻 **Versión:** 1.0 
-💼 **Autores:** Bárbara Colomer & David Márquez Córdoba  
-🌐 **Sitio web:** [creative-eye.duckdns.org](https://creative-eye.duckdns.org)  
-📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
+
+- 📅 **Fecha de Entrega:** 10 de Diciembre de 2025
+- 💻 **Versión:** 1.0
+- 💼 **Autores:** Bárbara Colomer & David Márquez Córdoba
+- 🌐 **Sitio web:** [creative-eye.duckdns.org](https://creative-eye.duckdns.org)
+- 📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
