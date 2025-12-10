@@ -149,6 +149,9 @@
         opacity: 0.9;
         transition: opacity 0.3s ease;
 
+        // Problema firefox, asi nos aseguramos
+        flex-shrink: 0;
+
         &:hover {
             opacity: 1;
             transform: scale(1.05); // Pequeño zoom al pasar el ratón
@@ -158,15 +161,28 @@
 
     // --- NUEVO: ESTILO DEL AVATAR ---
     &__avatar {
-        flex-shrink: 0;
+        // Propiedades de Flexbox para evitar que se encoja
+        flex-shrink: 0; 
+        
+        // Dimensiones base
         width: 40px;        
         height: 40px;
+
+        // --- SOLUCIÓN FIREFOX ---
+        // 1. Forzar relación de aspecto cuadrada moderna
+        aspect-ratio: 1 / 1; 
+        // 2. Evitar que reglas globales (reset CSS) la aplasten
+        max-width: none; 
+        // 3. Convertir en bloque para evitar espacios fantasma
+        display: block; 
+        
+        // Estilos visuales
         border-radius: 50%; 
-        object-fit: cover;  // Para que la foto no se deforme
+        object-fit: cover;  
         border: 2px solid $color-blanco; 
         box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-
         background-color: $color-blanco;
+
         @include version('tablet') {
             width: 35px;
             height: 35px;
