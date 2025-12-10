@@ -26,13 +26,14 @@
   - [🏷️ Título del Proyecto](#️-título-del-proyecto)
   - [👥 Autores del Proyecto](#-autores-del-proyecto)
   - [💡 Descripción del Proyecto](#-descripción-del-proyecto)
-  - [🎯 Objetivos](#-objetivos)
+  - [🎯 Objetivos Alcanzados](#-objetivos-alcanzados)
   - [🧰 Tecnologías Utilizadas](#-tecnologías-utilizadas)
   - [🧩 Modelo E/R (Propuesta Inicial)](#-modelo-er-propuesta-inicial)
 - [🧭 Estado del proyecto](#-estado-del-proyecto)
 - [📸 Galería de la Interfaz](#-galería-de-la-interfaz)
 - [🛠️ Guía de Ejecución Local](#️-guía-de-ejecución-local)
-- [🔗 Enlaces](#-enlaces)
+- [🔗 Enlaces de Interés](#-enlaces-de-interés)
+- [📚 Bibliografía / Agradecimientos](#-bibliografía--agradecimientos)
 - [ℹ️ Meta](#ℹ️-meta)
 
 ---
@@ -222,23 +223,32 @@ npm install
 ng serve
 ```
 ### 🔐 Acceso al Sistema
-Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el formulario de registro (/registro) para probar el rol de Cliente.
+Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el formulario de registro (`/registro`) para probar el rol de Cliente.
 
-## 🔗 Enlaces de Interés
+### 🔗 Enlaces de Interés
 - 🧱 **Anteproyecto en Notion:** [Ver Documento](https://www.notion.so/Anteproyecto-Creative-Eye-2860500081b480628336ce9c20084e42?source=copy_link)
 - ⬆️ **Diseño User-Flow (FigJam):** [Ver Diagrama](https://www.figma.com/board/7Qe10sug08n89GTVjrrzBJ/UserFlow?node-id=0-1&t=mJzCm8YDNegGWkGT-1)
 - 🖼️ **Diseño UI (Figma):** [Ver Prototipo](https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1)
 - 📝 **Presentación PDF (Entrega Final):** [Descargar PDF](https://1drv.ms/b/c/154c4a205c4d6e44/EXH8U7NGRNBCpPtqlgRNIWkBjT1raq8gwEglBAijzGbKrw?e=rHgaYw)
-- 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** *https://youtu.be/0gy30073u1Y*
----
+- 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** [Ver en YouTube](https://youtu.be/0gy30073u1Y)
 
-## ℹ️ Meta
-📅 **Fecha de Entrega:** 10 de Diciembre de 2025  
-💼 **Autores:** Bárbara Colomer & David Márquez Córdoba  
-🌐 **Sitio web:** [creative-eye.duckdns.org](https://creative-eye.duckdns.org)  
-📧 **Contacto:** barbaracolomer@gmail.com, david.marquez.cordoba@gmail.com
+---
+### 📚 Bibliografía / Agradecimientos
+- [Google Fonts](https://fonts.google.com/)
+- Fotos de perfil: [Pexels](https://www.pexels.com) / Google imágenes
+- "Icons Pack" Figma Community
+- Video Landing: [Pixabay (Jade Cook)](https://pixabay.com/es/videos/salinas-c%C3%A1mara-fot%C3%B3grafo-utah-140428/)
+- Música: [Free Sound Community (Pixabay)](https://pixabay.com/es/users/freesound_community-46691455/?utm_source=link-attribution&utm_medium=referral&utm_campaign=music&utm_content=39929)
+  
+### ℹ️ Meta
+📅 **Fecha de Entrega:** 10 de Diciembre de 2025
+💻 **Versión:** 1.0 
+💼 **Autores:** Bárbara Colomer & David Márquez Córdoba  
+🌐 **Sitio web:** [creative-eye.duckdns.org](https://creative-eye.duckdns.org)  
+📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
