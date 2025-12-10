@@ -43,7 +43,7 @@ El proyecto se encuentra **completamente desplegado** en una instancia EC2 de Am
 | Entorno | URL | Descripción |
 | :--- | :--- | :--- |
 | **Tienda (Frontend)** | [https://creative-eye.duckdns.org](https://creative-eye.duckdns.org) | Aplicación Cliente (Angular 18) |
-| **Panel Admin (Back)** | [https://creative-eye-admin-panel.duckdns.org](https://creative-eye-admin-panel.duckdns.org) | API REST & Dashboard Gestión (Laravel 11) |
+| **Panel Admin (Back)** | [https://creative-eye-admin.duckdns.org](https://creative-eye-admin.duckdns.org) | API REST & Dashboard Gestión (Laravel 11) |
 
 > **Nota:** Para acceder al panel de administración se requiere un usuario con rol `Admin` o `Almacén`.
 
@@ -179,10 +179,11 @@ Si deseas clonar y ejecutar este proyecto en tu máquina local para desarrollo o
 
 ### Prerrequisitos
 Asegúrate de tener instalado:
-* **Node.js** (v18+) y NPM.
-* **PHP** (v8.2+) y Composer.
+* **Node.js** (v20+) y NPM (v10)+.
+* **PHP** (v8.3+) y Composer (v2.8+).
+* **LARAVEL** (v12.3+).
 * **MySQL** ejecutándose.
-* **Angular CLI**: `npm install -g @angular/cli`
+* **Angular CLI** (v18+): `npm install -g @angular/cli`
 
 ### 1. Configuración del Backend (API)
 
