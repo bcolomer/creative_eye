@@ -60,7 +60,7 @@ class ProductController extends Controller
         $validated = $request->validate([
             'nombre' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
-            'precio' => 'required|numeric|min:0',
+            'precio' => 'required|numeric|min:0|min:99999999',
             'cantidad' => 'required|integer|min:0',
             'codigo' => 'required|string|max:255|unique:productos,codigo',
             'foto' => 'nullable|image|max:1024',
@@ -137,8 +137,7 @@ class ProductController extends Controller
         // Actualizar el producto en la BBDD con los datos validados
         $producto->update($validated);
 
-
-        return redirect()->route('productos.edit', $producto->producto_id)->with('status', __('producto.update_success'));
+        return redirect()->route('productos.index',)->with('status', __('producto.update_success'));
     }
 
     /**
