@@ -83,7 +83,7 @@ Route::get('/logout-sso', function () {
 
     // Redirigir de vuelta al Frontend (Angular)
     // Cambia esta URL por la de tu proyecto Angular si es diferente (ej. localhost:4200)
-    return redirect('https://creative-eye.ddns.net/login');
+    return redirect('https://creative-eye.duckdns.org/login');
 })->name('logout.sso');
 
 
