@@ -2,7 +2,7 @@
 @import '../../../styles/mixins';
 
 .carrito {
-    max-width: 900px; // Un poco más ancho para que quepan los botones
+    max-width: 900px; 
     margin: 0 auto;
     padding: $unidad-espaciado * 4 $unidad-espaciado * 2;
     min-height: 60vh;
@@ -30,12 +30,15 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        
+        flex-wrap: wrap; 
         gap: $unidad-espaciado * 2; 
 
         @include version('movil') {
             flex-direction: column;
             align-items: center; 
             text-align: center;
+            gap: $unidad-espaciado * 2; 
         }
     }
 
@@ -44,9 +47,11 @@
         display: flex;
         flex-direction: column;
         align-items: flex-start;
+        min-width: 200px; 
         
         @include version('movil') {
             align-items: center;
+            min-width: 100%; // En móvil ocupa todo el ancho
         }
     }
 
@@ -60,8 +65,9 @@
     &__item-stock {
         color: $color-gris-medio;
         font-size: 0.85rem;
-        font-weight: $regular;
+        font-weight: $regular; 
         margin-top: 4px;
+        display: block; 
     }
 
     // --- Estilos del Stepper ---
@@ -72,6 +78,9 @@
         border-radius: $radio-borde;
         overflow: hidden; 
         
+        flex-shrink: 0; 
+        background-color: $color-blanco; // Asegura fondo
+        
         &-btn {
             background-color: $color-blanco;
             border: none;
@@ -80,6 +89,8 @@
             cursor: pointer;
             transition: background 0.2s;
             color: $color-primario;
+            
+            min-height: 36px; 
 
             &:hover {
                 background-color: rgba($color-primario, 0.1);
@@ -107,9 +118,11 @@
         flex-direction: column;
         align-items: flex-end;
         min-width: 120px;
+        flex-shrink: 0; 
 
         @include version('movil') {
             align-items: center;
+            margin-top: $unidad-espaciado;
         }
     }
 
@@ -133,6 +146,8 @@
         line-height: 1;
         transition: transform 0.2s;
         cursor: pointer;
+        
+        flex-shrink: 0; 
 
         &:hover {
             transform: scale(1.2);
@@ -170,7 +185,6 @@
 // =========================================
 //            ESTILOS DEL MODAL
 // =========================================
-
 .modal {
     position: fixed;
     top: 0;
@@ -181,10 +195,10 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
+    padding-bottom: 20vh; 
+    box-sizing: border-box; 
 
-    padding-bottom: 20vh;
-
-    // Fondo oscuro semitransparente
     &__fondo {
         position: absolute;
         top: 0;
@@ -193,10 +207,9 @@
         height: 100%;
         background-color: rgba(0, 0, 0, 0.5); 
         backdrop-filter: blur(4px); 
-        cursor: pointer; // Indica que se puede clicar para cerrar
+        cursor: pointer; 
     }
 
-    // Tarjeta del modal
     &__caja {
         position: relative;
         background-color: $color-blanco;
@@ -207,7 +220,7 @@
         width: 90%;
         text-align: center;
         z-index: 10001; 
-        animation: entradaModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); // Pequeño rebote 
+        animation: entradaModal 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); 
     }
 
     &__titulo {
@@ -264,7 +277,6 @@
     }
 }
 
-// Animación de entrada
 @keyframes entradaModal {
     from { 
         opacity: 0; 

@@ -15,40 +15,46 @@ export const routes: Routes = [
   
   
   { 
-    path: '', // La ruta raíz
-    component: InicioComponent 
+    path: '', 
+    component: InicioComponent, 
+    title: 'Inicio | Creative Eye'
   },
 
   { 
-    path: 'login', // Ruta login http://localhost:4200/login
-    component: LoginComponent 
+    path: 'login', 
+    component: LoginComponent,
+    title: 'Acceso | Creative Eye'
   },
 
   {
-    path: 'perfil', // Ruta perfil http://localhost:4200/perfil
+    path: 'perfil', 
     component: PerfilComponent,
-    canActivate: [ authGuard ]
+    canActivate: [ authGuard ],
+    title: 'Mi Perfil | Creative Eye'
   },
 
   {
-    path: 'productos', // Ruta productos http://localhost:4200/productos
-    component: ProductosComponent
+    path: 'productos', 
+    component: ProductosComponent,
+    title: 'Tienda | Creative Eye'
   },
 
   {
-    // El ':id' es un parámetro. Angular lo entiende de forma interna y la clase ProductoDetalleComponent lo leera.
     path: 'producto/:id', 
-    component: ProductoDetalleComponent
+    component: ProductoDetalleComponent,
+    title: 'Detalle del Producto | Creative Eye'
   },
 
   {
-    path: 'carrito', // Ruta carrito http://localhost:4200/carrito)
-    component: CarritoComponent
+    path: 'carrito', 
+    component: CarritoComponent,
+    title: 'Mi Carrito | Creative Eye'
   },
 
   {
-    path: 'registro', // http://localhost:4200/registro
-    component: RegistroComponent
+    path: 'registro',
+    component: RegistroComponent,
+    title: 'Registro | Creative Eye'
   },
 
 ];

@@ -31,6 +31,7 @@
 
     // Estilo del logo
     &__logo {
+        flex-shrink: 0;
         height: 60px;
         width: auto;  // Mantiene la proporción
         object-fit: contain;
@@ -157,6 +158,7 @@
 
     // --- NUEVO: ESTILO DEL AVATAR ---
     &__avatar {
+        flex-shrink: 0;
         width: 40px;        
         height: 40px;
         border-radius: 50%; 

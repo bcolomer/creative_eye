@@ -40,7 +40,7 @@
 
                 <div class="flex items-center space-x-2">
                     <div class="font-bold text-2xl tracking-wide flex items-center">
-                        <img src="{{ asset('images/Creative_Azul.png') }}" alt="Creative Eye" class="block h-16 md:h-28 w-auto">
+                        <img src="{{ asset('images/creativelogo.png') }}" alt="Creative Eye" class="block h-16 md:h-28 w-auto">
                     </div>
                 </div>
 
