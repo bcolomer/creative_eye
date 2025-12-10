@@ -15,7 +15,7 @@ jobs:
     - name: Conectando y Desplegando Frontend
       uses: appleboy/ssh-action@master
       with:
-        host: ${{ secrets.FRONTEND_HOST }}
+        host: creative-eye.duckdns.org
         username: ${{ secrets.SERVER_USER }}
         key: ${{ secrets.SSH_PRIVATE_KEY }}
         script: |
