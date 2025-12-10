@@ -13,7 +13,7 @@ jobs:
       with:
         host: creative-admin.duckdns.org
         username: ${{ secrets.SERVER_USER }}
-        key: ${{ secrets.SSH_PRIVATE_KEY }}
+        key: ${{ secrets.EC2_SSH_KEY }}
         script: |
           # 1. Ir a la carpeta del proyecto
           cd /var/www/proyectosintegrados-bcolomer/backend
