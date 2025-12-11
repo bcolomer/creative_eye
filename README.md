@@ -235,7 +235,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** [Ver en YouTube](https://youtu.be/0gy30073u1Y)
 
 ---
-### 📚 Bibliografía / Agradecimientos
+### 📚 Bibliografía / Atribuciones
 - [Google Fonts](https://fonts.google.com/)
 - Fotos de perfil: [Pexels](https://www.pexels.com) / Google imágenes
 - "Icons Pack" Figma Community
@@ -251,6 +251,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
