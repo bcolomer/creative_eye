@@ -231,6 +231,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 🖼️ **Diseño (Prototipo Alta/Baja Fidelidad & Átomos/UI kit):** [Ver Diseño](https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1)
 - 🖼️ **Diseño UI (Figma):** [Ver Prototipo](https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1)
 - 📝 **Presentación PDF (Entrega Final):** [Descargar PDF](https://1drv.ms/b/c/154c4a205c4d6e44/EXH8U7NGRNBCpPtqlgRNIWkBjT1raq8gwEglBAijzGbKrw?e=rHgaYw)
+- 📝 **Bitácora (Histórico de Tareas):** [Ver Bitácora](https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link)
 - 📹 **Vídeo checkpoint (5 min):**  [Ver en YouTube](https://youtu.be/XC-a1BShykY)
 - 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** [Ver en YouTube](https://youtu.be/0gy30073u1Y)
 
@@ -251,6 +252,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
