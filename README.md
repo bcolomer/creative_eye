@@ -33,7 +33,7 @@
 - [📸 Galería de la Interfaz](#-galería-de-la-interfaz)
 - [🛠️ Guía de Ejecución Local](#️-guía-de-ejecución-local)
 - [🔗 Enlaces de Interés](#-enlaces-de-interés)
-- [📚 Bibliografía / Agradecimientos](#-bibliografía--agradecimientos)
+- [📚 Bibliografía / Atribuciones](#-bibliografía--atribuciones)
 - [ℹ️ Meta](#ℹ️-meta)
 
 ---
@@ -135,8 +135,8 @@ El diseño será **responsive (mobile first)** y contemplará **buenas práctica
 
 ### ✅ **Infraestructura AWS (Completado):**
 - **Despliegue** del backend y frontend en **AWS**.
-- Instancia EC2 configurada desde cero.
-- Configuración de Virtual Hosts en Apache para servir Backend y Frontend en puertos distintos/dominios distintos.
+- Instancias dedicadas EC2 configurada desde cero.
+- Configuración de Virtual Hosts en Nginx para servir Backend y Frontend en puertos distintos/dominios distintos.
 - Instalación de certificados SSL (HTTPS) para ambos subdominios.
 - 
 ### ✅ **Otras tareas completadas:**
@@ -228,8 +228,10 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 ### 🔗 Enlaces de Interés
 - 🧱 **Anteproyecto en Notion:** [Ver Documento](https://www.notion.so/Anteproyecto-Creative-Eye-2860500081b480628336ce9c20084e42?source=copy_link)
 - ⬆️ **Diseño User-Flow (FigJam):** [Ver Diagrama](https://www.figma.com/board/7Qe10sug08n89GTVjrrzBJ/UserFlow?node-id=0-1&t=mJzCm8YDNegGWkGT-1)
+- 🖼️ **Diseño (Prototipo Alta/Baja Fidelidad & Átomos/UI kit):** [Ver Diseño](https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1)
 - 🖼️ **Diseño UI (Figma):** [Ver Prototipo](https://www.figma.com/design/dYl9XWz1XQDyvj7OmnrKw0/Proyecto-TFG?node-id=0-1&t=ZibFGd2dniqvjKd0-1)
 - 📝 **Presentación PDF (Entrega Final):** [Descargar PDF](https://1drv.ms/b/c/154c4a205c4d6e44/EXH8U7NGRNBCpPtqlgRNIWkBjT1raq8gwEglBAijzGbKrw?e=rHgaYw)
+- 📹 **Vídeo checkpoint (5 min):**  [Ver en YouTube](https://youtu.be/XC-a1BShykY)
 - 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** [Ver en YouTube](https://youtu.be/0gy30073u1Y)
 
 ---
@@ -249,6 +251,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
