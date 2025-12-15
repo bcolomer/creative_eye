@@ -234,6 +234,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 📝 **Bitácora (Histórico de Tareas):** [Ver Bitácora](https://www.notion.so/Bit-cora-de-tareas-28b35eb2301b8110837dd5badef63061?source=copy_link)
 - 📹 **Vídeo checkpoint (5 min):**  [Ver en YouTube](https://youtu.be/XC-a1BShykY)
 - 🎬 **VÍDEO DE DEMOSTRACIÓN (10 min):** [Ver en YouTube](https://youtu.be/0gy30073u1Y)
+- 💻 **Presentación final Proyecto Integrado:** [Presentación Canva](https://www.canva.com/design/DAG7gNIZA90/Lbe8mmcCdjqQ2J5aIdAV0w/view?utm_content=DAG7gNIZA90&utm_campaign=designshare&utm_medium=link2&utm_source=uniquelinks&utlId=ha57ee26226)
 
 ---
 ### 📚 Bibliografía / Atribuciones
@@ -252,6 +253,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
