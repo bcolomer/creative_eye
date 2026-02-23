@@ -97,7 +97,7 @@ El diseño será **responsive (mobile first)** y contemplará **buenas práctica
 | **Control de versiones** | 🧩 **GitHub y Git** (repositorio y gestión de versiones) |
 
 ### 🧩 Modelo E/R (Propuesta Inicial)
-<img width="886" height="491" alt="imagen" src="https://github.com/user-attachments/assets/5b6972ee-93c7-4cea-88fe-c039ec0c8418" />
+<img width="886" height="491" alt="imagen" src="docs/images/5b6972ee-93c7-4cea-88fe-c039ec0c8418" />
 
 ---
 
@@ -155,20 +155,20 @@ Nuestra interfaz se adapta fluidamente a cualquier dispositivo gracias al uso de
 
 | Vista Móvil |
 |:---:|
-|<img width="327" height="711" alt="m-Landing page-registrado" src="https://github.com/user-attachments/assets/5f9398a4-33f7-4cbe-a983-d22ab61d28e8" />  <img width="328" height="716" alt="m-Login" src="https://github.com/user-attachments/assets/52324d8c-20f3-42c6-b0c0-5da858a2d676" />  <img width="328" height="717" alt="m-Tienda" src="https://github.com/user-attachments/assets/4d0a83b1-532b-4e51-bd3b-59ca800dd5aa" />  <img width="329" height="715" alt="m-detalle-producto" src="https://github.com/user-attachments/assets/2d3be77a-7c61-4b30-87e5-3dcf29499b27" />  <img width="330" height="712" alt="m-detalle-producto2" src="https://github.com/user-attachments/assets/9d8cd763-3a09-4f76-9e47-795f8aa38a88" />|
+|<img width="327" height="711" alt="m-Landing page-registrado" src="docs/images/5f9398a4-33f7-4cbe-a983-d22ab61d28e8" />  <img width="328" height="716" alt="m-Login" src="docs/images/52324d8c-20f3-42c6-b0c0-5da858a2d676" />  <img width="328" height="717" alt="m-Tienda" src="docs/images/4d0a83b1-532b-4e51-bd3b-59ca800dd5aa" />  <img width="329" height="715" alt="m-detalle-producto" src="docs/images/2d3be77a-7c61-4b30-87e5-3dcf29499b27" />  <img width="330" height="712" alt="m-detalle-producto2" src="docs/images/9d8cd763-3a09-4f76-9e47-795f8aa38a88" />|
 
 ### 🖥️ Experiencia de Escritorio
 Interfaz limpia y clara para facilitar la navegación del usuario.
 
 | Vesrsión escritorio |
 |:---:|
-| <img width="1625" height="884" alt="Landing page-registrado" src="https://github.com/user-attachments/assets/1b43269c-67db-48c6-a794-57d3bcf0afb0" /> <img width="1445" height="710" alt="detalle-producto2" src="https://github.com/user-attachments/assets/77d438c7-aaf2-454b-be3b-727b1d9863da" />
-<img width="1510" height="882" alt="Panel-admin-usuarios" src="https://github.com/user-attachments/assets/275e3af6-1299-4270-814d-612ffd233f05" /> <img width="1388" height="833" alt="Tienda" src="https://github.com/user-attachments/assets/149e01b7-6369-4f4c-afa6-6bee0015b0b7" />
-<img width="1575" height="864" alt="Panel-admin-usuarios-detalle" src="https://github.com/user-attachments/assets/81cba813-d208-46f9-b3ff-fb7af3e37887" />|
+| <img width="1625" height="884" alt="Landing page-registrado" src="docs/images/1b43269c-67db-48c6-a794-57d3bcf0afb0" /> <img width="1445" height="710" alt="detalle-producto2" src="docs/images/77d438c7-aaf2-454b-be3b-727b1d9863da" />
+<img width="1510" height="882" alt="Panel-admin-usuarios" src="docs/images/275e3af6-1299-4270-814d-612ffd233f05" /> <img width="1388" height="833" alt="Tienda" src="docs/images/149e01b7-6369-4f4c-afa6-6bee0015b0b7" />
+<img width="1575" height="864" alt="Panel-admin-usuarios-detalle" src="docs/images/81cba813-d208-46f9-b3ff-fb7af3e37887" />|
 
 ### 🛒 Gestión del Carrito
 <p align="center">
-  <img width="1508" height="794" alt="Modal-carrito" src="https://github.com/user-attachments/assets/28b0bd80-aae8-44f8-94af-387fe5f00ab7" /> <img width="1450" height="672" alt="Carrito2" src="https://github.com/user-attachments/assets/6b88fe8a-b451-46cb-92d1-560d8ed6c861" />
+  <img width="1508" height="794" alt="Modal-carrito" src="docs/images/28b0bd80-aae8-44f8-94af-387fe5f00ab7" /> <img width="1450" height="672" alt="Carrito2" src="docs/images/6b88fe8a-b451-46cb-92d1-560d8ed6c861" />
   <br><em>El carrito mantiene el estado de la compra incluso si se recarga la página.</em>
 </p>
 
@@ -253,6 +253,7 @@ Una vez levantado el entorno, puedes registrarte como un nuevo usuario desde el 
 - 📧 **Contacto:** [barbaracolomer@gmail.com](mailto:barbaracolomer@gmail.com), [david.marquez.cordoba@gmail.com](mailto:david.marquez.cordoba@gmail.com)
 
 > “Captura el momento. Crea tu visión.”
+
 
 
 
